@@ -1,0 +1,5 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "New_Library")(type "KiCad")(uri "C:/Users/abhin/OneDrive/Documents/University/Studies/Sem 5/Sensors and Actuator Networks/Project/B.1 Libraries/New_Library.kicad_sym")(options "")(descr ""))
+  (lib (name "Sensor_Pressure")(type "Legacy")(uri "C:/Users/abhin/OneDrive/Documents/University/Studies/Sem 5/Sensors and Actuator Networks/Project/B.1 Libraries/Sensor_Pressure/Sensor_Pressure.lib")(options "")(descr ""))
+)
