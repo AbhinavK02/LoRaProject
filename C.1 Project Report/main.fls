@@ -151,11 +151,10 @@ OUTPUT main.pdf
 INPUT ./main.out
 INPUT ./main.out
 OUTPUT main.out
-INPUT ./hsrw.png
-INPUT ./hsrw.png
-INPUT ./hsrw.png
-INPUT ./hsrw.png
-INPUT ./hsrw.png
+INPUT ./assets/hsrw.png
+INPUT ./assets/hsrw.png
+INPUT ./assets/hsrw.png
+INPUT ./assets/hsrw.png
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmr17.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmr17.tfm
