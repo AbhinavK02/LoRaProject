@@ -1,0 +1,76 @@
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{labreport}[2025/02/01 Custom Lab Report Style]
+
+% ------------ Packages ------------
+\RequirePackage[utf8]{inputenc}
+\RequirePackage{graphicx}
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{listings}
+\RequirePackage{hyperref}
+\RequirePackage{geometry}
+\RequirePackage{xcolor}
+\RequirePackage{fancyhdr}
+\RequirePackage{titlesec}
+\RequirePackage{eurosym}
+\RequirePackage[justification=raggedright,singlelinecheck=false]{caption}
+\RequirePackage[none]{hyphenat}
+
+% Document geometry
+\geometry{margin=1in}
+
+% ------------ User Variables ------------
+\newcommand{\authA}{}
+\newcommand{\matnumA}{}
+\newcommand{\authB}{}
+\newcommand{\matnumB}{}
+\newcommand{\project}{}
+
+% ------------ Global Style ------------
+\setlength{\parindent}{0pt}
+
+% ------------ Footer Setup ------------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[L]{\textcolor{gray}{\authA\ \matnumA} \\ \textcolor{gray}{\authB\ \matnumB} }
+\fancyfoot[R]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+\fancypagestyle{plain}{  % For the chapter starting page
+    \fancyhf{} % clear
+    \fancyfoot[L]{\textcolor{gray}{\authA\ \matnumA} \\ \textcolor{gray}{\authB\ \matnumB} }
+    \fancyfoot[R]{\thepage}
+    \renewcommand{\headrulewidth}{0pt}
+}
+
+
+% ------------ Captions ------------
+\captionsetup{
+    font={small,it},
+    labelsep=colon
+}
+
+% ------------ Subsection Style ------------
+\titleformat{\subsection}{\normalfont}{}{0pt}{\underline}
+
+% ------------ Code Listing Style ------------
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green},
+    stringstyle=\color{red},
+    showstringspaces=false,
+    tabsize=2,
+    captionpos=b
+}
+
+% ------------ Command Definitions ------------
+\newcommand{\cmd}[1]{\colorbox{gray!20}{\texttt{\detokenize{#1}}}}
+
+
+% ------------ End ------------
