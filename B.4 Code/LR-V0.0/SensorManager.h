@@ -5,7 +5,7 @@
 
 #include <Arduino.h>
 
-// --- Configuration and Definitions ---
+// ############################### Configuration and Definitions ##################
 // Pins
 #define LIGHT_SENSOR_PIN 2
 #define LOADCELL_DOUT_PIN 43
@@ -17,7 +17,7 @@
 #define ID_LIGHT_SENSOR 0x02
 #define ID_TILT_SENSOR 0x03   
 
-// --- Data Structure ---
+// ############################### Data Structure ################################
 // A simple struct to hold one sensor's reading
 struct SensorReading
 {
@@ -25,7 +25,7 @@ struct SensorReading
     uint8_t value; // The actual value 
 };
 
-// --- Function Declarations ---
+// ############################### Functions ####################################
 
 /**
  * @brief Initializes all sensor pins and hardware interfaces

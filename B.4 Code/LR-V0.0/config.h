@@ -1,8 +1,9 @@
 #ifndef _CONFIG_H_
 #define _CONFIG_H_
-
+// ############################### Library ######################################
 #include <RadioLib.h>
 
+// ############################### Configuration and Definitions ######################################
 #ifndef RADIOLIB_LORAWAN_JOIN_EUI
 #define RADIOLIB_LORAWAN_JOIN_EUI  0x0000000000000000
 #endif
@@ -28,8 +29,8 @@
 
 #define LORAWAN_UPLINK_DATA_MAX   115 // byte
 
-
-// result code to text ...
+// ############################### Functions ######################################
+// To handle error codes
 String stateDecode(const int16_t result) {
   switch (result) {
   case RADIOLIB_ERR_NONE:

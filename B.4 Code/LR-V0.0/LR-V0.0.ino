@@ -1,8 +1,16 @@
+/*
+@author: Justin Chin Cheong (34140) and Abhinav Kothari (33349)
+@desc: Complete Script for the Talking Mailbox Project to read all sensors and send data via LoRaWAN to the TTN
+@version: V0.0 - first operating draft
+*/
+
+// ############################### Libraries ######################################
 #include "config.h"
 #include "EEPROM.h"
 #include <Wire.h>
 #include "SensorManager.h"
 
+// ############################### Variables and Configuration ######################################
 // Selecting Europe Region
 const LoRaWANBand_t Region = EU868;
 const uint8_t subBand = 0; 
@@ -31,6 +39,7 @@ uint16_t uplinkPayloadLen = 0;
 
 uint32_t previousMillis = 0;
 
+// ############################### Setup ######################################
 void setup() {
   Serial.begin(115200);
 
@@ -85,9 +94,9 @@ void setup() {
   // Ready to being streaming
   Serial.println(F("Ready!\n"));
 
-  Wire.begin();
+  // Wire.begin();
 }
-
+// ############################### Main Loop ######################################
 void loop() {
   // Reading Sensors and Storing in Payload
   uplinkPayloadLen = collectAndEncodeData(uplinkPayload);
@@ -127,7 +136,7 @@ void loop() {
   }
   delay(1000);
 }
-
+// ############################### Helper Functions ######################################
 void deviceInfoLoad() {
   uint16_t checkSum = 0, checkSum_ = 0;
   for(int i = 0; i < LORAWAN_DEV_INFO_SIZE; i++) deviceInfo[i] = EEPROM.read(i);
