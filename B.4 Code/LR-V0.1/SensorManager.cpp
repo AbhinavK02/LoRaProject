@@ -40,7 +40,7 @@ SensorReading readWeightSensor() {
   // Some variables
   int weightState = 0;
   long weight = 0;
-  long weight_thres = 15.0; // Threshold [g] at which sensor alerts system
+  long weight_thres = 5.0; // Threshold [g] at which sensor alerts system
   
   SensorReading reading;
   reading.id = ID_WEIGHT_SENSOR; 
@@ -101,6 +101,7 @@ uint16_t detectMail(uint8_t* payloadBuffer){
   // Read Sensors to detect box opening
   SensorReading lightReading = readLightSensor();
   SensorReading tiltReading = readTiltSensor();
+  Serial.println();
 
   if (lightReading.value && tiltReading.value) { // Box Open
     delay(5000); // Wait for mail to be placed
@@ -115,6 +116,7 @@ uint16_t detectMail(uint8_t* payloadBuffer){
       weightState_curr == HIGH ? payloadBuffer[len++] = ID_NEW_MAIL : payloadBuffer[len++] = ID_NO_MAIL;
     }
     weightState_prev = weightState_curr; // update weight state
+    Serial.println();
   } 
   return len;
 }

@@ -91,7 +91,21 @@ void setup() {
   // Manages uplink intervals to the TTN Fair Use Policy
   node.setDutyCycle(false);
   
-  // Ready to being streaming
+  // Sending Ready Message to TTN
+  Serial.print("Attemping to send first message");
+  uplinkPayload[0] = ID_DEVICE;
+  uplinkPayload[1] = ID_READY;
+  state = node.sendReceive(uplinkPayload, 2, LORAWAN_UPLINK_USER_PORT);
+  while(state!= RADIOLIB_LORAWAN_NO_DOWNLINK && state!= RADIOLIB_ERR_NONE) {
+    Serial.print(".");
+    delay(50);
+    state = node.sendReceive(uplinkPayload, 2, LORAWAN_UPLINK_USER_PORT);
+    delay(1000);
+  }
+  Serial.println();
+  Serial.println(F("First Uplink Successful"));
+
+  // Ready to begin streaming
   Serial.println(F("Ready!\n"));
 
   // Wire.begin();
@@ -116,26 +130,36 @@ void loop() {
 
     // Checking LoRa State and Uploading
     int16_t state = node.sendReceive(uplinkPayload, uplinkPayloadLen, LORAWAN_UPLINK_USER_PORT);
-    if (state!= RADIOLIB_LORAWAN_NO_DOWNLINK && state!= RADIOLIB_ERR_NONE) {
+    // if (state!= RADIOLIB_LORAWAN_NO_DOWNLINK && state!= RADIOLIB_ERR_NONE) {
+    //   Serial.println("Error in sendReceive:");
+    //   Serial.println(state);
+    // } else {
+    //   Serial.println("Sending uplink successful!");
+    //   Serial.println();
+    // }
+    while(state!= RADIOLIB_LORAWAN_NO_DOWNLINK && state!= RADIOLIB_ERR_NONE) {
       Serial.println("Error in sendReceive:");
       Serial.println(state);
-    } else {
-      Serial.println("Sending uplink successful!");
+      delay(50);
+      state = node.sendReceive(uplinkPayload, uplinkPayloadLen, LORAWAN_UPLINK_USER_PORT);
+      delay(1000);
     }
+    Serial.println("Sending uplink successful!");
+    Serial.println();
 
     // Checking if it is time to send again
-    uint32_t currentMillis = millis();
-    if(currentMillis - previousMillis >= LORAWAN_UPLINK_PERIOD)
-    {
-      previousMillis = currentMillis;
-      if(uplinkPayloadLen)
-      {
-        Serial.println(F("Sending uplink"));
-        int16_t state = node.sendReceive(uplinkPayload, uplinkPayloadLen, LORAWAN_UPLINK_USER_PORT);
-        debug((state!= RADIOLIB_LORAWAN_NO_DOWNLINK) && (state!= RADIOLIB_ERR_NONE), F("Error in sendReceive"), state, false);
-        uplinkPayloadLen = 0;
-      }
-    }
+    // uint32_t currentMillis = millis();
+    // if(currentMillis - previousMillis >= LORAWAN_UPLINK_PERIOD)
+    // {
+    //   previousMillis = currentMillis;
+    //   if(uplinkPayloadLen)
+    //   {
+    //     Serial.println(F("Sending uplink"));
+    //     int16_t state = node.sendReceive(uplinkPayload, uplinkPayloadLen, LORAWAN_UPLINK_USER_PORT);
+    //     debug((state!= RADIOLIB_LORAWAN_NO_DOWNLINK) && (state!= RADIOLIB_ERR_NONE), F("Error in sendReceive"), state, false);
+    //     uplinkPayloadLen = 0;
+    //   }
+    // }
   }
   delay(1000);
 }

@@ -57,7 +57,7 @@ SensorReading readWeightSensor() {
   delay(500); // short delay to ensure it wakes in time
   int weightState = 0;
   long weight = 0;
-  long weight_thres = 15.0; // Threshold [g] at which sensor alerts system
+  long weight_thres = 5.0; // Threshold [g] at which sensor alerts system
   
   SensorReading reading;
   reading.id = ID_WEIGHT_SENSOR; 

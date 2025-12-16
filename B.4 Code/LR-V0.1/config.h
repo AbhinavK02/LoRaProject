@@ -29,6 +29,9 @@
 
 #define LORAWAN_UPLINK_DATA_MAX   115 // byte
 
+// Define IDs for payload encoding 
+#define ID_READY 0x07
+
 // ############################### Functions ######################################
 // To handle error codes
 String stateDecode(const int16_t result) {
