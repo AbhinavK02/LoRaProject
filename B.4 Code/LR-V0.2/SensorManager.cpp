@@ -30,6 +30,10 @@ void sensorManager_init() {
   // Tilt Sensor
   pinMode(TILT_SENSOR_PIN, INPUT); // Input mode for light sensor
 
+  // Setting up ADC for Battery Monitor
+  analogReadResolution(12);     // 0–4095
+  analogSetAttenuation(ADC_11db); // Allows full 0–3.3V range
+
   // End Intialisation
   Serial.println("Sensor Manager Initialized.");
 }
@@ -93,6 +97,23 @@ SensorReading readTiltSensor() {
   
   return reading;
 }
+SensorReading batteryMonitor() {
+    SensorReading reading;
+    reading.id = ID_BAT_MONITOR;
+
+    int adcValue = analogRead(BAT_MONITOR_PIN);
+    float adcVoltage = (adcValue / 4095) * 3.3;
+    float batVoltage = adcVoltage * 1.122;
+    if (batVoltage >= 4.20) {
+        reading.value = 100;
+    } else if (batVoltage <= 3.10) {
+        reading.value = 0;
+    } else {
+        reading.value = (batVoltage - 3.10) * 100 / (1.1);
+    }
+    
+    return reading;         
+}
 // To detect new mail and build payload
 uint16_t detectMail(uint8_t* payloadBuffer){
   uint16_t len = 0;  
@@ -106,6 +127,7 @@ uint16_t detectMail(uint8_t* payloadBuffer){
   if (lightReading.value && tiltReading.value) { // Box Open
     delay(5000); // Wait for mail to be placed
     SensorReading weightReading = readWeightSensor(); // read the weight sensor value
+    SensorReading batteryReading = batteryMonitor(); // read the battery voltage
     weightState_curr = weightReading.value;
     if (weightState_curr == weightState_prev) { // if no change, then someone is peaking 👀
       Serial.println("Tampering Detecting");
@@ -115,6 +137,9 @@ uint16_t detectMail(uint8_t* payloadBuffer){
       Serial.println(weightState_curr == HIGH ? "Added" : "Removed"); // Mail is there?
       weightState_curr == HIGH ? payloadBuffer[len++] = ID_NEW_MAIL : payloadBuffer[len++] = ID_NO_MAIL;
     }
+    // Also add the battery volatage into the payload
+    payloadBuffer[len++] = batteryReading.id;
+    payloadBuffer[len++] = batteryReading.value;
     weightState_prev = weightState_curr; // update weight state
     Serial.println();
   } 
