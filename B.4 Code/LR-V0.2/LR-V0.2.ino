@@ -59,17 +59,39 @@ void setup() {
   state = node.beginOTAA(joinEUI, devEUI, NULL, appKey);
   debug(state != RADIOLIB_ERR_NONE, F("Initialise node failed"), state, true);
   
-  Serial.println(F("Join ('login') the LoRaWAN Network"));
+  // Restore Nonces from Flash
+  store.begin("radiolib", false);
+
+  if (store.isKey("nonces")) {
+    Serial.println(F("Restoring LoRaWAN nonces"));
+    store.getBytes("nonces", lwNonces, RADIOLIB_LORAWAN_NONCES_BUF_SIZE);
+    state = node.setBufferNonces(lwNonces);
+    debug(state != RADIOLIB_ERR_NONE, F("Restoring nonces failed"), state, false);
+  } else {
+    Serial.println(F("No stored nonces found"));
+  }
+
+  // Serial.println(F("Join ('login') the LoRaWAN Network"));
 
   // Joining TTN 
-  while(1)
-  {
+  while (state != RADIOLIB_LORAWAN_NEW_SESSION) {
+    Serial.println(F("Joining LoRaWAN..."));
     state = node.activateOTAA();
-    if(state == RADIOLIB_LORAWAN_NEW_SESSION) break;
-    debug(state!= RADIOLIB_LORAWAN_NEW_SESSION, F("Join failed"), state, true);
-    Serial.println("Trying Again!");
+
+    if (state == RADIOLIB_LORAWAN_NEW_SESSION) {
+      Serial.println(F("Join successful, saving nonces"));
+
+      uint8_t *persist = node.getBufferNonces();
+      memcpy(lwNonces, persist, RADIOLIB_LORAWAN_NONCES_BUF_SIZE);
+      store.putBytes("nonces", lwNonces, RADIOLIB_LORAWAN_NONCES_BUF_SIZE);
+      break;
+    }
+
+    Serial.print(F("Join failed: "));
+    Serial.println(state);
     delay(15000);
   }
+  store.end();
 
   // Disable the ADR algorithm (on by default which is preferable)
   node.setADR(false);

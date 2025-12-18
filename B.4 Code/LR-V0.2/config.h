@@ -2,6 +2,7 @@
 #define _CONFIG_H_
 // ############################### Library ######################################
 #include <RadioLib.h>
+#include <Preferences.h>
 
 // ############################### Configuration and Definitions ######################################
 #ifndef RADIOLIB_LORAWAN_JOIN_EUI
@@ -28,6 +29,16 @@
 
 // SX1262 pin order: Module(NSS/CS, DIO1, RESET, BUSY);
 SX1262 radio = new Module(41, 39, 42, 40);
+
+
+// For Storing nonces
+Preferences store;
+
+// Buffer for LoRaWAN nonces
+uint8_t lwNonces[RADIOLIB_LORAWAN_NONCES_BUF_SIZE];
+
+// (Optional, but recommended later)
+uint8_t lwSession[RADIOLIB_LORAWAN_SESSION_BUF_SIZE];
 
 // Selecting Europe Region
 const LoRaWANBand_t Region = EU868;
