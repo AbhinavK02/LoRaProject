@@ -8,8 +8,9 @@
 
 // CC1101 physical layer properties
 #define RADIOLIB_CC1101_FREQUENCY_STEP_SIZE                     396.7285156
-#define RADIOLIB_CC1101_MAX_PACKET_LENGTH                       63
-#define RADIOLIB_CC1101_CRYSTAL_FREQ                            26.0
+#define RADIOLIB_CC1101_MAX_PACKET_LENGTH                       255
+#define RADIOLIB_CC1101_FIFO_SIZE                               64
+#define RADIOLIB_CC1101_CRYSTAL_FREQ                            26.0f
 #define RADIOLIB_CC1101_DIV_EXPONENT                            16
 
 // CC1101 SPI commands
@@ -182,6 +183,7 @@
 #define RADIOLIB_CC1101_RX_ATTEN_18_DB                          0b00110000  //  5     4                   18 dB
 #define RADIOLIB_CC1101_FIFO_THR_TX_61_RX_4                     0b00000000  //  3     0   TX fifo threshold: 61, RX fifo threshold: 4
 #define RADIOLIB_CC1101_FIFO_THR_TX_33_RX_32                    0b00000111  //  3     0   TX fifo threshold: 33, RX fifo threshold: 32
+#define RADIOLIB_CC1101_FIFO_THR_TX_1_RX_64                     0b00001111  //  3     0   TX fifo threshold: 1, RX fifo threshold: 64
 #define RADIOLIB_CC1101_FIFO_THRESH_TX                          33
 #define RADIOLIB_CC1101_FIFO_THRESH_RX                          32
 
@@ -190,9 +192,6 @@
 
 // RADIOLIB_CC1101_REG_SYNC0
 #define RADIOLIB_CC1101_SYNC_WORD_LSB                           0x91        //  7     0   sync word LSB
-
-// RADIOLIB_CC1101_REG_PKTLEN
-#define RADIOLIB_CC1101_PACKET_LENGTH                           0xFF        //  7     0   packet length in bytes
 
 // RADIOLIB_CC1101_REG_PKTCTRL1
 #define RADIOLIB_CC1101_PQT                                     0x00        //  7     5   preamble quality threshold
@@ -563,6 +562,24 @@ class CC1101: public PhysicalLayer {
       uint8_t preambleLength = RADIOLIB_CC1101_DEFAULT_PREAMBLELEN);
     
     /*!
+      \brief Initialization method for 4-FSK modulation.
+      \param freq Carrier frequency in MHz. Defaults to 434 MHz.
+      \param br Bit rate to be used in kbps. Defaults to 4.8 kbps.
+      \param freqDev Frequency deviation from carrier frequency in kHz Defaults to 5.0 kHz.
+      \param rxBw Receiver bandwidth in kHz. Defaults to 135.0 kHz.
+      \param pwr Output power in dBm. Defaults to 10 dBm.
+      \param preambleLength Preamble Length in bits. Defaults to 16 bits.
+      \returns \ref status_codes
+    */
+    int16_t beginFSK4(
+      float freq = RADIOLIB_CC1101_DEFAULT_FREQ,
+      float br = RADIOLIB_CC1101_DEFAULT_BR,
+      float freqDev = RADIOLIB_CC1101_DEFAULT_FREQDEV,
+      float rxBw = RADIOLIB_CC1101_DEFAULT_RXBW,
+      int8_t pwr = RADIOLIB_CC1101_DEFAULT_POWER,
+      uint8_t preambleLength = RADIOLIB_CC1101_DEFAULT_PREAMBLELEN);
+
+    /*!
       \brief Reset method - resets the chip using manual reset sequence (without RESET pin).
     */
     void reset();
@@ -575,16 +592,18 @@ class CC1101: public PhysicalLayer {
       \param addr Address to send the data to. Will only be added if address filtering was enabled.
       \returns \ref status_codes
     */
-    int16_t transmit(uint8_t* data, size_t len, uint8_t addr = 0) override;
+    int16_t transmit(const uint8_t* data, size_t len, uint8_t addr = 0) override;
 
     /*!
       \brief Blocking binary receive method.
       Overloads for string-based transmissions are implemented in PhysicalLayer.
-      \param data Binary data to be sent.
-      \param len Number of bytes to send.
+      \param data Pointer to array to save the received binary data.
+      \param len Number of bytes that will be received. Must be known in advance for binary transmissions.
+      \param timeout Reception timeout in milliseconds. If set to 0,
+      timeout period will be calculated automatically based on the radio configuration.
       \returns \ref status_codes
     */
-    int16_t receive(uint8_t* data, size_t len) override;
+    int16_t receive(uint8_t* data, size_t len, RadioLibTime_t timeout = 0) override;
 
     /*!
       \brief Sets the module to standby mode.
@@ -599,6 +618,12 @@ class CC1101: public PhysicalLayer {
     */
     int16_t standby(uint8_t mode) override;
 
+    /*!
+      \brief Sets the module to sleep mode.
+      \returns \ref status_codes
+    */
+    int16_t sleep() override;
+    
     /*!
       \brief Starts synchronous direct mode transmission.
       \param frf Raw RF frequency value. Defaults to 0, required for quick frequency shifts in RTTY.
@@ -680,14 +705,17 @@ class CC1101: public PhysicalLayer {
     void clearPacketSentAction() override;
 
     /*!
-      \brief Interrupt-driven binary transmit method.
+      \brief Interrupt-driven binary transmit method for packets less than 64 bytes.
+      Method blocks for packets longer than 64 bytes up to a 255 byte limit, until 
+      the last bytes are placed in the FIFO. Some limitations and issues apply; see discussion: 
+      https://github.com/jgromes/RadioLib/discussions/1138
       Overloads for string-based transmissions are implemented in PhysicalLayer.
       \param data Binary data to be sent.
       \param len Number of bytes to send.
       \param addr Address to send the data to. Will only be added if address filtering was enabled.
       \returns \ref status_codes
     */
-    int16_t startTransmit(uint8_t* data, size_t len, uint8_t addr = 0) override;
+    int16_t startTransmit(const uint8_t* data, size_t len, uint8_t addr = 0) override;
 
     /*!
       \brief Clean up after transmission is done.
@@ -721,6 +749,12 @@ class CC1101: public PhysicalLayer {
     */
     int16_t readData(uint8_t* data, size_t len) override;
 
+    /*!
+      \brief Clean up after reception is done.
+      \returns \ref status_codes
+    */
+    int16_t finishReceive() override;
+
     // configuration methods
 
     /*!
@@ -737,6 +771,13 @@ class CC1101: public PhysicalLayer {
       \returns \ref status_codes
     */
     int16_t setBitRate(float br) override;
+
+    /*!
+      \brief Sets bit rate tolerance in BSCFG register. Allowed values are 0:(0%), 1(3,125%), 2:(6,25%) and 3:(12,5%).
+      \param brt Bit rate tolerance to be set.
+      \returns \ref status_codes
+    */
+    int16_t setBitRateTolerance(uint8_t brt);
 
     /*!
       \brief Sets receiver bandwidth. Allowed values are 58, 68, 81, 102, 116, 135, 162,
@@ -794,6 +835,14 @@ class CC1101: public PhysicalLayer {
     int16_t checkOutputPower(int8_t power, int8_t* clipped, uint8_t* raw);
 
     /*!
+      \brief Set 1 or 2 bytes of sync word.
+      \param sync Pointer to the sync word.
+      \param len Sync word length in bytes. Maximum length depends on the module used.
+      \returns \ref status_codes
+    */
+    int16_t setSyncWord(uint8_t *sync, size_t len) override;
+
+    /*!
       \brief Sets 16-bit sync word as a two byte value.
       \param syncH MSB of the sync word.
       \param syncL LSB of the sync word.
@@ -811,7 +860,14 @@ class CC1101: public PhysicalLayer {
       \param requireCarrierSense Require carrier sense above threshold in addition to sync word.
       \returns \ref status_codes
     */
-    int16_t setSyncWord(uint8_t* syncWord, uint8_t len, uint8_t maxErrBits = 0, bool requireCarrierSense = false);
+    int16_t setSyncWord(const uint8_t* syncWord, uint8_t len, uint8_t maxErrBits = 0, bool requireCarrierSense = false);
+
+    /*!
+      \brief Sets preamble length.
+      \param len Preamble length to be set (in bits), allowed values: 16, 24, 32, 48, 64, 96, 128 and 192.
+      \returns \ref status_codes
+    */
+    int16_t setPreambleLength(size_t len) override;
 
     /*!
       \brief Sets preamble length.
@@ -845,7 +901,7 @@ class CC1101: public PhysicalLayer {
 
     /*!
       \brief Gets RSSI (Recorded Signal Strength Indicator) of the last received packet.
-      In asynchronous direct mode, returns the current RSSI level.
+      In direct or asynchronous direct mode, returns the current RSSI level.
       \returns RSSI in dBm.
     */
     float getRSSI() override;
@@ -981,7 +1037,7 @@ class CC1101: public PhysicalLayer {
     int16_t SPIsetRegValue(uint8_t reg, uint8_t value, uint8_t msb = 7, uint8_t lsb = 0, uint8_t checkInterval = 2);
     void SPIreadRegisterBurst(uint8_t reg, uint8_t numBytes, uint8_t* inBytes);
     uint8_t SPIreadRegister(uint8_t reg);
-    void SPIwriteRegisterBurst(uint8_t reg, uint8_t* data, size_t len);
+    void SPIwriteRegisterBurst(uint8_t reg, const uint8_t* data, size_t len);
     void SPIwriteRegister(uint8_t reg, uint8_t data);
 
     void SPIsendCommand(uint8_t cmd);
@@ -1003,10 +1059,11 @@ class CC1101: public PhysicalLayer {
 
     bool promiscuous = false;
     bool crcOn = true;
-    bool directModeEnabled = true;
+    bool directModeEnabled = false;
 
     int8_t power = RADIOLIB_CC1101_DEFAULT_POWER;
 
+    int16_t beginCommon(float freq, float br, float freqDev, float rxBw, int8_t pwr, uint8_t preambleLength);
     int16_t config();
     int16_t transmitDirect(bool sync, uint32_t frf);
     int16_t receiveDirect(bool sync);

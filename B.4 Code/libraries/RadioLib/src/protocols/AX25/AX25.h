@@ -9,12 +9,7 @@
 #include "../AFSK/AFSK.h"
 #include "../BellModem/BellModem.h"
 #include "../../utils/CRC.h"
-
-// macros to access bits in byte array, from http://www.mathcs.emory.edu/~cheung/Courses/255/Syllabus/1-C-intro/bit-array.html
-#define SET_BIT_IN_ARRAY(A, k)                                  ( A[(k/8)] |= (1 << (k%8)) )
-#define CLEAR_BIT_IN_ARRAY(A, k)                                ( A[(k/8)] &= ~(1 << (k%8)) )
-#define TEST_BIT_IN_ARRAY(A, k)                                 ( A[(k/8)] & (1 << (k%8)) )
-#define GET_BIT_IN_ARRAY(A, k)                                  ( (A[(k/8)] & (1 << (k%8))) ? 1 : 0 )
+#include "../../utils/FEC.h"
 
 // maximum callsign length in bytes
 #define RADIOLIB_AX25_MAX_CALLSIGN_LEN                          6
@@ -190,7 +185,7 @@ class AX25Frame {
       \param info Information field, in the form of arbitrary binary buffer.
       \param infoLen Number of bytes in the information field.
     */
-    AX25Frame(const char* destCallsign, uint8_t destSSID, const char* srcCallsign, uint8_t srcSSID, uint8_t control, uint8_t protocolID, uint8_t* info, uint16_t infoLen);
+    AX25Frame(const char* destCallsign, uint8_t destSSID, const char* srcCallsign, uint8_t srcSSID, uint8_t control, uint8_t protocolID, const uint8_t* info, uint16_t infoLen);
 
     /*!
       \brief Copy constructor.
@@ -216,7 +211,7 @@ class AX25Frame {
       \param numRepeaters Number of repeaters, maximum is 8.
       \returns \ref status_codes
     */
-    int16_t setRepeaters(char** repeaterCallsigns, uint8_t* repeaterSSIDs, uint8_t numRepeaters);
+    int16_t setRepeaters(char** repeaterCallsigns, const uint8_t* repeaterSSIDs, uint8_t numRepeaters);
 
     /*!
       \brief Method to set receive sequence number.

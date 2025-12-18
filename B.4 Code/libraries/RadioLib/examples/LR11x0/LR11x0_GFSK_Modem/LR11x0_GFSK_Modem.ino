@@ -26,9 +26,13 @@
 // BUSY pin:  9
 LR1110 radio = new Module(10, 2, 3, 9);
 
-// or using RadioShield
-// https://github.com/jgromes/RadioShield
-//LR1110 radio = RadioShield.ModuleA;
+// or detect the pinout automatically using RadioBoards
+// https://github.com/radiolib-org/RadioBoards
+/*
+#define RADIO_BOARD_AUTO
+#include <RadioBoards.h>
+Radio radio = new RadioModule();
+*/
 
 void setup() {
   Serial.begin(9600);
@@ -41,7 +45,7 @@ void setup() {
   } else {
     Serial.print(F("failed, code "));
     Serial.println(state);
-    while (true);
+    while (true) { delay(10); }
   }
 
   // if needed, you can switch between any of the modems
@@ -63,15 +67,8 @@ void setup() {
   if (state != RADIOLIB_ERR_NONE) {
     Serial.print(F("Unable to set configuration, code "));
     Serial.println(state);
-    while (true);
+    while (true) { delay(10); }
   }
-
-  // GFSK modem on LR11x0 can handle the sync word setting in bits, not just
-  // whole bytes. The value used is left-justified.
-  // This makes same result as radio.setSyncWord(syncWord, 8):
-  state = radio.setSyncBits(syncWord, 64);
-  // This will use 0x012 as sync word (12 bits only):
-  state = radio.setSyncBits(syncWord, 12);
 
   // GFSK modem allows advanced CRC configuration
   // Default is CCIT CRC16 (2 bytes, initial 0x1D0F, polynomial 0x1021, inverted)
