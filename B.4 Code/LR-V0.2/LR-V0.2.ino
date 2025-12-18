@@ -24,7 +24,8 @@ LoRaWANNode node(&radio, &Region, subBand);
 uint64_t joinEUI =   RADIOLIB_LORAWAN_JOIN_EUI;
 uint64_t devEUI  =   RADIOLIB_LORAWAN_DEV_EUI;
 uint8_t appKey[] = { RADIOLIB_LORAWAN_APP_KEY };
-uint8_t nwkKey[] = { RADIOLIB_LORAWAN_NWK_KEY };
+// uint8_t nwkKey[] = { RADIOLIB_LORAWAN_NWK_KEY };
+uint8_t nwkKey[16] = { 0 }; 
 
 #define LORAWAN_DEV_INFO_SIZE 36
 uint8_t deviceInfo[LORAWAN_DEV_INFO_SIZE] = {0};
@@ -46,21 +47,21 @@ void setup() {
   sensorManager_init();
 
   // For Storing Device Info
-  if(!EEPROM.begin(LORAWAN_DEV_INFO_SIZE))
-  {
-    Serial.println("Failed to initialize EEPROM");
-    while(1);
-  }
+  // if(!EEPROM.begin(LORAWAN_DEV_INFO_SIZE))
+  // {
+  //   Serial.println("Failed to initialize EEPROM");
+  //   while(1);
+  // }
 
-  uint32_t now = millis();
-  while(1)
-  {
-    deviceInfoSet();
-    if(millis() - now >= 5000) break;
-  }
+  // uint32_t now = millis();
+  // while(1)
+  // {
+  //   deviceInfoSet();
+  //   if(millis() - now >= 5000) break;
+  // }
 
   // Radio Setup
-  deviceInfoLoad();
+  // deviceInfoLoad();
   Serial.println(F("\nSetup... "));  
   Serial.println(F("Initialise the radio"));
   int16_t state = radio.begin();
