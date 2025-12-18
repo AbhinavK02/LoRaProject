@@ -15,8 +15,7 @@ PORT = int(os.environ.get("SERVER_PORT", 3000))
 AUTH_TOKEN = os.environ.get("AUTH_TOKEN")
 PUBLIC_URL = "https://unarithmetically-peppiest-libbie.ngrok-free.dev"
 
-# --- DEVICE MAPPING (NEW) ---
-# Map your Device IDs (integers) to friendly names here
+# --- DEVICE MAPPING ---
 DEVICE_NAMES = {
     51: "PostBox SAN",
     1: "Test Unit Alpha"
@@ -25,7 +24,8 @@ DEVICE_NAMES = {
 # Email Config
 EMAIL_SENDER = os.environ.get("EMAIL_SENDER")
 EMAIL_PASSWORD = os.environ.get("EMAIL_PASSWORD")
-EMAIL_RECIPIENT = os.environ.get("EMAIL_RECIPIENT")
+# We fetch the raw string here, splitting happens in the send function
+EMAIL_RECIPIENT_STRING = os.environ.get("EMAIL_RECIPIENT") 
 
 # --- LOGGING ---
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
@@ -35,7 +35,7 @@ app = Flask(__name__)
 
 # --- GLOBAL STORAGE ---
 dashboard_data = {
-    "device_name": "Unknown Device", # (NEW)
+    "device_name": "Unknown Device",
     "status_text": "Waiting for data...",
     "status_color": "gray", 
     "timestamp": "Never",
@@ -43,7 +43,6 @@ dashboard_data = {
 }
 
 # Store the last time we sent an email for specific events
-# Format: { (device_id, status_text): datetime_object }
 alert_cooldowns = {} 
 
 # --- HELPER: FORMAT TIME ---
@@ -55,13 +54,19 @@ def get_clean_time(iso_string):
     except:
         return iso_string
 
-# --- HELPER: SEND EMAIL ---
+# --- HELPER: SEND EMAIL (UPDATED FOR MULTIPLE RECIPIENTS) ---
 def send_email_alert(device_name, status, timestamp):
-    if not EMAIL_SENDER or not EMAIL_PASSWORD:
-        logger.warning("Email not configured in .env, skipping alert.")
+    if not EMAIL_SENDER or not EMAIL_PASSWORD or not EMAIL_RECIPIENT_STRING:
+        logger.warning("Email configuration missing in .env, skipping alert.")
         return
 
     try:
+        # 1. Process recipients: Split by comma and remove spaces
+        recipients_list = [email.strip() for email in EMAIL_RECIPIENT_STRING.split(',') if email.strip()]
+        
+        # 2. Join them back into a clean comma-separated string for the email header
+        recipients_header = ", ".join(recipients_list)
+
         msg = EmailMessage()
         content = (f"Your Smart Mailbox ({device_name}) detected a new event:\n\n"
                    f"Status: {status}\n"
@@ -71,13 +76,13 @@ def send_email_alert(device_name, status, timestamp):
         msg.set_content(content)
         msg['Subject'] = f"📬 Alert: {status} - {device_name}"
         msg['From'] = EMAIL_SENDER
-        msg['To'] = EMAIL_RECIPIENT
+        msg['To'] = recipients_header # This sends to all emails in the list
 
         server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
         server.login(EMAIL_SENDER, EMAIL_PASSWORD)
         server.send_message(msg)
         server.quit()
-        logger.info(f"Email sent to {EMAIL_RECIPIENT}")
+        logger.info(f"Email sent to: {recipients_header}")
     except Exception as e:
         logger.error(f"Failed to send email: {e}")
 
@@ -156,20 +161,20 @@ def handle_uplink():
             # 3. Add to History
             new_event = {"time": clean_time_str, "status": status_text, "color": color, "device": device_name}
             dashboard_data["history"].insert(0, new_event)
-            if len(dashboard_data["history"]) > 10: # Increased history limit
+            if len(dashboard_data["history"]) > 10: 
                 dashboard_data["history"].pop()
 
             # 4. Email Logic with 15-Minute Cooldown
             if "NEW MAIL" in status_text or "TAMPERING" in status_text:
                 current_time = datetime.now()
-                cooldown_key = (device_id, status_text) # Unique key per device+event
+                cooldown_key = (device_id, status_text) 
                 
                 last_sent = alert_cooldowns.get(cooldown_key)
                 
                 # Check if we should send email (First time OR >15 mins since last time)
                 if not last_sent or (current_time - last_sent) > timedelta(minutes=15):
                     send_email_alert(device_name, status_text, clean_time_str)
-                    alert_cooldowns[cooldown_key] = current_time # Update timestamp
+                    alert_cooldowns[cooldown_key] = current_time 
                     logger.info(f"Email sent for {device_name}.")
                 else:
                     logger.info(f"Email suppressed (Cooldown active). Next email allowed in {15 - (current_time - last_sent).seconds//60} mins.")
@@ -216,7 +221,8 @@ def show_dashboard():
     <body>
         <div class="card">
             <h1>Smart Mailbox</h1>
-            <h2>📍 {{ name }}</h2> <div class="status-box">{{ status }}</div>
+            <h2>📍 {{ name }}</h2> 
+            <div class="status-box">{{ status }}</div>
             <p class="meta">Last Update: {{ time }}</p>
 
             <h3>Recent Activity</h3>
