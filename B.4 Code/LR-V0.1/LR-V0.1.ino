@@ -79,7 +79,7 @@ void setup() {
     state = node.activateOTAA(LORAWAN_UPLINK_DATA_RATE);
     if(state == RADIOLIB_LORAWAN_NEW_SESSION) break;
     debug(state!= RADIOLIB_LORAWAN_NEW_SESSION, F("Join failed"), state, true);
-    delay(15000);
+    delay(5000);
   }
 
   // Disable the ADR algorithm (on by default which is preferable)

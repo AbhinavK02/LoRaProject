@@ -2,6 +2,7 @@
 #define _CONFIG_H_
 // ############################### Library ######################################
 #include <RadioLib.h>
+// #include <Preferences.h>
 
 // ############################### Configuration and Definitions ######################################
 #ifndef RADIOLIB_LORAWAN_JOIN_EUI
@@ -17,10 +18,6 @@
 #define RADIOLIB_LORAWAN_APP_KEY   0x02, 0xBC, 0xE7, 0xC1, 0x02, 0xB3, 0x18, 0xD7, 0x02, 0xF2, 0x18, 0xDF, 0x9E, 0x45, 0xD1, 0x8E
 #endif
 
-
-#ifndef RADIOLIB_LORAWAN_NWK_KEY   
-#define RADIOLIB_LORAWAN_NWK_KEY   0xC8, 0x19, 0x74, 0xB4, 0xDC, 0x40, 0x3E, 0x1E, 0xF3, 0x7F, 0x78, 0xE6, 0x16, 0x9B, 0x23, 0x71
-#endif
 
 #define LORAWAN_UPLINK_USER_PORT  2
 #define LORAWAN_UPLINK_DATA_RATE  3

@@ -33,7 +33,7 @@
 #define ID_READY 0x07
 
 // ############################### Functions ######################################
-// To handle error codes
+/ To handle error codes
 String stateDecode(const int16_t result) {
   switch (result) {
   case RADIOLIB_ERR_NONE:
@@ -130,5 +130,5 @@ void memcpyr(uint8_t *dst, const uint8_t *src, uint16_t size)
         *dst-- = *src++;
     }
 }
-
+/
 #endif

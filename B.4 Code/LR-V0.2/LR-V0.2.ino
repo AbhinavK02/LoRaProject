@@ -6,8 +6,8 @@
 
 // ############################### Libraries ######################################
 #include "config.h"
-#include "EEPROM.h"
-#include <Wire.h>
+// #include "EEPROM.h"
+// #include <Wire.h>
 #include "SensorManager.h"
 
 // ############################### Variables and Configuration ######################################
@@ -24,21 +24,23 @@ LoRaWANNode node(&radio, &Region, subBand);
 uint64_t joinEUI =   RADIOLIB_LORAWAN_JOIN_EUI;
 uint64_t devEUI  =   RADIOLIB_LORAWAN_DEV_EUI;
 uint8_t appKey[] = { RADIOLIB_LORAWAN_APP_KEY };
-// uint8_t nwkKey[] = { RADIOLIB_LORAWAN_NWK_KEY };
-uint8_t nwkKey[16] = { 0 }; 
+uint8_t nwkKey[] = { RADIOLIB_LORAWAN_NWK_KEY };
 
-#define LORAWAN_DEV_INFO_SIZE 36
-uint8_t deviceInfo[LORAWAN_DEV_INFO_SIZE] = {0};
 
-#define SERIAL_DATA_BUF_LEN  64
-uint8_t serialDataBuf[SERIAL_DATA_BUF_LEN] = {0};
-uint8_t serialIndex = 0;
+// #define LORAWAN_DEV_INFO_SIZE 36
+// uint8_t deviceInfo[LORAWAN_DEV_INFO_SIZE] = {0};
+
+// #define SERIAL_DATA_BUF_LEN  64
+// uint8_t serialDataBuf[SERIAL_DATA_BUF_LEN] = {0};
+// uint8_t serialIndex = 0;
 
 #define UPLINK_PAYLOAD_MAX_LEN  256
 uint8_t uplinkPayload[UPLINK_PAYLOAD_MAX_LEN] = {0};
 uint16_t uplinkPayloadLen = 0;
 
 uint32_t previousMillis = 0;
+
+// Preferences lorawanPrefs;
 
 // ############################### Setup ######################################
 void setup() {
@@ -69,19 +71,28 @@ void setup() {
 
   // SX1262 rf switch order: setRfSwitchPins(rxEn, txEn);
   radio.setRfSwitchPins(38, RADIOLIB_NC);
+  
+  // // Loading the DevNonce
+  // uint16_t devNonce = 0;
+  // lorawanPrefs.begin("lorawan", false);
+  // devNonce = lorawanPrefs.getUShort("devnonce", 0);
 
   // Setup the OTAA session information
   node.beginOTAA(joinEUI, devEUI, nwkKey, appKey);
+  // node.setDevNonce(devNonce);
   Serial.println(F("Join ('login') the LoRaWAN Network"));
 
   // Joining TTN 
   while(1)
   {
     state = node.activateOTAA(LORAWAN_UPLINK_DATA_RATE);
+    // devNonce++;
+    // lorawanPrefs.putUShort("devnonce", devNonce);
     if(state == RADIOLIB_LORAWAN_NEW_SESSION) break;
     debug(state!= RADIOLIB_LORAWAN_NEW_SESSION, F("Join failed"), state, true);
     delay(15000);
   }
+  // lorawanPrefs.end();
 
   // Disable the ADR algorithm (on by default which is preferable)
   node.setADR(false);
@@ -165,60 +176,60 @@ void loop() {
   delay(1000);
 }
 // ############################### Helper Functions ######################################
-void deviceInfoLoad() {
-  uint16_t checkSum = 0, checkSum_ = 0;
-  for(int i = 0; i < LORAWAN_DEV_INFO_SIZE; i++) deviceInfo[i] = EEPROM.read(i);
-  for(int i = 0; i < 32; i++) checkSum += deviceInfo[i];
-  memcpy((uint8_t *)(&checkSum_), deviceInfo + 32, 2);
+// void deviceInfoLoad() {
+//   uint16_t checkSum = 0, checkSum_ = 0;
+//   for(int i = 0; i < LORAWAN_DEV_INFO_SIZE; i++) deviceInfo[i] = EEPROM.read(i);
+//   for(int i = 0; i < 32; i++) checkSum += deviceInfo[i];
+//   memcpy((uint8_t *)(&checkSum_), deviceInfo + 32, 2);
 
-  if(checkSum == checkSum_)
-  {
-    memcpyr((uint8_t *)(&joinEUI), deviceInfo, 8);
-    memcpyr((uint8_t *)(&devEUI), deviceInfo + 8, 8);
-    memcpy(appKey, deviceInfo + 16, 16);
+//   if(checkSum == checkSum_)
+//   {
+//     memcpyr((uint8_t *)(&joinEUI), deviceInfo, 8);
+//     memcpyr((uint8_t *)(&devEUI), deviceInfo + 8, 8);
+//     memcpy(appKey, deviceInfo + 16, 16);
 
-    Serial.println("Load device info:");
-    Serial.print("JoinEUI:");
-    Serial.println(joinEUI, HEX);
-    Serial.print("DevEUI:");
-    Serial.println(devEUI, HEX);
-    Serial.print("AppKey:");
-    arrayDump(appKey, 16);
-    Serial.print("nwkKey:");
-    arrayDump(nwkKey, 16);
-  }
-  else
-  {
-    Serial.println("Use the default device info as LoRaWAN param");
-  }
-}
+//     Serial.println("Load device info:");
+//     Serial.print("JoinEUI:");
+//     Serial.println(joinEUI, HEX);
+//     Serial.print("DevEUI:");
+//     Serial.println(devEUI, HEX);
+//     Serial.print("AppKey:");
+//     arrayDump(appKey, 16);
+//     Serial.print("nwkKey:");
+//     arrayDump(nwkKey, 16);
+//   }
+//   else
+//   {
+//     Serial.println("Use the default device info as LoRaWAN param");
+//   }
+// }
 
-void deviceInfoSet() {
-  if(Serial.available())
-  {
-    serialDataBuf[serialIndex++] = Serial.read();
-    if(serialIndex >= SERIAL_DATA_BUF_LEN) serialIndex = 0;
-    if(serialIndex > 2 && serialDataBuf[serialIndex - 2] == '\r' && serialDataBuf[serialIndex-1] == '\n')
-    {
-      Serial.println("Get serial data:");
-      arrayDump(serialDataBuf, serialIndex);
-      if(serialIndex == 34) // 8 + 8 + 16 + 2
-      {
-        uint16_t checkSum = 0;
-        for(int i = 0; i < 32; i++) checkSum += serialDataBuf[i];
-        memcpy(deviceInfo, serialDataBuf, 32);
-        memcpy(deviceInfo + 32, (uint8_t *)(&checkSum), 2);
-        for(int i = 0; i < 34; i++) EEPROM.write(i, deviceInfo[i]);
-        EEPROM.commit();
-        Serial.println("Save serial data, please reboot...");
-      }
-      else
-      {
-        Serial.println("Error serial data length");
-      }
+// void deviceInfoSet() {
+//   if(Serial.available())
+//   {
+//     serialDataBuf[serialIndex++] = Serial.read();
+//     if(serialIndex >= SERIAL_DATA_BUF_LEN) serialIndex = 0;
+//     if(serialIndex > 2 && serialDataBuf[serialIndex - 2] == '\r' && serialDataBuf[serialIndex-1] == '\n')
+//     {
+//       Serial.println("Get serial data:");
+//       arrayDump(serialDataBuf, serialIndex);
+//       if(serialIndex == 34) // 8 + 8 + 16 + 2
+//       {
+//         uint16_t checkSum = 0;
+//         for(int i = 0; i < 32; i++) checkSum += serialDataBuf[i];
+//         memcpy(deviceInfo, serialDataBuf, 32);
+//         memcpy(deviceInfo + 32, (uint8_t *)(&checkSum), 2);
+//         for(int i = 0; i < 34; i++) EEPROM.write(i, deviceInfo[i]);
+//         EEPROM.commit();
+//         Serial.println("Save serial data, please reboot...");
+//       }
+//       else
+//       {
+//         Serial.println("Error serial data length");
+//       }
 
-      serialIndex = 0;
-      memset(serialDataBuf, sizeof(serialDataBuf), 0);
-    }
-  }
-}
+//       serialIndex = 0;
+//       memset(serialDataBuf, sizeof(serialDataBuf), 0);
+//     }
+//   }
+// }
