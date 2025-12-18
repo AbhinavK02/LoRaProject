@@ -30,7 +30,6 @@
 // SX1262 pin order: Module(NSS/CS, DIO1, RESET, BUSY);
 SX1262 radio = new Module(41, 39, 42, 40);
 
-
 // For Storing nonces
 Preferences store;
 
