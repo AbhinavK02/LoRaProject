@@ -1,10 +1,8 @@
-
-
 # RadioLib LoRaWAN on TTN starter script
 
 ## Welcome
 
-These notes are for someone who has successfully created a few sketches for their Arduino based device but is starting out with LoRaWAN. You don't have to be a C coding ninja but some familarity with C and procedural programming is assumed. The absolutely simplest way to get started is to buy some known good hardware that's all done for you so you can concentrate on the code & configuration.
+These notes are for someone who has successfully created a few sketches for their Arduino based device but is starting out with LoRaWAN. You don't have to be a C++ coding ninja but some familarity with C++ and procedural programming is assumed. The absolutely simplest way to get started is to buy some known good hardware that's all done for you so you can concentrate on the code & configuration.
 
 
 ## Introduction
@@ -18,7 +16,7 @@ For questions about using RadioLib there is the discussions section (https://git
 
 ## Register & setup on TTN
 
-This sketch isn't particularly aimed at The Things Stack (TTS) but you can get a free Sandbox account and the following instructions are for that. Helium does not support LoRaWAN v1.1 which is the version implemented by RadioLib. Chirpstack & other LoRaWAN Network Server (LNS) stacks have not yet been tried so YMMV.
+This sketch isn't particularly aimed at The Things Stack (TTS) but you can get a free Sandbox account and the following instructions are for that. Chirpstack works just as well, but the buttons and labels may have different names. We discourage the use of Helium as it does not support LoRaWAN v1.1 and has some other odd limitations. Other LoRaWAN Network Servers (LNS) have not been tested by the developers, so YMMV.
 
 Why no screen shots? TTS is a web based app, one that you will need to become familiar with and we will need to direct you to some of the less obvious parts. So much better that you learn the layouts in concept than slavishly follow screen shots that can & will go stale.
 
@@ -52,13 +50,13 @@ You are making your own device using a third party LoRaWAN stack so there will n
 
 Choose the Frequency plan appropriate for your region. Consider that almost all countries have laws relating to what frequencies you use so don't get creative. For Europe please use the recommended option. For other regions use the entry marked 'used by TTN'.
 
-Choose LoRaWAN 1.1.0 - the last one in the list - the latest specfication. RadioLib uses RP001 Regional Parameters 1.1 revision A.
+Choose LoRaWAN 1.1.0 - the last one in the list - the latest specfication. RadioLib uses RP002 Regional Parameters 1.0.4.
 
 At this point you will be asked for your JoinEUI. As this is a DIY device and we are using RadioLib, you can use all zero's as recommended by The LoRa Alliance TR007 Technical Recommendations document. Once you've put in all zeros and clicked confirm you will be asked for a DevEUI, AppKey and NwkKey. It is preferable to have the console generate them so they are properly formatted.
 
-Your End device ID can be changed to make the device more identifiable. Something related to your hardware helps - like devicename-01. The you can click the blue 'Register device'.
+Your End device ID can be changed to make the device more identifiable. Something related to your hardware helps - like `devicename-01`. The you can click the blue 'Register device'.
 
-When many sensors are big deployed, a device is registered, batteries put in, it joins and gets on with sending data for the next few years. For development purposes we need to turn off one of the security settings so that you can join & uplink out of the normal sequence that a device in the field would do.
+When retail sensors are being deployed, a device is registered, batteries put in, it joins and gets on with sending data for the next few years. For development purposes however we need to turn off one of the security settings so that you can join & uplink out of the normal sequence that a device in the field would do.
 
 Click on General Settings, scroll down to Join settings, click the Expand button, scroll down and click the 'Resets join nonces' option. You will see a warning about replay attacks which is entirely proper & correct. If anyone eavesdropping in your area on your LoRa transmissions could fake a join and send uplinks from their device but only if they happened to find out your AppKey & NwkKey which is kept securely on the TTN servers and is never transmitted over the air, so they'd also have to login to your account, which is protected by your password. 
 
@@ -141,31 +139,12 @@ If you are using US915 or AU915 then you should change the subBand const to 2.
 
 ### The pinmap
 
-This is the connection between the MCU (ESP32/ATmega/SAMD) and the LoRa radio (SX1276/SX1262).
+This is the connection between your microcontroller (ESP32, ATmega, SAMD etc.) and the radio (SX1276, SX1262, LR1110 etc.).
+You have to select the correct module and set the correct pins.
 
-Prebuilt modules are easy - we can detect the board and setup the pinmap for you. These boards are:
+Pin maps for commonly used radio modules are kept in a separate library, called RadioBoards: https://github.com/radiolib-org/RadioBoards
 
-* TTGO_LoRa32
-* TTGO_LoRa32_V1
-* TTGO_LORA32_V2
-* TTGO_LORA32_v21NEW
-* HELTEC_WIFI_LORA_32
-* HELTEC_WIFI_LORA_32_V2
-* HELTEC_WIFI_LORA_32_V3
-* HELTEC_WIRELESS_STICK
-* HELTEC_WIRELESS_STICK_V3
-* HELTEC_WIRELESS_STICK_LITE
-* HELTEC_WIRELESS_STICK_LITE_V3
-
-If you have a TTGO T-Beam, you must choose the correct radio from the Board Revision sub-menu found under the main Tools menu.
-
-* TBEAM_USE_RADIO_SX1262
-* TBEAM_USE_RADIO_SX1276
-
-Auto-setup for the Adafruit Feather M0 with RFM95 is included but you must solder a wire or use a jumper to link from pin 6 to io1: https://learn.adafruit.com/the-things-network-for-feather/arduino-wiring
-
-If you have a module that's not on this list, please go to the "Pinmap How-To" below.
-
+It can automatically detect your microcontroller platform and radio, and configure things for you. If you have a board that is not supported by RadioBoards, feel free to suggest it in the RadioBoards issues, or better yet - open a pull request there!
 
 
 ## Observations on the main sketch
@@ -197,8 +176,3 @@ Coming soon
 ### Device testing
 
 The LoRaWAN code base works to a specification and once you are happy your device is able to join & send a few dozen uplinks, continuing to sit around waiting for an uplink to test your sensor code & payload format is a waste of your time. The solution is to write everything else in a different sketch, output the array to the serial console and then you can copy & paste the hex array in to the TTN console Payload Formatters section to test the decoding.
-
-
-## Pinmap How-To
-
-Coming soon

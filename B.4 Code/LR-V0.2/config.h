@@ -2,13 +2,12 @@
 #define _CONFIG_H_
 // ############################### Library ######################################
 #include <RadioLib.h>
-// #include <Preferences.h>
+#include <Preferences.h>
 
 // ############################### Configuration and Definitions ######################################
 #ifndef RADIOLIB_LORAWAN_JOIN_EUI
 #define RADIOLIB_LORAWAN_JOIN_EUI  0x0000000000000000
 #endif
-
 
 #ifndef RADIOLIB_LORAWAN_DEV_EUI   
 #define RADIOLIB_LORAWAN_DEV_EUI   0x70B3D57ED0074D01
@@ -17,7 +16,6 @@
 #ifndef RADIOLIB_LORAWAN_APP_KEY   
 #define RADIOLIB_LORAWAN_APP_KEY   0x02, 0xBC, 0xE7, 0xC1, 0x02, 0xB3, 0x18, 0xD7, 0x02, 0xF2, 0x18, 0xDF, 0x9E, 0x45, 0xD1, 0x8E
 #endif
-
 
 #define LORAWAN_UPLINK_USER_PORT  2
 #define LORAWAN_UPLINK_DATA_RATE  3
@@ -28,6 +26,31 @@
 
 // Define IDs for payload encoding 
 #define ID_READY 0x07
+
+// SX1262 pin order: Module(NSS/CS, DIO1, RESET, BUSY);
+SX1262 radio = new Module(41, 39, 42, 40);
+
+
+// For Storing nonces
+Preferences store;
+
+// Buffer for LoRaWAN nonces
+uint8_t lwNonces[RADIOLIB_LORAWAN_NONCES_BUF_SIZE];
+
+// (Optional, but recommended later)
+uint8_t lwSession[RADIOLIB_LORAWAN_SESSION_BUF_SIZE];
+
+// Selecting Europe Region
+const LoRaWANBand_t Region = EU868;
+const uint8_t subBand = 0; 
+
+// Copy over Keys
+uint64_t joinEUI =   RADIOLIB_LORAWAN_JOIN_EUI;
+uint64_t devEUI  =   RADIOLIB_LORAWAN_DEV_EUI;
+uint8_t appKey[] = { RADIOLIB_LORAWAN_APP_KEY };
+
+// create the LoRaWAN node
+LoRaWANNode node(&radio, &Region, subBand);
 
 // ############################### Functions ######################################
 // To handle error codes
@@ -41,8 +64,8 @@ String stateDecode(const int16_t result) {
     return "ERR_PACKET_TOO_LONG";
   case RADIOLIB_ERR_RX_TIMEOUT:
     return "ERR_RX_TIMEOUT";
-  case RADIOLIB_ERR_CRC_MISMATCH:
-    return "ERR_CRC_MISMATCH";
+  case RADIOLIB_ERR_MIC_MISMATCH:
+    return "ERR_MIC_MISMATCH";
   case RADIOLIB_ERR_INVALID_BANDWIDTH:
     return "ERR_INVALID_BANDWIDTH";
   case RADIOLIB_ERR_INVALID_SPREADING_FACTOR:
@@ -55,7 +78,6 @@ String stateDecode(const int16_t result) {
     return "ERR_INVALID_OUTPUT_POWER";
   case RADIOLIB_ERR_NETWORK_NOT_JOINED:
 	  return "RADIOLIB_ERR_NETWORK_NOT_JOINED";
-
   case RADIOLIB_ERR_DOWNLINK_MALFORMED:
     return "RADIOLIB_ERR_DOWNLINK_MALFORMED";
   case RADIOLIB_ERR_INVALID_REVISION:
@@ -74,38 +96,34 @@ String stateDecode(const int16_t result) {
     return "RADIOLIB_ERR_COMMAND_QUEUE_ITEM_NOT_FOUND";
   case RADIOLIB_ERR_JOIN_NONCE_INVALID:
     return "RADIOLIB_ERR_JOIN_NONCE_INVALID";
-  case RADIOLIB_ERR_N_FCNT_DOWN_INVALID:
-    return "RADIOLIB_ERR_N_FCNT_DOWN_INVALID";
-  case RADIOLIB_ERR_A_FCNT_DOWN_INVALID:
-    return "RADIOLIB_ERR_A_FCNT_DOWN_INVALID";
   case RADIOLIB_ERR_DWELL_TIME_EXCEEDED:
     return "RADIOLIB_ERR_DWELL_TIME_EXCEEDED";
   case RADIOLIB_ERR_CHECKSUM_MISMATCH:
     return "RADIOLIB_ERR_CHECKSUM_MISMATCH";
-  case RADIOLIB_LORAWAN_NO_DOWNLINK:
-    return "RADIOLIB_LORAWAN_NO_DOWNLINK";
+  case RADIOLIB_ERR_NO_JOIN_ACCEPT:
+    return "RADIOLIB_ERR_NO_JOIN_ACCEPT";
   case RADIOLIB_LORAWAN_SESSION_RESTORED:
     return "RADIOLIB_LORAWAN_SESSION_RESTORED";
   case RADIOLIB_LORAWAN_NEW_SESSION:
     return "RADIOLIB_LORAWAN_NEW_SESSION";
-  case RADIOLIB_LORAWAN_NONCES_DISCARDED:
-    return "RADIOLIB_LORAWAN_NONCES_DISCARDED";
-  case RADIOLIB_LORAWAN_SESSION_DISCARDED:
-    return "RADIOLIB_LORAWAN_SESSION_DISCARDED";
+  case RADIOLIB_ERR_NONCES_DISCARDED:
+    return "RADIOLIB_ERR_NONCES_DISCARDED";
+  case RADIOLIB_ERR_SESSION_DISCARDED:
+    return "RADIOLIB_ERR_SESSION_DISCARDED";
   }
-  return "See TypeDef.h";
+  return "See https://jgromes.github.io/RadioLib/group__status__codes.html";
 }
 
 // helper function to display any issues
-void debug(bool isFail, const __FlashStringHelper* message, int state, bool Freeze) {
-  if (isFail) {
+void debug(bool failed, const __FlashStringHelper* message, int state, bool halt) {
+  if(failed) {
     Serial.print(message);
     Serial.print(" - ");
     Serial.print(stateDecode(state));
     Serial.print(" (");
     Serial.print(state);
     Serial.println(")");
-    while (Freeze);
+    while(halt) { delay(1); }
   }
 }
 
@@ -117,15 +135,6 @@ void arrayDump(uint8_t *buffer, uint16_t len) {
     Serial.print(b, HEX);
   }
   Serial.println();
-}
-
-void memcpyr(uint8_t *dst, const uint8_t *src, uint16_t size)
-{
-    dst = dst + ( size - 1 );
-    while( size-- )
-    {
-        *dst-- = *src++;
-    }
 }
 
 #endif

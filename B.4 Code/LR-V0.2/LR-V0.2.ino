@@ -6,27 +6,11 @@
 
 // ############################### Libraries ######################################
 #include "config.h"
-// #include "EEPROM.h"
+#include "EEPROM.h"
 // #include <Wire.h>
 #include "SensorManager.h"
 
 // ############################### Variables and Configuration ######################################
-// Selecting Europe Region
-const LoRaWANBand_t Region = EU868;
-const uint8_t subBand = 0; 
-
-// SX1262 pin order: Module(NSS/CS, DIO1, RESET, BUSY);
-SX1262 radio = new Module(41, 39, 42, 40);
-
-// create the LoRaWAN node
-LoRaWANNode node(&radio, &Region, subBand);
-
-uint64_t joinEUI =   RADIOLIB_LORAWAN_JOIN_EUI;
-uint64_t devEUI  =   RADIOLIB_LORAWAN_DEV_EUI;
-uint8_t appKey[] = { RADIOLIB_LORAWAN_APP_KEY };
-uint8_t nwkKey[] = { RADIOLIB_LORAWAN_NWK_KEY };
-
-
 // #define LORAWAN_DEV_INFO_SIZE 36
 // uint8_t deviceInfo[LORAWAN_DEV_INFO_SIZE] = {0};
 
@@ -38,9 +22,7 @@ uint8_t nwkKey[] = { RADIOLIB_LORAWAN_NWK_KEY };
 uint8_t uplinkPayload[UPLINK_PAYLOAD_MAX_LEN] = {0};
 uint16_t uplinkPayloadLen = 0;
 
-uint32_t previousMillis = 0;
-
-// Preferences lorawanPrefs;
+// uint32_t previousMillis = 0;
 
 // ############################### Setup ######################################
 void setup() {
@@ -48,7 +30,7 @@ void setup() {
 
   sensorManager_init();
 
-  // For Storing Device Info
+  // // For Storing Device Info
   // if(!EEPROM.begin(LORAWAN_DEV_INFO_SIZE))
   // {
   //   Serial.println("Failed to initialize EEPROM");
@@ -62,37 +44,54 @@ void setup() {
   //   if(millis() - now >= 5000) break;
   // }
 
-  // Radio Setup
+  // // Radio Setup
   // deviceInfoLoad();
-  Serial.println(F("\nSetup... "));  
+  Serial.println(F("\nSetup... ")); 
+
   Serial.println(F("Initialise the radio"));
   int16_t state = radio.begin();
   debug(state!= RADIOLIB_ERR_NONE, F("Initialise radio failed"), state, true);
 
   // SX1262 rf switch order: setRfSwitchPins(rxEn, txEn);
   radio.setRfSwitchPins(38, RADIOLIB_NC);
-  
-  // // Loading the DevNonce
-  // uint16_t devNonce = 0;
-  // lorawanPrefs.begin("lorawan", false);
-  // devNonce = lorawanPrefs.getUShort("devnonce", 0);
 
   // Setup the OTAA session information
-  node.beginOTAA(joinEUI, devEUI, nwkKey, appKey);
-  // node.setDevNonce(devNonce);
-  Serial.println(F("Join ('login') the LoRaWAN Network"));
+  state = node.beginOTAA(joinEUI, devEUI, NULL, appKey);
+  debug(state != RADIOLIB_ERR_NONE, F("Initialise node failed"), state, true);
+  
+  // Restore Nonces from Flash
+  store.begin("radiolib", false);
+
+  if (store.isKey("nonces")) {
+    Serial.println(F("Restoring LoRaWAN nonces"));
+    store.getBytes("nonces", lwNonces, RADIOLIB_LORAWAN_NONCES_BUF_SIZE);
+    state = node.setBufferNonces(lwNonces);
+    debug(state != RADIOLIB_ERR_NONE, F("Restoring nonces failed"), state, false);
+  } else {
+    Serial.println(F("No stored nonces found"));
+  }
+
+  // Serial.println(F("Join ('login') the LoRaWAN Network"));
 
   // Joining TTN 
-  while(1)
-  {
-    state = node.activateOTAA(LORAWAN_UPLINK_DATA_RATE);
-    // devNonce++;
-    // lorawanPrefs.putUShort("devnonce", devNonce);
-    if(state == RADIOLIB_LORAWAN_NEW_SESSION) break;
-    debug(state!= RADIOLIB_LORAWAN_NEW_SESSION, F("Join failed"), state, true);
+  while (state != RADIOLIB_LORAWAN_NEW_SESSION) {
+    Serial.println(F("Joining LoRaWAN..."));
+    state = node.activateOTAA();
+
+    if (state == RADIOLIB_LORAWAN_NEW_SESSION) {
+      Serial.println(F("Join successful, saving nonces"));
+
+      uint8_t *persist = node.getBufferNonces();
+      memcpy(lwNonces, persist, RADIOLIB_LORAWAN_NONCES_BUF_SIZE);
+      store.putBytes("nonces", lwNonces, RADIOLIB_LORAWAN_NONCES_BUF_SIZE);
+      break;
+    }
+
+    Serial.print(F("Join failed: "));
+    Serial.println(state);
     delay(15000);
   }
-  // lorawanPrefs.end();
+  store.end();
 
   // Disable the ADR algorithm (on by default which is preferable)
   node.setADR(false);
@@ -107,11 +106,11 @@ void setup() {
   Serial.print("Attemping to send first message");
   uplinkPayload[0] = ID_DEVICE;
   uplinkPayload[1] = ID_READY;
-  state = node.sendReceive(uplinkPayload, 2, LORAWAN_UPLINK_USER_PORT);
-  while(state!= RADIOLIB_LORAWAN_NO_DOWNLINK && state!= RADIOLIB_ERR_NONE) {
+  state = node.sendReceive(uplinkPayload, 2);
+  while(state!= RADIOLIB_ERR_DOWNLINK_MALFORMED && state!= RADIOLIB_ERR_NONE) {
     Serial.print(".");
     delay(50);
-    state = node.sendReceive(uplinkPayload, 2, LORAWAN_UPLINK_USER_PORT);
+    state = node.sendReceive(uplinkPayload, 2);
     delay(1000);
   }
   Serial.println();
@@ -141,7 +140,7 @@ void loop() {
     Serial.println();
 
     // Checking LoRa State and Uploading
-    int16_t state = node.sendReceive(uplinkPayload, uplinkPayloadLen, LORAWAN_UPLINK_USER_PORT);
+    int16_t state = node.sendReceive(uplinkPayload, uplinkPayloadLen);
     // if (state!= RADIOLIB_LORAWAN_NO_DOWNLINK && state!= RADIOLIB_ERR_NONE) {
     //   Serial.println("Error in sendReceive:");
     //   Serial.println(state);
@@ -149,11 +148,11 @@ void loop() {
     //   Serial.println("Sending uplink successful!");
     //   Serial.println();
     // }
-    while(state!= RADIOLIB_LORAWAN_NO_DOWNLINK && state!= RADIOLIB_ERR_NONE) {
+    while(state!= RADIOLIB_ERR_DOWNLINK_MALFORMED && state!= RADIOLIB_ERR_NONE) {
       Serial.println("Error in sendReceive:");
       Serial.println(state);
       delay(50);
-      state = node.sendReceive(uplinkPayload, uplinkPayloadLen, LORAWAN_UPLINK_USER_PORT);
+      state = node.sendReceive(uplinkPayload, uplinkPayloadLen);
       delay(1000);
     }
     Serial.println("Sending uplink successful!");
@@ -195,8 +194,6 @@ void loop() {
 //     Serial.println(devEUI, HEX);
 //     Serial.print("AppKey:");
 //     arrayDump(appKey, 16);
-//     Serial.print("nwkKey:");
-//     arrayDump(nwkKey, 16);
 //   }
 //   else
 //   {

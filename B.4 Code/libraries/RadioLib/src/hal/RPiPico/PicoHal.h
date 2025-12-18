@@ -1,6 +1,8 @@
 #ifndef PICO_HAL_H
 #define PICO_HAL_H
 
+#if defined(RADIOLIB_BUILD_RPI_PICO)
+
 // include RadioLib
 #include <RadioLib.h>
 
@@ -8,6 +10,9 @@
 #include <pico/stdlib.h>
 #include "hardware/spi.h"
 #include "hardware/timer.h"
+#include "hardware/pwm.h"
+#include "hardware/clocks.h"
+#include "pico/multicore.h"
 
 // create a new Raspberry Pi Pico hardware abstraction 
 // layer using the Pico SDK
@@ -21,8 +26,7 @@ public:
     _spiSpeed(spiSpeed),
     _misoPin(misoPin),
     _mosiPin(mosiPin),
-    _sckPin(sckPin) {
-    }
+    _sckPin(sckPin){}
 
   void init() override {
     stdio_init_all();
@@ -65,7 +69,7 @@ public:
       return;
     }
 
-    gpio_set_irq_enabled_with_callback(interruptNum, GPIO_IRQ_EDGE_RISE | GPIO_IRQ_EDGE_FALL, true, (gpio_irq_callback_t)interruptCb);
+    gpio_set_irq_enabled_with_callback(interruptNum, mode, true, (gpio_irq_callback_t)interruptCb);
   }
 
   void detachInterrupt(uint32_t interruptNum) override {
@@ -110,6 +114,12 @@ public:
     return (this->micros() - start);
   }
 
+  void tone(uint32_t pin, unsigned int frequency, unsigned long duration = 0) override;
+
+  void noTone(uint32_t pin) override {
+    multicore_reset_core1();
+  }
+
   void spiBegin() {
     spi_init(_spiChannel, _spiSpeed);
     spi_set_format(_spiChannel, 8, SPI_CPOL_0, SPI_CPHA_0, SPI_MSB_FIRST);
@@ -123,6 +133,10 @@ public:
 
   void spiTransfer(uint8_t *out, size_t len, uint8_t *in) {
     spi_write_read_blocking(_spiChannel, out, in, len);
+  }
+
+  void yield() override {
+  	tight_loop_contents();
   }
 
   void spiEndTransaction() {}
@@ -139,5 +153,7 @@ private:
   uint32_t _mosiPin;
   uint32_t _sckPin;
 };
+
+#endif
 
 #endif
