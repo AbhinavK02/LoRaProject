@@ -18,7 +18,7 @@ void sensorManager_init() {
   scale.set_scale(955.f); // Set the default (calibrated against scale)
   scale.tare();
   scale.power_down(); // Put HX711 to sleep to save power
-  delay(500);
+  delay(2000);
   SensorReading weightReading = readWeightSensor();
   weightState_prev = weightReading.value; // initial weight state
 
@@ -68,6 +68,8 @@ SensorReading readWeightSensor() {
       weightState = 0;
       Serial.println("No package");
    }
+  }
+  else {
     Serial.println("HX711 not found.");
   }
 
