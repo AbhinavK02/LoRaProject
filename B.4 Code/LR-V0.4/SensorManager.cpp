@@ -15,8 +15,8 @@ uint8_t weightState_prev = 0;
 void sensorManager_init() {
   // Weight Sensor
   scale.begin(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN); // initiliase weight sensor
-  scale.set_scale(955.f); // Set the default (calibrated against scale)
-  scale.tare();
+  scale.set_scale(883.f); // Set the default (calibrated against scale)
+  // scale.tare();
   scale.power_down(); // Put HX711 to sleep to save power
   delay(2000);
   SensorReading weightReading = readWeightSensor();
@@ -50,23 +50,23 @@ SensorReading readWeightSensor() {
   reading.id = ID_WEIGHT_SENSOR; 
 
   if (scale.is_ready()) {
-    weight = scale.get_units(10); // Average of 10 readings normalised (based on calibration)
+    weight = scale.get_units(10) - 270; // Normalised Average of 10 readings (based on calibration)
     Serial.print("[Sensor 0x01] Weight: ");
     Serial.print(weight);
     if (weight > weight_thres_heavy) { // If weight is above our threshold
       weightState = 3;
-      Serial.println("Heavy package detected");
+      Serial.println(" Heavy package detected");
     } else if (weight > weight_thres_medium){
       weightState = 2;
-      Serial.println("Medium package detected");
+      Serial.println(" Medium package detected");
     }
     else if (weight > weight_thres_light){
       weightState = 1;
-      Serial.println("Light package detected");
+      Serial.println(" Light package detected");
     }
    else {
       weightState = 0;
-      Serial.println("No package");
+      Serial.println(" No package");
    }
   }
   else {
@@ -141,7 +141,7 @@ void goToSleep(){
 uint16_t detectMail(uint8_t* payloadBuffer){
   uint16_t len = 0;  
   payloadBuffer[len++] = ID_DEVICE; // Device ID
-  delay(40000); // Wait for mail to be placed
+  delay(25000); // Wait for mail to be placed
   SensorReading weightReading = readWeightSensor(); // read the weight sensor value
   SensorReading batteryReading = batteryMonitor(); // read the battery voltage
   weightState_curr = weightReading.value;         // Set current state from reading
