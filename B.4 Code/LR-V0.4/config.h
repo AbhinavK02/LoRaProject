@@ -154,7 +154,7 @@ int16_t lwActivate() {
     store.getBytes("nonces", lwNonces, RADIOLIB_LORAWAN_NONCES_BUF_SIZE);
     state = node.setBufferNonces(lwNonces);
     debug(state != RADIOLIB_ERR_NONE, F("Restoring nonces failed"), state, false);
-
+  
     // Restore session from RTC
     state = node.setBufferSession(lwSession);
 
@@ -168,12 +168,17 @@ int16_t lwActivate() {
       } else if (state == RADIOLIB_LORAWAN_NEW_SESSION) {
         Serial.println(F("Join successful, saving nonces"));
         uint8_t *persist = node.getBufferNonces();
+        Serial.print("Dev Nonces: ");
+        Serial.println((char*)persist);
         memcpy(lwNonces, persist, RADIOLIB_LORAWAN_NONCES_BUF_SIZE);
         store.putBytes("nonces", lwNonces, RADIOLIB_LORAWAN_NONCES_BUF_SIZE);
         break;
       }
       Serial.print(F("Join failed: "));
       Serial.println(state);
+      uint8_t *persist = node.getBufferNonces();
+      Serial.print("Dev Nonces: ");
+      Serial.println((char*)persist);
       delay(5000); // Retry every 5s
     }
     store.end();
