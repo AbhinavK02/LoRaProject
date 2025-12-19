@@ -24,6 +24,10 @@
 
 #define LORAWAN_UPLINK_DATA_MAX   115 // byte
 
+#define UPLINK_PAYLOAD_MAX_LEN  256
+uint8_t uplinkPayload[UPLINK_PAYLOAD_MAX_LEN] = {0};
+uint16_t uplinkPayloadLen = 0;
+
 // Define IDs for payload encoding 
 #define ID_READY 0x07
 
@@ -36,8 +40,8 @@ Preferences store;
 // Buffer for LoRaWAN nonces
 uint8_t lwNonces[RADIOLIB_LORAWAN_NONCES_BUF_SIZE];
 
-// (Optional, but recommended later)
-uint8_t lwSession[RADIOLIB_LORAWAN_SESSION_BUF_SIZE];
+// Buffer fpr Session
+RTC_DATA_ATTR uint8_t lwSession[RADIOLIB_LORAWAN_SESSION_BUF_SIZE];
 
 // Selecting Europe Region
 const LoRaWANBand_t Region = EU868;
@@ -112,7 +116,6 @@ String stateDecode(const int16_t result) {
   }
   return "See https://jgromes.github.io/RadioLib/group__status__codes.html";
 }
-
 // helper function to display any issues
 void debug(bool failed, const __FlashStringHelper* message, int state, bool halt) {
   if(failed) {
@@ -125,7 +128,6 @@ void debug(bool failed, const __FlashStringHelper* message, int state, bool halt
     while(halt) { delay(1); }
   }
 }
-
 // helper function to display a byte array
 void arrayDump(uint8_t *buffer, uint16_t len) {
   for(uint16_t c = 0; c < len; c++) {
@@ -135,5 +137,127 @@ void arrayDump(uint8_t *buffer, uint16_t len) {
   }
   Serial.println();
 }
+// Activating LoRa and Additional Set up
+int16_t lwActivate() {
+  int16_t state = RADIOLIB_ERR_UNKNOWN;
+  
+  // Setup the OTAA session information
+  state = node.beginOTAA(joinEUI, devEUI, NULL, appKey);
+  debug(state != RADIOLIB_ERR_NONE, F("Initialise node failed"), state, true);
+  
+  // Opening Memory
+  store.begin("radiolib", false);
+  
+  // Restore Nonces from Flash
+  if (store.isKey("nonces")) {
+    Serial.println(F("Restoring LoRaWAN nonces"));
+    store.getBytes("nonces", lwNonces, RADIOLIB_LORAWAN_NONCES_BUF_SIZE);
+    state = node.setBufferNonces(lwNonces);
+    debug(state != RADIOLIB_ERR_NONE, F("Restoring nonces failed"), state, false);
 
+    // Restore session from RTC
+    state = node.setBufferSession(lwSession);
+
+    // Joining TTN (if restore not immediate)
+    while (state != RADIOLIB_LORAWAN_NEW_SESSION) {
+      Serial.println(F("Joining LoRaWAN..."));
+      state = node.activateOTAA();
+      if (state == RADIOLIB_LORAWAN_SESSION_RESTORED) {
+        Serial.println(F("LoRaWAN session restored"));
+        break;
+      } else if (state == RADIOLIB_LORAWAN_NEW_SESSION) {
+        Serial.println(F("Join successful, saving nonces"));
+        uint8_t *persist = node.getBufferNonces();
+        memcpy(lwNonces, persist, RADIOLIB_LORAWAN_NONCES_BUF_SIZE);
+        store.putBytes("nonces", lwNonces, RADIOLIB_LORAWAN_NONCES_BUF_SIZE);
+        break;
+      }
+      Serial.print(F("Join failed: "));
+      Serial.println(state);
+      delay(5000); // Retry every 5s
+    }
+    store.end();
+    return(state);
+  } else {
+    Serial.println(F("No stored nonces found"));
+  }
+
+  // If nonces not found, starting fresh
+  state = RADIOLIB_ERR_NETWORK_NOT_JOINED;
+  // Joining TTN 
+  while (state != RADIOLIB_LORAWAN_NEW_SESSION) {
+    Serial.println(F("Joining LoRaWAN fresh..."));
+    state = node.activateOTAA();
+
+    // Storing Nonces
+    uint8_t *persist = node.getBufferNonces();
+    memcpy(lwNonces, persist, RADIOLIB_LORAWAN_NONCES_BUF_SIZE);
+    store.putBytes("nonces", lwNonces, RADIOLIB_LORAWAN_NONCES_BUF_SIZE);
+
+    if(state == RADIOLIB_LORAWAN_NEW_SESSION) break;
+
+    // Fail and Retry
+    Serial.print(F("Join failed: "));
+    Serial.println(state);
+    delay(5000); // Retry every 5s
+  }
+  Serial.println(F("Join successful"));
+
+  delay(1000);
+  store.end();
+
+  // Disable the ADR algorithm (on by default which is preferable)
+  node.setADR(false);
+
+  // Set a fixed datarate
+  node.setDatarate(LORAWAN_UPLINK_DATA_RATE);
+
+  // Manages uplink intervals to the TTN Fair Use Policy
+  node.setDutyCycle(false);
+
+  // Return the state for debugging
+  return(state);
+}
+int16_t lwUplink(uint8_t* payloadBuffer){
+  int16_t state = RADIOLIB_ERR_UNKNOWN;
+  // Checking if payload is complete
+  if (uplinkPayloadLen >= 2){ // if complete, upload
+    // Printing upload info
+    Serial.print("Uplink payload length: ");
+    Serial.println(uplinkPayloadLen);
+    // Output the uplink payload for debugging
+    Serial.print("Uplink payload: ");
+    for (int i = 0; i < uplinkPayloadLen; i++) {
+      Serial.print(uplinkPayload[i], HEX);
+      Serial.print(" ");
+    }
+    Serial.println();
+
+    // Uplink
+    state = node.sendReceive(uplinkPayload, uplinkPayloadLen);
+    while(state!= RADIOLIB_ERR_DOWNLINK_MALFORMED && state!= RADIOLIB_ERR_NONE) {
+      Serial.println("Error in sendReceive:");
+      Serial.println(state);
+      delay(50);
+      state = node.sendReceive(uplinkPayload, uplinkPayloadLen);
+      delay(1000);
+    }
+    // Saving session to RTC memory
+    if (state == RADIOLIB_ERR_NONE || state == RADIOLIB_ERR_DOWNLINK_MALFORMED) {
+      Serial.print(F("FCntUp = "));
+      Serial.println(node.getFCntUp());
+      
+      uint8_t *s = node.getBufferSession();
+      memcpy(lwSession, s, RADIOLIB_LORAWAN_SESSION_BUF_SIZE);
+
+      Serial.println("Sending uplink successful!");
+      Serial.println();
+    }
+    // Return the state for debugging
+    return(state);
+  } else {
+    Serial.println("Payload insufficient size");
+    return(state);
+  }
+}
 #endif

@@ -131,7 +131,7 @@ void goToSleep(){
 uint16_t detectMail(uint8_t* payloadBuffer){
   uint16_t len = 0;  
   payloadBuffer[len++] = ID_DEVICE; // Device ID
-  delay(5000); // Wait for mail to be placed
+  delay(40000); // Wait for mail to be placed
   SensorReading weightReading = readWeightSensor(); // read the weight sensor value
   SensorReading batteryReading = batteryMonitor(); // read the battery voltage
   weightState_curr = weightReading.value;         // Set current state from reading
