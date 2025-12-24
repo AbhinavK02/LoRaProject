@@ -50,14 +50,15 @@ For The Talking Mailbox project to produce a functional product upon close out, 
     \item The budget is 100\euro{}.
     \item The project workload is estimated at 100\,h.
     \item The project schedule adheres to the following deadlines:
-		\\
-		\\
+    \vspace{0.5em}
     \begin{tabular}{@{\hspace{2em}} l r @{}}
-        Pitch: & 2025-10-21 \\
-        Bill of Materials: & 2025-10-23 \\
-        Schematic Design: & 2025-11-23 \\
-        Project Implementation: & 2025-12-19 \\
-        Project Report: & 2026-01-05 \\
-        Project Presentation and Demo: & 2026-01-17
-    \end{tabular}
+			\begin{itemize}
+					\item Pitch: & 2025-10-21 \\
+					\item Bill of Materials: & 2025-10-23 \\
+					\item Schematic Design: & 2025-11-23 \\
+					\item Project Implementation: & 2025-12-19 \\
+					\item Project Report: & 2026-01-05 \\
+					\item Project Presentation and Demo: & 2026-01-17
+			\end{itemize}
+		\end{tabular}
 \end{itemize}

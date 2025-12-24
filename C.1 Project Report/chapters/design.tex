@@ -1,7 +1,11 @@
 \section{Methodology and Design}
+\label{sec: methodologyAndDesign}
 \subsection{Design Approach}
+\label{sec: designApproach}
 \subsection{System Design}
+\label{sec: systemDesign}
 \subsubsection{System Architecture}
+\label{sec: systemArchitechture}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{LoRa_FSD.png}
@@ -9,6 +13,73 @@
     \label{fig:fsd}
 \end{figure}
 \subsubsection{Schematic Design}
+\label{sec: schematicDesign}
 \subsubsection{3D Design}
+\label{sec: 3dDesign}
+As understood from Section \ref{sec: loadCells}, to reliably detect any weight, the load cell must be allowed to bent as easily as possible. To prevent any mail from "`missing"' the detection platform, the platform must cover the entire box area. The design which allows us to do this is shown in Figure \ref{fig: 3dModels}.
+% Ensure you have this in your preamble (before \begin{document}):
+% 
+
+\begin{figure}[ht]
+     \centering
+     \begin{subfigure}{0.48\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{LoadCellArrangement.png}
+         \caption{3D Model of Load Cell Arrangement}
+         \label{fig: loadCellArrangement}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}{0.48\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{Platform.png}
+         \caption{Platform for mail detection}
+         \label{fig: platform} 
+     \end{subfigure}
+     \caption{3D Model of detection platform}
+     \label{fig: 3dModels}
+\end{figure}
+The height with the hex nuts, allow the load cell to have clearance to bend during load from the upper platform. The off center screw platform on both platform allow for best readings from the load cell. The size of the upper platform should match the post box size, however the lower platform allows for flexibility, it can be made just large enough to not cause toppling over and allow us to place necessary modules (such as the HX711). \\
+Some other design considerations include the requirement of the platform being rigid and lightweight, to allow load cell to be as sensitive as possible. A good material to use for the platform is wood. The screws should also be flat with the platform, to prevent mail from tearing / getting stuck.
+Keeping all these design considerations in mind, the following final product can be seen in Figure \ref{fig: finalProduct}.
+\begin{figure}[h]
+         \centering
+         \includegraphics[totalheight=6cm]{finalProduct.jpeg}
+         \caption{Final product inside the post box}
+         \label{fig: finalProduct}
+     \end{figure}
 \subsubsection{Bill of Materials}
+\label{sec: billOfMaterials}
+This is an estimate of the materials required to make this project, these are all over estimates, as all components/materials except 2.1 - 2.6 were used from the university stock.
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|c|l|l|c|l|r|}
+        \hline
+        \textbf{Item} & \textbf{Part} & \textbf{Description} & \textbf{Qty} & \textbf{Notes} & \textbf{Price (€)} \\ \hline
+        
+        \rowcolor[gray]{0.9} \multicolumn{6}{|l|}{\textbf{1.0 Mechanical Components}} \\ \hline
+        1.1 & Top Plate & Detection Plate & 1 & Wood (40x30x0.5cm) & 5.00 \\ \hline
+        1.2 & Bottom Plate & Base for load cell & 1 & Wood (15x15x0.5cm) & 3.00 \\ \hline
+        1.3 & M4 Screw & Top plate screw & 2 & - & 1.00 \\ \hline
+        1.4 & M4 Hex Nut & Height spacer nut & 4 & - & 0.50 \\ \hline
+        1.5 & M5 Screw & Bottom plate screw & 2 & - & 1.00 \\ \hline
+        1.6 & M4 Hex Nut & Height spacer nut & 4 & - & 0.50 \\ \hline
+        
+        \rowcolor[gray]{0.9} \multicolumn{6}{|l|}{\textbf{2.0 Electrical Components}} \\ \hline
+        2.1 & Load Cell + HX711 & Load cell + Amplifier module & 1 & JOY-IT & 6.40 \\ \hline
+        2.2 & Tilt Switch & Ball tilt switch & 1 & IDUINO & 0.94 \\ \hline
+        2.3 & LDR & Light resistor & 1 & SERTRONICS & 1.35 \\ \hline
+        2.4 & Battery & 1800 mAh Li-Ion & 1 & SOLDERED & 10.24 \\ \hline
+        2.5 & MCU + LoRa & Xiao ESP32 + SX1262 & 1 & Seeedstudio & 11.68 \\ \hline
+        2.6 & Antenna & Longer antenna & 1 & Amphenol-SAA & 2.69 \\ \hline
+				2.7 & -- kOhm resistor & Through Hole & 1 & YAGEO & 0.10 \\ \hline
+				2.8 & -- kOhm resistor & Through Hole & 1 & YAGEO & 0.10 \\ \hline
+				2.9 & Wires & Jumper wires of different length & - & - & 0.30 \\ \hline
+        \hline
+        \multicolumn{5}{|r|}{Tax (VAT 20\%)} & 8.96 \\ \hline
+        \multicolumn{5}{|r|}{\textbf{Grand Total (€)}} & \textbf{53.76} \\ \hline
+    \end{tabular}
+    \caption{Combined Mechanical and Electrical Bill of Materials with Total Cost}
+    \label{tab: bom}
+\end{table}
 \subsection{Validation Method}
+\label{sec: validationMethod}

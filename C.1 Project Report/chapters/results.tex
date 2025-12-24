@@ -1,4 +1,49 @@
 \section{Results and Implementation}
+\label{sec: resultAndImplementation}
 \subsection{Implementation}
+\label{sec: implementation}
+\subsubsection{Backend Implementation - Application Layer}
+\label{sec: backendImplementation}
+The LoRaWAN is able to send the bits to The Things Network. However for these to be actually useful to the user they must be decoded and used to represent relevant information for a user, this includes the mail status, the battery and which post box it is. For this first a payload decoder must be made. This is made keeping in mind how bits were encoded in the first place. The decoder can be seen in Listing \ref{lst: payloadDecoder}
+\begin{lstlisting}[caption={Payload Decoder Function}, label={lst: payloadDecoder}]
+function Decoder(payload, port) {
+    if (payload.length < 4) {
+        return [
+            { field: "ERROR", value: "Payload too short or empty" },
+            { field: "RAW_HEX", value: payload.map(function(b){return ("0" + b.toString(16)).slice(-2)}).join("") }
+        ];
+    }
+    
+    var id = payload[0];
+    id = parseInt(id.toString(16));
+    var stateByte = payload[1];
+    var valueID = payload[2];
+    var val = payload[3];
+    var statusText = "Unknown";
+    var valueType = "Unknown";
+    
+    if (stateByte === 0x04) statusText = "Tampering Alert";
+    else if (stateByte === 0x05) statusText = "Heavy Mail";
+    else if (stateByte === 0x06) statusText = "Medium Mail";
+    else if (stateByte === 0x07) statusText = "Light Mail";
+    else if (stateByte === 0x08) statusText = "No Mail";
+    
+    if(valueID === 0x09) valueType = "BATTERY"; 
+    
+    if (id === 0x33) box = "SAN Postbox";
+    else box = "Unknown box";
+    
+    return [
+        { field: "DEVICE_ID", value: id },
+        { field: "STATE_CODE", value: stateByte },
+        { field: "STATUS_MESSAGE", value: statusText },
+        { field: "BOX_NAME", value: box},
+        { field: valueType, value: val}
+    ];
+}
+\end{lstlisting}
+This allows us to correctly identify if a heavy, medium or light package was detected. This information can then be used to update the website to represent the appropriate information and also be included in the mail sent to the user.
 \subsubsection{Issues}
+\label{sec: issues}
 \subsection{Validation Results}
+\label{sec: validationResults}

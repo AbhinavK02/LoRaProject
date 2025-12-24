@@ -1,3 +1,56 @@
 \section{Theoretical Background}
+\label{theoreticalBackground}
+% ------------------------------
+Before starting with actual project, some theoretical framework is required.
 
-\subsection{LoRaWAN}
+\subsection{Communication}
+\label{sec: communication}
+As for the communication, this project used LoRa as the communication encoding and LoRaWAN as the MAC Protocol.
+\subsubsection{LoRa}
+\label{sec: lora}
+\textbf{LoRa} (\textbf{Lo}ng \textbf{Ra}nge) is the physical layer and is a modulation technique which allows for wireless communication. It is able to send information long ranges, with relatively less energy. It is derived from Chirp Spread Spectrum (CSS).
+It encodes information similar to how bats/dolphins communicate.
+LoRa is used extensively with sensors and actuator projects for the following reasons:
+\begin{itemize}
+	\item Low power consumption
+		\begin{itemize}
+			\item Transmitting: ~10 mA
+			\item Sleep: ~100 nA
+		\end{itemize}
+	\item Long range $\rightarrow$ upto ~15 km
+	\item Robust against interferences
+\end{itemize}
+There are many more reasons as well, but these are the primary which were kept in mind for selecting it for this project. \\
+LoRa works on a license free frequency range, in Europe this is EU868 (863–870/873 MHz). This will be used in this project (Precisely: 868.1 MHz).
+\subsubsection{LoRaWAN}
+\label{sec: lorawan}
+\textbf{LoRaWAN} (\textbf{LoRa W}ide \textbf{A}rea \textbf{N}etwork) on the other hand is the data link layer on top of LoRa. It defines the communication protocols and architecture.
+After the initial release in January 2015, many versions have been released, with latest being 1.0.4 (Series 1.0) and 1.1 (Series 1.1) being released in October 2020 and October 2017 respectively. (Yes, 1.0.4 is newer than 1.1). The version used in this project is 1.0.4, for reasons which will be explained later in Section \ref{sec: issues}.\\
+Figure \ref{fig: LoRaLoRaWAN}, shows how LoRa and LoRaWAN differ and work together.
+\begin{figure}[h]
+	\centering
+		\includegraphics[totalheight=4cm]{LoRavsLoRaWAN.jpg}
+			\caption{LoRa and LoRaWAN}
+			\label{fig: LoRaLoRaWAN}
+\end{figure}
+\subsection{Sensors}
+This project used 3 sensors, their functioning has been briefly described below. This framework is essential to understand the design choices made in this project in Section \ref{sec: systemDesign}.
+\label{sec: sensors}
+\subsubsection{Load Cells}
+\label{sec: loadCells}
+Load Cells are the primary sensor for this project and should be able to detect the presence of mail. Load cells are used to measure force, and hence can achieve this task. The specific load cell used in this project, is a strain gauge load cell. Strain gauges in the cell are arranged in a way that applying force changes resistance of the gauges in arranged in a wheatstone bridge and hence send out a voltage. This voltage is very small, and hence must be amplified. This amplification is done with the HX711 board, which makes it readable for the microcontroller (ESP32-S3). More specific details regarding these equipment can be seen in Section \ref{sec: billOfMaterials}.\\
+\subsubsection{Tilt Switch}
+\label{sec: tiltSwitch}
+Tilt switch is being used to detect the opening of the lid of the postbox. There are multiple types of tilt switches mechanical (rolling ball/ liquid mercury) or electronic (MEMs). The one used in this project is a mechanical rolling ball switch, due to its lower voltage requirement as well as it being a safer option. The functioning can be demonstrated by Figure \ref{fig: tiltSwitch}. 
+\begin{figure}[h]
+	\centering
+	\includegraphics[totalheight=4cm]{tiltSwitch.png}
+		\caption{Tilt switch working}
+		\label{fig: tiltSwitch}
+\end{figure}
+Whenever the switch is in a specific orientation the ball allows for contact and hence making an electrical connection, else there is no connection.
+\subsubsection{LDR}
+\label{sec: ldr}
+A light dependent resistor is just a resistor which varies its resistance based on the light intensity. This can be detected and hence compared to a threshold to check if the box is open or not.
+
+

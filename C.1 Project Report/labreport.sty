@@ -16,6 +16,8 @@
 \RequirePackage{eurosym}
 \RequirePackage[justification=raggedright,singlelinecheck=false]{caption}
 \RequirePackage[none]{hyphenat}
+\RequirePackage{subcaption}
+\RequirePackage[table]{xcolor}
 
 % Document geometry
 \geometry{margin=1in}
@@ -56,8 +58,8 @@
 }
 
 % ------------ Subsection Style ------------
-\titleformat{\subsubsection}{\normalfont}{}{0pt}{\underline}
-
+%\titleformat{\subsubsection}{\normalfont}{}{0pt}{\underline}{\textbf}
+% I dont really like the underlined version - Abhinav
 % ------------ Code Listing Style ------------
 \lstset{
     basicstyle=\ttfamily\footnotesize,
@@ -71,6 +73,30 @@
     showstringspaces=false,
     tabsize=2,
     captionpos=b
+}
+
+% --- DEFINE JAVASCRIPT ---
+\lstdefinelanguage{JavaScript}{
+  keywords={break, case, catch, continue, debugger, default, delete, do, else, false, finally, for, function, if, in, instanceof, new, null, return, switch, this, throw, true, try, typeof, var, void, while, with, parseInt, length, map, join, slice, toString},
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]',
+  morestring=[b]"
+}
+
+% --- SET STYLE ---
+\lstset{
+    language=JavaScript,
+    backgroundcolor=\color{white},
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue}\bfseries,
+    stringstyle=\color{red},
+    commentstyle=\color{green!50!black},
+    breaklines=true,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    frame=single,
+    showstringspaces=false
 }
 
 % ------------ Command Definitions ------------
