@@ -4,46 +4,254 @@
 \label{sec: implementation}
 \subsubsection{Backend Implementation - Application Layer}
 \label{sec: backendImplementation}
-The LoRaWAN is able to send the bits to The Things Network. However for these to be actually useful to the user they must be decoded and used to represent relevant information for a user, this includes the mail status, the battery and which post box it is. For this first a payload decoder must be made. This is made keeping in mind how bits were encoded in the first place. The decoder can be seen in Listing \ref{lst: payloadDecoder}
-\begin{lstlisting}[caption={Payload Decoder Function}, label={lst: payloadDecoder}]
-function Decoder(payload, port) {
-    if (payload.length < 4) {
-        return [
-            { field: "ERROR", value: "Payload too short or empty" },
-            { field: "RAW_HEX", value: payload.map(function(b){return ("0" + b.toString(16)).slice(-2)}).join("") }
-        ];
-    }
-    
-    var id = payload[0];
-    id = parseInt(id.toString(16));
-    var stateByte = payload[1];
-    var valueID = payload[2];
-    var val = payload[3];
-    var statusText = "Unknown";
-    var valueType = "Unknown";
-    
-    if (stateByte === 0x04) statusText = "Tampering Alert";
-    else if (stateByte === 0x05) statusText = "Heavy Mail";
-    else if (stateByte === 0x06) statusText = "Medium Mail";
-    else if (stateByte === 0x07) statusText = "Light Mail";
-    else if (stateByte === 0x08) statusText = "No Mail";
-    
-    if(valueID === 0x09) valueType = "BATTERY"; 
-    
-    if (id === 0x33) box = "SAN Postbox";
-    else box = "Unknown box";
-    
-    return [
-        { field: "DEVICE_ID", value: id },
-        { field: "STATE_CODE", value: stateByte },
-        { field: "STATUS_MESSAGE", value: statusText },
-        { field: "BOX_NAME", value: box},
-        { field: valueType, value: val}
-    ];
-}
+This section covers the implementation of the backend server and application layer, which is responsible for receiving data from The Things Network, decoding the payload, storing the data, and providing a user interface for monitoring the mailbox status.
+The link with the The Things Network is done using webhooks, which send HTTP POST requests to the python server whenever new data is received from the LoRaWAN device.
+
+\medskip
+\textbf{\underline{Payload Decoder}}
+\smallskip
+
+\label{sec: payloadDecoder}
+The LoRaWAN is able to send the bits to The Things Network. However for these to be actually useful to the user they must be 
+decoded and used to represent relevant information for a user, this includes the mail status, the battery and which post box it is. For this first a payload decoder must be made. This is made keeping in mind how bits were encoded in the first place. The decoder can be seen in Listing \ref{lst: payloadDecoder}
+\begin{lstlisting}[language=Python, caption={Payload Decoder Function}, label={lst: payloadDecoder}]
+def decode_mailbox_data(base64_string):
+    try:
+        raw_bytes = base64.b64decode(base64_string)
+        if len(raw_bytes) < 4:
+            return None, "Error: Short Data", "red", None
+
+        # 1. Decode ID (Hex to Int logic)
+        try:
+            device_id = int(f"{raw_bytes[0]:x}") 
+        except:
+            device_id = raw_bytes[0]
+
+        state_byte = raw_bytes[1]
+        value_id = raw_bytes[2]
+        val = raw_bytes[3]
+
+        # 2. Decode Status (Aligned with new JS Decoder)
+        if state_byte == 0x04:
+            status, color = "Tampering Alert", "red"
+        elif state_byte == 0x05:
+            status, color = "Heavy Mail", "#004d40" 
+        elif state_byte == 0x06:
+            status, color = "Medium Mail", "#00897b" 
+        elif state_byte == 0x07:
+            status, color = "Light Mail", "#4db6ac" 
+        elif state_byte == 0x08:
+            status, color = "No Mail", "blue"
+        else:
+            status, color = f"Unknown: {hex(state_byte)}", "orange"
+
+        # 3. Decode Battery (valueID 0x09)
+        battery = val if value_id == 0x09 else None
+
+        return device_id, status, color, battery
+            
+    except Exception as e:
+        logger.error(f"Decoding error: {e}")
+        return None, "Decoding Failed", "black", None
 \end{lstlisting}
 This allows us to correctly identify if a heavy, medium or light package was detected. This information can then be used to update the website to represent the appropriate information and also be included in the mail sent to the user.
-\subsubsection{Issues}
-\label{sec: issues}
+
+The key parts of the decoder are explained below:
+\begin{itemize}
+    \item "state\_byte" is used to determine the mail status, this is done by checking the value of the byte and mapping it to the appropriate status message.
+    \item There is return at the start for robustness, in case the payload is too short or empty. 
+    \item "value\_id" has been used as a form of future proofing, in case more values are added to the payload in the future.
+\end{itemize}
+For actual mapping of device ID to device name and email addresses, a dictionary is used as shown in Listing \ref{lst: deviceMapping}.
+\begin{lstlisting}[language=Python, caption={Device mapping method}, label={lst: deviceMapping}]
+    # --- Device Mapping ---
+    DEVICE_NAMES = {
+        33: "PostBox SAN" 
+    }
+    # --- Email Mapping ---
+    DEVICE_RECIPIENTS = {
+        33: "email1@gmail.com, email2@gmail.com"
+    }
+\end{lstlisting}
+More can be added as just new rows with the similar syntax just a comma at the end of all rows except the last one. 
+Multiple email addresses can also be added by separating them with a comma within the double quotes.\\
+
+\medskip
+\textbf{\underline{Frontend Implementation - User Interface}}
+\smallskip
+
+\label{sec: frontendImplementation}
+For the actual server, which the user interacts, with a python server was created. This server uses the Flask framework to create a simple web application that displays the status of the mailbox. 
+The server listens for incoming data from The Things Network and updates the mailbox status accordingly. The relevant code snippet is shown in Listing \ref{lst: flaskServer}
+\begin{lstlisting}[caption={Flask Server Code Snippet}, label={lst: flaskServer}]
+@app.route('/', methods=['GET'])
+def show_dashboard():
+    d = dashboard_data
+    html = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Mailbox Monitor</title>
+        <meta http-equiv="refresh" content="5">
+        <style>
+            body {  
+                font-family: 'Segoe UI', sans-serif; 
+                text-align: center; 
+                padding: 40px; 
+                background-color: #f0f2f5; }
+            .card { 
+                background: white; 
+                padding: 40px; 
+                border-radius: 15px; 
+                display: inline-block; 
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);                     
+                width: 450px; }
+            .status-box {   
+                font-size: 32px;                         
+                font-weight: bold; 
+                margin: 20px 0; 
+                padding: 20px; 
+                color: white; 
+                border-radius: 10px; 
+                background-color: {{ d.status_color }}; }
+            .battery-indicator { 
+                font-weight: bold; 
+                font-size: 18px; 
+                padding: 5px 15px; 
+                border-radius: 20px; 
+                display: inline-block; 
+                color: white; 
+                background-color: {{ d.battery_color }}; }
+            .meta { 
+                color: #888; 
+                font-size: 13px; 
+                margin-top: 15px; }
+            table { 
+                width: 100%; 
+                border-collapse: 
+                collapse; 
+                margin-top: 20px; 
+                text-align: left; }
+            th, td { 
+                padding: 10px; 
+                border-bottom: 1px 
+                solid #eee; 
+                font-size: 14px; }
+            .dot { 
+                height: 10px; 
+                width: 10px; 
+                border-radius: 50%; 
+                display: inline-block; 
+                margin-right: 5px; }
+        </style>
+    </head>
+    <body>
+        <div class="card">
+            <h1>Smart Mailbox</h1>
+            <h2 style="color:#666">{{ d.device_name }}</h2> 
+            <div class="status-box">{{ d.status_text }}</div>
+            <div class="battery-indicator">{{ d.battery_level }}</div>
+            <p class="meta">Last Update: {{ d.timestamp }}</p>
+            <h3>Recent Activity</h3>
+            <table>
+                <tr><th>Time</th><th>Event</th><th>Bat</th></tr>
+                {% for event in d.history %}
+                <tr>
+                    <td>{{ event.time }}</td> 
+                    <td>
+                        <span class="dot" 
+                            style="background-color: {{ event.color }};">
+                        </span>{{ event.status }}</td>
+                    <td>{{ event.battery }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </body>
+    </html>
+    """
+    return render_template_string(html, d=d)
+\end{lstlisting}
+
+\subsubsection{Issues with static IP and hosting}
+\label{sec: issuesWithStaticIPAndHosting}
+The server was initally hosted locally, however to provide access to the user over the web, a public IP address was required. This was also meant to be static, so user can always access the server
+without having to worry about changing IP addresses. This is what led to the use of ngrok, which allows for a static IP address to be used. However, this meant the user had to run multiple scripts to start the server. 
+Which can be annoying for a non technical user. 
+
+To combat this issue, a .bat file was created, which runs all the necessary commands to start the server and ngrok tunnel. 
+This allows the user to just double click the .bat file and have everything start automatically. This also helps us solve another issue, which is incase the required python libraries are not installed, the script checks 
+for them and installs them if they are missing. It also hides all ngrok instances, to prevent confusion. The bat script contents can be seen in Listing \ref{lst: batScript}
+\begin{lstlisting}[breaklines=true, caption={.bat Script to start server and ngrok}, label={lst: batScript}]
+@echo off
+title Smart Mailbox Dashboard
+color 0A
+
+echo ========================================================
+echo          SMART MAILBOX PROJECT LAUNCHER
+echo ========================================================
+echo.
+
+:: --- STEP 1: INSTALL/UPDATE REQUIREMENTS ---
+echo [1/4] Checking Python libraries...
+pip install flask python-dotenv
+if %errorlevel% neq 0 (
+    color 0C
+    echo.
+    echo [ERROR] Python or PIP is not installed or not in your PATH.
+    echo Please install Python from python.org and try again.
+    pause
+    exit /b
+)
+echo Libraries are ready.
+echo.
+
+:: --- STEP 2: CHECK CONFIGURATION ---
+echo [2/4] Checking configuration file...
+if not exist .env (
+    color 0E
+    echo.
+    echo [WARNING] .env file was not found!
+    echo I have created a template .env file for you.
+    echo Please open ".env", add your passwords, and run this script again.
+    
+    :: Create a default .env file
+    echo SERVER_PORT=3000> .env
+    echo AUTH_TOKEN=BC5FB17A739C64639751B59209E07F88>> .env
+    echo EMAIL_SENDER=my-iot-project@gmail.com>> .env
+    echo EMAIL_PASSWORD=REPLACE_WITH_APP_PASSWORD>> .env
+    echo EMAIL_RECIPIENT=your_personal_email@gmail.com>> .env
+    
+    pause
+    exit /b
+)
+echo Configuration found.
+echo.
+
+:: --- STEP 3: START NGROK (NEW WINDOW) ---
+echo [3/4] Launching Ngrok Tunnel...
+:: This opens a separate popup window for Ngrok so it doesn't block the script
+start "Ngrok Tunnel" ngrok http --domain=unarithmetically-peppiest-libbie.ngrok-free.dev 3000
+
+:: --- STEP 4: START PYTHON SERVER ---
+echo [4/4] Starting Python Server...
+echo.
+echo ========================================================
+echo    Dashboard: https://unarithmetically-peppiest-libbie.ngrok-free.dev
+echo    Local:     http://localhost:3000
+echo    Status:    RUNNING (Keep this window open)
+echo ========================================================
+echo.
+
+python server.py
+
+:: If python crashes, keep window open to see error
+pause
+\end{lstlisting}
+However, this is still not an ideal solution, as the user still has to run the .bat file manually, must have python 
+installed on their machine and most importantly run the server continously. A better solution would be to host the server 
+on a local raspberry pi or similar device, which can run the server 24/7 without any user intervention. This would also 
+eliminate the need for ngrok, as the raspberry pi can be given a static IP address. 
+
 \subsection{Validation Results}
 \label{sec: validationResults}
