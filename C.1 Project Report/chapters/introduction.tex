@@ -4,9 +4,20 @@
 
 All Professors and Lecturers have a lot to do and may not always have time to check their mailbox. Imagine how long some letters are left in the mailbox for days just because a professor is busy. On the other hand, checking your mailbox only to find nothing is quite frustrating. What if there was a way that your mailbox could tell you when there is mail? What if you had a talking mailbox?
 
+\vspace{1em}
+
 To solve this problem, we introduce \textbf{The Talking Mailbox}. The aim of The Talking Mailbox project is to design and assemble a system that can detect the presence of mail within a mailbox in Building~06 and notify the owner of the mailbox.
 
 \subsection{Literature Review}
+Before developing The Talking Mailbox, various existing smart mailbox solutions were reviewed, considering their sensor technology and communication methods as well as their advantages and shortcomings. 
+
+\vspace{1em}
+
+Perhaps the simplest solution is presented in \citeA{youtube_mailbox}. A wire connected to the door protrudes out of the box and holds down a flag. Once opened, the flag is released indicating the mailbox has been opened. On the opposite end of the technological spectrum, several commercial smart mailboxes are available. The \citeA{amazon_tuya_sensor} model uses a passive infrared (PIR) motion sensor to detect mail presence, while \citeA{notific_at} employs a motion sensor\footnote{While no literature could be found on the exact technology used, the sensor is likely an accelerometer of some kind} attached to the mailbox door. The \citeA{amazon_tuya_sensor} connects directly to Wifi and the \citeA{notific_at} to LoRaWAN, providing remote notifications through dedicated apps. Similar to the \citeA{notific_at}, the \citeA{amazon_instaview} detects door openings utilising a tilt sensor, while the \citeA{bigshopper_xsense} combines a tilt sensor and an IR motion sensor for enhanced detection. Both of these models communicate with a base station within the home via radio frequency (RF) technology, with the \citeA{bigshopper_xsense} capable of managing multiple mailboxes.
+
+\vspace{1em}
+
+While these solutions certainly have merit, The Talking Mailbox offers some advantages over them and has a degree of novelty. While very cheap and reliable, the \citeA{youtube_mailbox} has no means of remote notification. The \citeA{amazon_tuya_sensor} and \citeA{bigshopper_xsense} both use IR sensors which may be prone to false positives from environmental heat sources. The \citeA{amazon_instaview} and \citeA{bigshopper_xsense} require an additional base station device which increases complexity of setup. The Talking Mailbox eliminates these issues as it connects to LoRaWAN directly and uses multiple sensors (that are not IR-based) to mitigate false positives. Most critically, all of these solutions rely on inferring mail presence from door movement or motion within the box, which may not always be accurate. The Talking Mailbox directly detects mail presence using a weight sensor, providing a more reliable solution.
 
 \subsection{Project Plan}
 
