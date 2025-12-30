@@ -1,7 +1,73 @@
 \section{Results and Implementation}
 \label{sec: resultAndImplementation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Implementation}
 \label{sec: implementation}
+
+\subsubsection{Product Implementation - Hardware Layer}
+\label{sec: HW}
+
+\medskip
+\textbf{\underline{Final Product Assembly}}
+\smallskip
+
+Considering all the design choices made in Section \ref{sec: systemDesign}, the actual implementation of the hardware layer was done as shown in Figure \ref{fig: finalProduct}.
+\begin{figure}[ht]
+    \begin{subfigure}{0.48\textwidth}
+        \centering
+        \includegraphics[height=4.5cm]{finalProduct.jpeg}
+        \caption{Front View}
+        \label{fig: finalProductFront}                   
+    \end{subfigure}
+    \begin{subfigure}{0.48\textwidth}
+        \centering
+        \includegraphics[height=4.5cm]{finalProduct_30deg.jpg}
+        \caption{Side View}
+        \label{fig: finalProduct30deg}                   
+    \end{subfigure}
+    \caption{Final Product Inside the Post Box}
+    \label{fig: finalProduct}
+\end{figure}
+
+\medskip
+\textbf{\underline{Prototyping}}
+\smallskip
+
+However, before this complete assembly was constructed, a smaller prototype was made to test the functioning of the sensors and the LoRa communication. This prototype is shown in Figure \ref{fig: prototype}.
+
+\begin{figure}[ht]
+    \begin{subfigure}{0.48\textwidth}
+        \centering
+        \includegraphics[height=4.5cm]{weight-sensor_construction-1.jpg}
+        \caption{Weight Sensor Construction}
+        \label{fig: prototypeConstruction}                   
+    \end{subfigure}
+    \begin{subfigure}{0.48\textwidth}
+        \centering
+        \includegraphics[height=4.5cm]{weight-sensor_prototype-1.jpg}
+        \caption{First Assembled Prototype}
+        \label{fig: prototypeAssembled}                   
+    \end{subfigure}
+    \caption{Prototype of the System for Testing}
+    \label{fig: prototype}
+\end{figure}
+
+\subsubsection{Product Implementation - Embedded Software Layer}
+\label{sec: ESW}
+Using the prototype shown in Figure \ref{fig: prototype}, the embedded software layer was implemented. The code was written in C++ using the Arduino IDE and flashed to the ESP32-S3 microcontroller. 
+
+\bigskip
+
+The microcontroller code was structured with modularity in mind and divided into four files: 
+\begin{itemize}
+    \item \textbf{SensorManager.cpp:} This file contains all the functions related to sensor initialization, reading sensor values, and processing the sensor data.
+    \item \textbf{SensorManager.h:} This is the header file for SensorManager.cpp, containing function prototypes and necessary libraries and macros.
+    \item \textbf{LoRaConfig.h:} This file handles the LoRaWAN communication, initializing required parameters, including libraries, defining functions for LoRa activation and upload.
+    \item \textbf{LR-V1.0.ino:} This is the main file which essentially just runs the functions defined in the preceding files in the specific order required. 
+\end{itemize}
+
+
+
 \subsubsection{Backend Implementation - Application Layer}
 \label{sec: backendImplementation}
 This section covers the implementation of the backend server and application layer, which is responsible for receiving data from The Things Network, decoding the payload, storing the data, and providing a user interface for monitoring the mailbox status.
@@ -252,6 +318,7 @@ However, this is still not an ideal solution, as the user still has to run the .
 installed on their machine and most importantly run the server continously. A better solution would be to host the server 
 on a local raspberry pi or similar device, which can run the server 24/7 without any user intervention. This would also 
 eliminate the need for ngrok, as the raspberry pi can be given a static IP address. 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Validation Results}
 \label{sec: validationResults}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

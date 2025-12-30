@@ -1,24 +1,58 @@
 \section{Methodology and Design}
 \label{sec: methodologyAndDesign}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Design Approach}
 \label{sec: designApproach}
+The design approach used in this project was a simple waterfall model. After a deliverable was completed, the next deliverable was started. This can be clearly seen in Figure \ref{fig: ganttChart}. The only exception to this model was during the Software Development and Project Implementation Deliverables (which are discussed in Section \ref{sec: implementation}) where some iterative testing and debugging was employed. The testing methods are discussed in Section \ref{sec: validationMethod}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{System Design}
 \label{sec: systemDesign}
+
 \subsubsection{System Architecture}
 \label{sec: systemArchitechture}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=1\textwidth]{LoRa_FSD.png}
-    \caption{Functional structure diagram of the system architecture}
+    \caption{Functional Structure Diagram of the System Architecture}
     \label{fig:fsd}
 \end{figure}
+
+\subsubsection{Sensor Selection}
+\label{sec: sensorSelection}
+The sensors selected for this project were based on the functional requirements defined in Section \ref{sec: projectRequirements} as well as the shortcomings discussed in Section \ref{sec: literatureReview}. The general idea was to use multiple sensors to detect the same event, in order to increase reliability as well as a sensor which can detect not only events, but the current status of the mailbox. Hence, the light sensor and tilt sensor combination was chosen to detect the opening of the mailbox, while the load cell was chosen to detect the presence of mail. The reasons for choosing these specific sensors and their principle of operation are discussed in Section \ref{sec: sensors}.
+
 \subsubsection{Schematic Design}
 \label{sec: schematicDesign}
+The complete schematic design of the system is shown in Figure \ref{fig: schematic}. The design is quite simple as the light and tilt sensors are digital sensors and connect directly to any GPIO pins on the microcontroller. The load cell on the other hand connects to the HX711 amplifier board, which then has a data line and clock line connecting to the ESP32-S3. The SX1262 LoRa module is connected via SPI, but the depiction \ref{fig: schematic} is a bit inaccurate. The kit comes with B2B connection which allows the MCU and LoRa module to be connected directly without any wiring. The pin mapping between the sensors and the microcontroller is shown in Table \ref{tab:pin-mapping}.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{LoRa_Sch_V2.png}
+    \caption{Schematic Diagram of the System}
+    \label{fig: schematic}
+\end{figure}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|l|}
+        \hline
+        \textbf{Sensor Pin} & \textbf{ESP32-S3 Pin} \\ \hline
+        Tilt Sensor DO      & GPIO1  \\ \hline
+        Battery Monitor     & GPIO2  \\ \hline
+        Light Sensor DO     & GPIO3  \\ \hline
+        HX711 CLK           & GPIO6  \\ \hline
+        HX711 DAT           & GPIO43 \\ \hline
+        SX1262 SCK          & GPIO7  \\ \hline
+        SX1262 MISO         & GPIO8  \\ \hline
+        SX1262 MOSI         & GPIO9  \\ \hline
+    \end{tabular}
+    \caption{Sensor-to-ESP32-S3 Pin Mapping}
+    \label{tab:pin-mapping}
+\end{table}
+
+
 \subsubsection{3D Design}
 \label{sec: 3dDesign}
-As understood from Section \ref{sec: loadCells}, to reliably detect any weight, the load cell must be allowed to bent as easily as possible. To prevent any mail from "`missing"' the detection platform, the platform must cover the entire box area. The design which allows us to do this is shown in Figure \ref{fig: 3dModels}.
-% Ensure you have this in your preamble (before \begin{document}):
-% 
+As understood from Section \ref{sec: loadCells}, to reliably detect any weight, the load cell must be allowed to bent as easily as possible. To prevent any mail from "missing" the detection platform, the platform must cover the entire box area. The design which allows us to do this is shown in Figure \ref{fig: 3dModels}.
 
 \begin{figure}[ht]
      \centering
@@ -40,29 +74,24 @@ As understood from Section \ref{sec: loadCells}, to reliably detect any weight, 
 \end{figure}
 The height with the hex nuts, allow the load cell to have clearance to bend during load from the upper platform. The off center screw platform on both platform allow for best readings from the load cell. The size of the upper platform should match the post box size, however the lower platform allows for flexibility, it can be made just large enough to not cause toppling over and allow us to place necessary modules (such as the HX711). \\
 Some other design considerations include the requirement of the platform being rigid and lightweight, to allow load cell to be as sensitive as possible. A good material to use for the platform is wood. The screws should also be flat with the platform, to prevent mail from tearing / getting stuck.
-Keeping all these design considerations in mind, the following final product can be seen in Figure \ref{fig: finalProduct}.
-\begin{figure}[h]
-         \centering
-         \includegraphics[totalheight=6cm]{finalProduct.jpeg}
-         \caption{Final product inside the post box}
-         \label{fig: finalProduct}
-     \end{figure}
+
 \subsubsection{Bill of Materials}
 \label{sec: billOfMaterials}
 This is an estimate of the materials required to make this project, these are all over estimates, as all components/materials except 2.1 - 2.6 were used from the university stock.
 \begin{table}[h]
     \centering
-    \begin{tabular}{|c|l|l|c|l|r|}
+    \begin{tabular}{|c|l|p{2.8cm}|c|l|r|}
         \hline
-        \textbf{Item} & \textbf{Part} & \textbf{Description} & \textbf{Qty} & \textbf{Notes} & \textbf{Price (€)} \\ \hline
+        \textbf{Item} & \textbf{Part} & \textbf{Description} & \textbf{Qty} & \textbf{Notes} & \textbf{Total Price (€)} \\ \hline
         
         \rowcolor[gray]{0.9} \multicolumn{6}{|l|}{\textbf{1.0 Mechanical Components}} \\ \hline
         1.1 & Top Plate & Detection Plate & 1 & Wood (40x30x0.5cm) & 5.00 \\ \hline
         1.2 & Bottom Plate & Base for load cell & 1 & Wood (15x15x0.5cm) & 3.00 \\ \hline
         1.3 & M4 Screw & Top plate screw & 2 & - & 1.00 \\ \hline
-        1.4 & M4 Hex Nut & Height spacer nut & 4 & - & 0.50 \\ \hline
+        1.4 & M5 Hex Nut & Height spacer nut & 4 & - & 0.50 \\ \hline
         1.5 & M5 Screw & Bottom plate screw & 2 & - & 1.00 \\ \hline
-        1.6 & M4 Hex Nut & Height spacer nut & 4 & - & 0.50 \\ \hline
+        1.6 & M6 Hex Nut & Height spacer nut & 4 & - & 0.50 \\ \hline
+        1.7 & Misc. & Tape, Glue & - & - & 0.50 \\ \hline
         
         \rowcolor[gray]{0.9} \multicolumn{6}{|l|}{\textbf{2.0 Electrical Components}} \\ \hline
         2.1 & Load Cell + HX711 & Load cell + Amplifier module & 1 & JOY-IT & 6.40 \\ \hline
@@ -70,16 +99,33 @@ This is an estimate of the materials required to make this project, these are al
         2.3 & LDR & Light resistor & 1 & SERTRONICS & 1.35 \\ \hline
         2.4 & Battery & 1800 mAh Li-Ion & 1 & SOLDERED & 10.24 \\ \hline
         2.5 & MCU + LoRa & Xiao ESP32 + SX1262 & 1 & Seeedstudio & 11.68 \\ \hline
-        2.6 & Antenna & Longer antenna & 1 & Amphenol-SAA & 2.69 \\ \hline
-				2.7 & -- kOhm resistor & Through Hole & 1 & YAGEO & 0.10 \\ \hline
-				2.8 & -- kOhm resistor & Through Hole & 1 & YAGEO & 0.10 \\ \hline
-				2.9 & Wires & Jumper wires of different length & - & - & 0.30 \\ \hline
+        2.6 & Antenna & Long range antenna & 1 & Amphenol-SAA & 2.69 \\ \hline
+        2.7 & 1 kOhm resistor & Through Hole & 1 & YAGEO & 0.10 \\ \hline
+        2.8 & 2 kOhm resistor & Through Hole & 1 & YAGEO & 0.10 \\ \hline
+        2.9 & Wires & Jumper wires of different length & - & - & 0.30 \\ \hline
+        2.10 & Misc. & Breadboard, Wire Sleeves, Solder & - & - & 0.50 \\ \hline
         \hline
-        \multicolumn{5}{|r|}{Tax (VAT 20\%)} & 8.96 \\ \hline
-        \multicolumn{5}{|r|}{\textbf{Grand Total (€)}} & \textbf{53.76} \\ \hline
+        \multicolumn{5}{|r|}{Tax (VAT 20\%)} & 9.16 \\ \hline
+        \multicolumn{5}{|r|}{\textbf{Grand Total (€)}} & \textbf{54.96} \\ \hline
+        % for any changes check and adjust the BOM excel file
     \end{tabular}
     \caption{Combined Mechanical and Electrical Bill of Materials with Total Cost}
     \label{tab: bom}
 \end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Validation Method}
 \label{sec: validationMethod}
+Once development of the system was underway, it became essential to validate system incrementally. After each task was completed within the Software Development and Project Implementation deliverables, the component was tested against the requirements outlined in Sections \ref{sec: functionalRequirements} and \ref{sec: technicalRequirements}. 
+
+\bigskip
+
+The following briefly describes the validation methods used specific requirements:
+\begin{itemize}
+    \item \textbf{Mail Detection:} Various objects ranging from around 20\,g to little above 100\,g were weighed on a scale and then placed on the load cell platform to check if the load cell could detect the presence of mail and classify them accurately via the serial monitor.
+    \item \textbf{Lid Opening Detection:} The tilt switch and LDR were tested by opening and closing the mailbox lid multiple times. Using the serial monitor, the readings from both sensors were observed to ensure they accurately detected the lid status.
+    \item \textbf{LoRa Communication:} The LoRa module was tested by sending test messages from the microcontroller to the LoRaWAN gateway. The successful receipt of messages was confirmed via TTN console and Datacake dashboard.
+    \item \textbf{Email Notification:} The email notification system was tested by simulating mail detection events and verifying that emails were sent to the designated recipient.
+    \item \textbf{Battery Status Monitoring:} The battery monitor was tested by simulating mail detection events and checking the battery level readings on the dashboard and then checking them against a multimeter.
+    \item \textbf{Battery Life:} The system was powered by the battery and power consumption was monitored while idle and while sending messages. The readings were used to estimate the battery life. 
+\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
