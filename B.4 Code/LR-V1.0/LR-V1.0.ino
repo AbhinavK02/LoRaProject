@@ -1,7 +1,7 @@
 /*
 @author: Justin Chin Cheong (34140) and Abhinav Kothari (33349)
 @desc: Complete Script for the Talking Mailbox Project to read all sensors and send data via LoRaWAN to the TTN
-@version: V0.4 - operating w/ sensors, LoRaWAN 1.0.4, deep sleep, battery monitoring + mail categorization
+@version: V1.0 - fully operational prototype w/ sensors, LoRaWAN 1.0.4, deep sleep, battery monitoring, mail categorization
 */
 
 // ############################### Libraries ######################################
@@ -13,6 +13,7 @@ void setup()
 {
   Serial.begin(115200);
 
+  // Initialising all the Sensors
   sensorManager_init();
 
   // Radio Setup
