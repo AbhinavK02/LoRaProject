@@ -34,8 +34,7 @@
 \contentsline {subsection}{\numberline {4.2}Validation Results}{15}{subsection.4.2}%
 \contentsline {section}{\numberline {5}Discussion}{16}{section.5}%
 \contentsline {subsection}{\numberline {5.1}Product Evaluation}{16}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Potential Improvements}{16}{subsection.5.2}%
 \contentsline {section}{\numberline {6}Conclusion}{17}{section.6}%
 \contentsline {subsection}{\numberline {6.1}Project Summary}{17}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2}Future Work}{17}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.2}Future Work / Improvements}{17}{subsection.6.2}%
 \contentsline {section}{References}{18}{subsection.6.2}%
