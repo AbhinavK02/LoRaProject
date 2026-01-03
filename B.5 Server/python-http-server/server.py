@@ -17,7 +17,7 @@ PUBLIC_URL = "https://unarithmetically-peppiest-libbie.ngrok-free.dev"
 
 # --- Device Mapping ---
 DEVICE_NAMES = {
-    33: "PostBox SAN", 
+    33: "PostBox SAN" 
 }
 
 # --- Email Mapping ---
@@ -225,22 +225,63 @@ def show_dashboard():
         <title>Mailbox Monitor</title>
         <meta http-equiv="refresh" content="5">
         <style>
-            body { font-family: 'Segoe UI', sans-serif; text-align: center; padding: 40px; background-color: #f0f2f5; }
-            .card { background: white; padding: 40px; border-radius: 15px; display: inline-block; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 450px; }
-            .status-box { font-size: 32px; font-weight: bold; margin: 20px 0; padding: 20px; color: white; border-radius: 10px; background-color: {{ d.status_color }}; }
-            .battery-indicator { font-weight: bold; font-size: 18px; padding: 5px 15px; border-radius: 20px; display: inline-block; color: white; background-color: {{ d.battery_color }}; }
-            .meta { color: #888; font-size: 13px; margin-top: 15px; }
-            table { width: 100%; border-collapse: collapse; margin-top: 20px; text-align: left; }
-            th, td { padding: 10px; border-bottom: 1px solid #eee; font-size: 14px; }
-            .dot { height: 10px; width: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; }
+            body {  
+                font-family: 'Segoe UI', sans-serif; 
+                text-align: center; 
+                padding: 40px; 
+                background-color: #f0f2f5; }
+            .card { 
+                background: white; 
+                padding: 40px; 
+                border-radius: 15px; 
+                display: inline-block; 
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);                     
+                width: 450px; }
+            .status-box {   
+                font-size: 32px;                         
+                font-weight: bold; 
+                margin: 20px 0; 
+                padding: 20px; 
+                color: white; 
+                border-radius: 10px; 
+                background-color: {{ d.status_color }}; }
+            .battery-indicator { 
+                font-weight: bold; 
+                font-size: 18px; 
+                padding: 5px 15px; 
+                border-radius: 20px; 
+                display: inline-block; 
+                color: white; 
+                background-color: {{ d.battery_color }}; }
+            .meta { 
+                color: #888; 
+                font-size: 13px; 
+                margin-top: 15px; }
+            table { 
+                width: 100%; 
+                border-collapse: 
+                collapse; 
+                margin-top: 20px; 
+                text-align: left; }
+            th, td { 
+                padding: 10px; 
+                border-bottom: 1px 
+                solid #eee; 
+                font-size: 14px; }
+            .dot { 
+                height: 10px; 
+                width: 10px; 
+                border-radius: 50%; 
+                display: inline-block; 
+                margin-right: 5px; }
         </style>
     </head>
     <body>
         <div class="card">
             <h1>Smart Mailbox</h1>
-            <h2 style="color:#666">📍 {{ d.device_name }}</h2> 
+            <h2 style="color:#666">{{ d.device_name }}</h2> 
             <div class="status-box">{{ d.status_text }}</div>
-            <div class="battery-indicator">🔋 {{ d.battery_level }}</div>
+            <div class="battery-indicator">{{ d.battery_level }}</div>
             <p class="meta">Last Update: {{ d.timestamp }}</p>
             <h3>Recent Activity</h3>
             <table>
@@ -248,7 +289,10 @@ def show_dashboard():
                 {% for event in d.history %}
                 <tr>
                     <td>{{ event.time }}</td> 
-                    <td><span class="dot" style="background-color: {{ event.color }}"></span>{{ event.status }}</td>
+                    <td>
+                        <span class="dot" 
+                            style="background-color: {{ event.color }};">
+                        </span>{{ event.status }}</td>
                     <td>{{ event.battery }}</td>
                 </tr>
                 {% endfor %}
