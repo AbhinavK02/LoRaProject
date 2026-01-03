@@ -1,0 +1,37 @@
+Outline Level,ID,Name,Start,Finish,Duration,% Complete,Predecessors,Resource Names,Color,Notes
+1,1,Project Ideation,9-Oct-25,9-Oct-25,0 day,100,,,,<p><br></p>
+2,2,Research project ideas,9-Oct-25,9-Oct-25,1 day,100,,Abhinav Kothari,,<p><br></p>
+2,3,Decide on project idea,21-Oct-25,21-Oct-25,1 day,100,2FS,"Justin Chin Cheong, Abhinav Kothari",,<p><br></p>
+1,4,SAN Project Pitch,8-Nov-25,8-Nov-25,0 day,100,3FS,Abhinav Kothari,,<p><br></p>
+2,5,LoRa Project Description,8-Nov-25,8-Nov-25,1 day,100,,"Justin Chin Cheong, Abhinav Kothari",,<p><br></p>
+2,6,LoRa Raw Schematics,9-Nov-25,9-Nov-25,1 day,100,5FS,,,<p><br></p>
+2,7,Create draft design for LoRa housing,10-Nov-25,10-Nov-25,1 day,100,6FS,,,<p><br></p>
+2,8,Conduct LoRa lit. review,29-Dec-25,29-Dec-25,1 day,100,7FS,Justin Chin Cheong,,<p><br></p>
+1,9,SAN Bill of Materials,22-Oct-25,22-Oct-25,0 day,100,8FS,Justin Chin Cheong,,<p><br></p>
+2,10,Choose exact sensors for LoRa,22-Oct-25,22-Oct-25,1 day,100,,"Justin Chin Cheong, Abhinav Kothari",,<p><br></p>
+2,11,Create a list of passives for sensors,23-Oct-25,23-Oct-25,1 day,100,10FS,"Justin Chin Cheong, Abhinav Kothari",,<p><br></p>
+2,12,Choose exact MCU + LoRa Transmitter,24-Oct-25,24-Oct-25,1 day,100,11FS,"Justin Chin Cheong, Abhinav Kothari",,<p><br></p>
+1,13,SAN Schematic Design,17-Nov-25,17-Nov-25,0 day,50,12FS,,,<p><br></p>
+2,14,Create fsd for LoRa system,17-Nov-25,17-Nov-25,1 day,100,,,,<p><br></p>
+2,15,Create functional schematic for LoRa system,18-Nov-25,18-Nov-25,1 day,100,14FS,,,<p><br></p>
+2,16,Create aesthetic schematic for LoRa,19-Nov-25,19-Nov-25,1 day,100,15FS,,,<p><br></p>
+1,18,SAN Software,11-Dec-25,11-Dec-25,0 day,100,17FS,,,<p><br></p>
+2,19,Configure comm w/ TTN,11-Dec-25,11-Dec-25,1 day,100,,,,<p><br></p>
+3,20,Set up light sensor reading,15-Dec-25,15-Dec-25,1 day,100,19FS,Justin Chin Cheong,,<p><br></p>
+3,21,Set up tilt sensor reading,16-Dec-25,16-Dec-25,1 day,100,20FS,Justin Chin Cheong,,<p><br></p>
+3,22,Set up weight sensor reading,17-Dec-25,17-Dec-25,1 day,100,21FS,Justin Chin Cheong,,<p><br></p>
+2,23,Configure sensor datastream to TTN,18-Dec-25,18-Dec-25,1 day,100,22FS,Justin Chin Cheong,,<p><br></p>
+2,24,Set-up back-end and notification system,19-Dec-25,19-Dec-25,1 day,100,23FS,Abhinav Kothari,,<p><br></p>
+3,25,Read info from TTN stream,20-Dec-25,20-Dec-25,1 day,100,24FS,Abhinav Kothari,,<p><br></p>
+3,26,Set up sensor logic for open detection,21-Dec-25,21-Dec-25,1 day,100,25FS,Abhinav Kothari,,<p><br></p>
+1,27,SAN Project Report,16-Nov-25,16-Nov-25,0 day,50,26FS,,,<p><br></p>
+2,28,Create LoRa LaTeX template,16-Nov-25,16-Nov-25,1 day,100,,,,<p><br></p>
+2,29,Write LoRa introduction,17-Nov-25,17-Nov-25,1 day,0,28FS,Abhinav Kothari,,<p><br></p>
+2,30,Write LoRa lit. review,30-Dec-25,30-Dec-25,1 day,100,29FS,Justin Chin Cheong,,<p><br></p>
+2,31,Write Theory section for LoRa,31-Dec-25,31-Dec-25,1 day,100,30FS,Abhinav Kothari,,<p><br></p>
+2,32,Write LoRa system design process,1-Jan-26,1-Jan-26,1 day,0,31FS,Justin Chin Cheong,,<p><br></p>
+2,33,Write LoRa discussion of design,2-Jan-26,2-Jan-26,1 day,100,32FS,Abhinav Kothari,,<p><br></p>
+2,34,Write LoRa conclusion,3-Jan-26,3-Jan-26,1 day,0,33FS,Justin Chin Cheong,,<p><br></p>
+1,35,SAN Presentation,4-Jan-26,4-Jan-26,0 day,0,34FS,,,<p><br></p>
+2,36,Outline sections of LoRa presentation,5-Jan-26,5-Jan-26,1 day,0,,,,<p><br></p>
+2,37,Create intro to LoRa presentation,6-Jan-26,6-Jan-26,1 day,0,36FS,,,<p><br></p>
