@@ -74,6 +74,44 @@ This section covers the implementation of the backend server and application lay
 The link with the The Things Network is done using webhooks, which send HTTP POST requests to the python server whenever new data is received from the LoRaWAN device.
 
 \medskip
+\textbf{\underline{Initial setup}}
+\label{sec: initalSetup}
+To set up the backend server, we require three files, which include: 'server.py', '.env', and 'requirements.txt'. Each file servers a specific purpose:
+\begin{itemize}
+    \item \textbf{server.py:} This is the main server file that contains the Flask application code. It handles incoming requests, decodes the payload, updates the mailbox status, and serves the user interface.
+    \item \textbf{.env:} This file contains environment variables such as server port, authentication token, email sender credentials, and recipient email addresses. This allows for easy configuration without hardcoding sensitive information in the code.
+    \item \textbf{requirements.txt:} This file lists all the Python libraries required to run the server. 
+\end{itemize}
+These all need to be placed in the same directory for the server to function correctly. The server can then be started by running the command `python server.py` in the terminal.
+The depenendencies, to be added to requirements.txt as shown in Listing \ref{lst: requirementstxt}, can be installed using the command `pip install -r requirements.txt`.
+\begin{lstlisting}[caption={requirements.txt file contents}, label={lst: requirementstxt}]
+Flask==2.3.3
+python-dotenv==1.0.0
+\end{lstlisting}
+These can be installed directly using pip as well, however using requirements.txt makes it easier and more future proof. These steps can be also be avoided, and the bash script from Section \ref{sec: issuesWithStaticIPAndHosting} be used directly to install the required
+libraries if they are missing.
+
+\smallskip
+
+Next a random authentication token must be generated, for Windows 11, the command shown in Listing \ref{lst: generateAuthToken} can be used.
+\begin{lstlisting}[language=bash, caption={Generate random auth token command}, label={lst: generateAuthToken}]
+$bytes = New-Object byte[] 16; (New-Object System.Security.Cryptography.RNGCryptoServiceProvider).GetBytes($bytes);
+[System.BitConverter]::ToString($bytes) -replace '-'
+\end{lstlisting}
+
+Now you can open the .env file using a text editor of your choice (here edit by MS was used). The following variables must be
+added as shown in Listing \ref{lst: envFileContents}:
+\begin{lstlisting}[caption={.env file contents}, label={lst: envFileContents}]
+export SERVER_PORT=3000
+export AUTH_TOKEN=<token from above>
+
+EMAIL_SENDER=your_email@gmail.com
+EMAIL_PASSWORD=your_app_password_here
+\end{lstlisting}
+
+The main contents of server.py are explained in the following sections and full code can be found in the project repository. 
+
+\medskip
 \textbf{\underline{Payload Decoder}}
 \smallskip
 
