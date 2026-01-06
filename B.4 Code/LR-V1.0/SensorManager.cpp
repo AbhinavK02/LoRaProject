@@ -129,7 +129,7 @@ SensorReading batteryMonitor()
   // Assigning percentage based on voltage levels (3.10V = 0%, 4.20V = 100%)
   if (batVoltage >= 4.20)
   {
-    reading.value = 64;
+    reading.value = 100;
   }
   else if (batVoltage <= 3.10)
   {
@@ -137,7 +137,7 @@ SensorReading batteryMonitor()
   }
   else
   {
-    batPercentage = (batVoltage - 3.10) * 64 / (1.1);
+    batPercentage = (batVoltage - 3.10) * 100 / (1.1);
     Serial.print("Battery Percentage: ");
     Serial.println(batPercentage);
     reading.value = batPercentage;

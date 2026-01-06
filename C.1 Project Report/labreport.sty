@@ -15,14 +15,22 @@
 \RequirePackage{titlesec}
 \RequirePackage{eurosym}
 \RequirePackage[justification=raggedright,singlelinecheck=false]{caption}
-\RequirePackage[none]{hyphenat}
+% \RequirePackage[none]{hyphenat}
 \RequirePackage[document]{ragged2e}
 \RequirePackage{subcaption}
 \RequirePackage[table]{xcolor}
 \RequirePackage{apacite}
+\RequirePackage{accsupp}
 
 % Document geometry
 \geometry{margin=1in}
+
+% ------------ Colours ------------
+\definecolor{preprocbrown}{rgb}{0.537, 0.251, 0.027} % Preprocessor keyword color - new added 30.04.25
+\definecolor{c-red}{rgb}{0.6,0,0} % for strings
+\definecolor{c-blue}{rgb}{0,0,0.6}
+\definecolor{c-green}{rgb}{0,0.8,0}
+\definecolor{c-cyan}{rgb}{0.0,0.6,0.6}
 
 % ------------ User Variables ------------
 \newcommand{\authA}{}
@@ -102,8 +110,69 @@
     postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
 }
 
+% \lstset{
+%     language=C++, % choose the language of the code
+%     basicstyle=\footnotesize\ttfamily,
+%     columns=flexible,
+%     numbers=left, % where to put the line-numbers
+%     stepnumber=1, % the step between two line-numbers.
+%     numbersep=5pt, % how far the line-numbers are from the code
+%     numberstyle=\tiny\color{gray}\emptyaccsupp,
+%     backgroundcolor=\color{white}, % choose the background color. You must add \usepackage{color}
+%     showspaces=false, % show spaces adding particular underscores
+%     showstringspaces=false, % underline spaces within strings
+%     showtabs=false, % show tabs within strings adding particular underscores
+%     extendedchars=false,
+%     escapeinside={<@}{@>},
+%     upquote=true,
+%     tabsize=4, % sets default tabsize to 4 spaces
+%     extendedchars=false,
+%     captionpos=b, % sets the caption-position to bottom
+%     breaklines=true,
+%     stringstyle=\color{c-blue}\ttfamily,
+%     commentstyle=\color{c-green},
+%     morecomment=[l]{//}, % use comment-line-style!
+%     morecomment=[s]{/*}{*/}, % for multiline comments
+%     keywordstyle=\color{blue}\bfseries, % Blue, bold keywords - new 22.04.25
+%     %commentstyle=\color{green!40!black}, % Green comments - new 22.04.25
+%     stringstyle=\color{red}, % Red strings - new 22.04.25
+%     morekeywords={
+%         DDRB, DDRC, DDRD, PORTB, PORTC, PORTD, PINB, PINC, PIND,
+%         null, switch, extern, bool, false, true, byte, try, case, float, typeof,
+%         catch, for, private, uint, char, foreach, protected, ulong, checked,
+%         goto, public, unchecked, class, if, readonly, unsafe, const, implicit,
+%         ref, ushort, continue, in, return, using, decimal, int, sbyte, virtual,
+%         default, interface, sealed, volatile, delegate, internal, short, void,
+%         do, is, sizeof, while, double, lock, stackalloc, else, long, static,
+%         enum, namespace, string, HIGH, LOW, INPUT, INPUT_PULLUP, OUTPUT, DEC,
+%         BIN, HEX, OCT, PI, HALF_PI, TWO_PI, LSBFIRST, MSBFIRST, CHANGE,
+%         FALLING, RISING, DEFAULT, EXTERNAL, INTERNAL, INTERNAL1V1,
+%         INTERNAL2V56, LED_BUILTIN, LED_BUILTIN_RX, LED_BUILTIN_TX,
+%         DIGITAL_MESSAGE, FIRMATA_STRING, ANALOG_MESSAGE, REPORT_DIGITAL,
+%         REPORT_ANALOG, SET_PIN_MODE, SYSTEM_RESET, SYSEX_START, auto, int8_t,
+%         int16_t, int32_t, int64_t, uint8_t, uint16_t, uint32_t, uint64_t,
+%         char16_t, char32_t, operator, enum, delete, bool, boolean, byte, char,
+%         const, false, float, double, null, NULL, int, long, new, private,
+%         protected, public, short, signed, static, volatile, String, void, true,
+%         unsigned, word, array, sizeof, dynamic_cast, typedef, const_cast,
+%         struct, static_cast, union, friend, extern, class, reinterpret_cast,
+%         register, explicit, inline, _Bool, complex, _Complex, _Imaginary,
+%         atomic_bool, atomic_char, atomic_schar, atomic_uchar, atomic_short,
+%         atomic_ushort, atomic_int, atomic_uint, atomic_long, atomic_ulong,
+%         atomic_llong, atomic_ullong, virtual, PROGMEM, PORTA1, PORTA2, PORTA3,
+%         PORTA, PORTF,
+%     },
+%     frame=single, % Frame around the code - new 22.04.25
+%     keywordstyle=\color{c-cyan},
+%     identifierstyle=\color{c-red},
+%     % literate={\ }{{\copyablespace}}1 {\ \ }{{\copyablespaceTwo}}1,
+%     emph={define, include, ifdef, ifndef, endif, undef, pragma}, % keywords to color - new added 30.04.25
+%     emphstyle=\color{preprocbrown}, % the color to give - new added 30.04.25
+%     literate={\#}{{{\color{preprocbrown}\#}}}1, % Color for the '#' symbol - new added 30.04.25
+% }
+
 % ------------ Command Definitions ------------
 \newcommand{\cmd}[1]{\colorbox{gray!20}{\texttt{\detokenize{#1}}}}
-
+\newcommand{\emptyaccsupp}[1]{\BeginAccSupp{ActualText={}}#1\EndAccSupp{}}
 
 % ------------ End ------------
