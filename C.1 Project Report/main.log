@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.8.26)  6 JAN 2026 01:45
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.8.26)  8 JAN 2026 00:24
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -488,7 +488,7 @@ File: english.apc 2013/07/21 v6.03 apacite language file
 LaTeX Info: Redefining \BPBI on input line 129.
 LaTeX Info: Redefining \BHBI on input line 130.
 )
-<assets/hsrw.png, id=199, 859.21pt x 446.66875pt>
+<assets/hsrw.png, id=195, 859.21pt x 446.66875pt>
 File: assets/hsrw.png Graphic file (type png)
 <use assets/hsrw.png>
 Package pdftex.def Info: assets/hsrw.png  used on input line 55.
@@ -516,7 +516,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has b
                    \relax 
 l.85 \clearpage
                 [1] (./chapters/introduction.tex
-<assets/LoRa-gantt.png, id=293, 1466.47874pt x 1205.50375pt>
+<assets/LoRa-gantt.png, id=290, 1466.47874pt x 1205.50375pt>
 File: assets/LoRa-gantt.png Graphic file (type png)
 <use assets/LoRa-gantt.png>
 Package pdftex.def Info: assets/LoRa-gantt.png  used on input line 27.
@@ -539,7 +539,7 @@ l.41     \item \textbf
 [2 <./assets/LoRa-gantt.png>])
 
 [3] (./chapters/theory.tex
-<assets/LoRavsLoRaWAN.jpg, id=324, 1027.84pt x 371.3875pt>
+<assets/LoRavsLoRaWAN.jpg, id=321, 1027.84pt x 371.3875pt>
 File: assets/LoRavsLoRaWAN.jpg Graphic file (type jpg)
 <use assets/LoRavsLoRaWAN.jpg>
 Package pdftex.def Info: assets/LoRavsLoRaWAN.jpg  used on input line 32.
@@ -547,7 +547,7 @@ Package pdftex.def Info: assets/LoRavsLoRaWAN.jpg  used on input line 32.
 
 
 [4 <./assets/LoRavsLoRaWAN.jpg>]
-<assets/tiltSwitch.png, id=334, 107.6823pt x 66.9702pt>
+<assets/tiltSwitch.png, id=331, 107.6823pt x 66.9702pt>
 File: assets/tiltSwitch.png Graphic file (type png)
 <use assets/tiltSwitch.png>
 Package pdftex.def Info: assets/tiltSwitch.png  used on input line 50.
@@ -555,7 +555,7 @@ Package pdftex.def Info: assets/tiltSwitch.png  used on input line 50.
 ) (./chapters/design.tex
 
 [5 <./assets/tiltSwitch.png>]
-<assets/LoRa_FSD.png, id=342, 1056.94875pt x 686.565pt>
+<assets/LoRa_FSD.png, id=339, 1056.94875pt x 686.565pt>
 File: assets/LoRa_FSD.png Graphic file (type png)
 <use assets/LoRa_FSD.png>
 Package pdftex.def Info: assets/LoRa_FSD.png  used on input line 15.
@@ -567,12 +567,12 @@ Overfull \hbox (1.56697pt too wide) in paragraph at lines 26--55
  [][] 
  []
 
-<assets/LoadCellArrangement.png, id=351, 1732.22156pt x 910.15031pt>
+<assets/LoadCellArrangement.png, id=348, 1732.22156pt x 910.15031pt>
 File: assets/LoadCellArrangement.png Graphic file (type png)
 <use assets/LoadCellArrangement.png>
 Package pdftex.def Info: assets/LoadCellArrangement.png  used on input line 70.
 (pdftex.def)             Requested size: 217.42265pt x 114.2268pt.
-<assets/Platform.png, id=352, 1732.22156pt x 910.15031pt>
+<assets/Platform.png, id=349, 1732.22156pt x 910.15031pt>
 File: assets/Platform.png Graphic file (type png)
 <use assets/Platform.png>
 Package pdftex.def Info: assets/Platform.png  used on input line 77.
@@ -580,17 +580,17 @@ Package pdftex.def Info: assets/Platform.png  used on input line 77.
 
 
 [7 <./assets/LoadCellArrangement.PNG> <./assets/Platform.PNG>]
-<assets/weight-sensor_construction-1.jpg, id=364, 1538.74875pt x 1726.19907pt>
+<assets/weight-sensor_construction-1.jpg, id=361, 1538.74875pt x 1726.19907pt>
 File: assets/weight-sensor_construction-1.jpg Graphic file (type jpg)
 <use assets/weight-sensor_construction-1.jpg>
 Package pdftex.def Info: assets/weight-sensor_construction-1.jpg  used on input line 91.
 (pdftex.def)             Requested size: 114.13329pt x 128.0374pt.
-<assets/weight-sensor_construction-2.jpg, id=365, 1306.8825pt x 1181.16281pt>
+<assets/weight-sensor_construction-2.jpg, id=362, 1306.8825pt x 1181.16281pt>
 File: assets/weight-sensor_construction-2.jpg Graphic file (type jpg)
 <use assets/weight-sensor_construction-2.jpg>
 Package pdftex.def Info: assets/weight-sensor_construction-2.jpg  used on input line 97.
 (pdftex.def)             Requested size: 141.66367pt x 128.0374pt.
-<assets/LoRa_Sch_V2.png, id=369, 604.4181pt x 394.5942pt>
+<assets/LoRa_Sch_V2.png, id=366, 604.4181pt x 394.5942pt>
 File: assets/LoRa_Sch_V2.png Graphic file (type png)
 <use assets/LoRa_Sch_V2.png>
 Package pdftex.def Info: assets/LoRa_Sch_V2.png  used on input line 114.
@@ -674,12 +674,12 @@ Overfull \hbox (0.75511pt too wide) in paragraph at lines 558--559
 [17])
 
 [18] (./chapters/results.tex
-<assets/finalProduct.jpeg, id=791, 2836.5975pt x 1977.3875pt>
+<assets/finalProduct.jpeg, id=788, 2836.5975pt x 1977.3875pt>
 File: assets/finalProduct.jpeg Graphic file (type jpg)
 <use assets/finalProduct.jpeg>
 Package pdftex.def Info: assets/finalProduct.jpeg  used on input line 10.
 (pdftex.def)             Requested size: 183.6495pt x 128.0374pt.
-<assets/finalProduct_30deg.jpg, id=792, 4111.36pt x 2312.64pt>
+<assets/finalProduct_30deg.jpg, id=789, 4111.36pt x 2312.64pt>
 File: assets/finalProduct_30deg.jpg Graphic file (type jpg)
 <use assets/finalProduct_30deg.jpg>
 Package pdftex.def Info: assets/finalProduct_30deg.jpg  used on input line 16.
@@ -698,11 +698,21 @@ Overfull \hbox (0.25496pt too wide) in paragraph at lines 32--35
 
 [19 <./assets/finalProduct.jpeg> <./assets/finalProduct_30deg.jpg>]) (./chapters/discussion.tex
 
-[20])
+[20]
+Overfull \hbox (0.83849pt too wide) in paragraph at lines 12--13
+[]\OT1/cmr/m/n/10 Another sig-nif-i-cant dis-tinc-tion is the sys-tem's com-mu-ni-ca-tion ar-chi-tec-ture. While the [][]InstaView[] ([]2024[]) 
+ []
 
-[21] (./chapters/conclusion.tex)
+) (./chapters/conclusion.tex
+Overfull \hbox (1.81065pt too wide) in paragraph at lines 16--1
+\OT1/cmr/m/n/10 com-mu-ni-ca-tion has the is-sue of re-ly-ing on ex-ist-ing in-fras-truc-ture which is de-pen-dent on the area. Users 
+ []
 
-[22] (./chapters/acknowledgement.tex) (./main.bbl
+
+
+[21])
+
+[22] (./main.bbl
 Underfull \hbox (badness 1769) in paragraph at lines 14--28
 []\OT1/cmr/m/n/10 Fouvin.  (2025).  \OT1/cmr/m/it/10 Mail-box sen-sor with re-mote mon-i-tor-ing via tuya app.  \OT1/cmr/m/n/10 Ama-zon.  Re- 
  []
@@ -731,21 +741,21 @@ L3 programming layer <2025-08-13>
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 6823ED7962B2C67B440306079151DE43;7202.
+(rerunfilecheck)             Checksum: 91AC2AAAC9D3BE5FF41AC78ADBDC127E;7076.
  ) 
 Here is how much of TeX's memory you used:
- 17007 strings out of 467799
- 260734 string characters out of 5436040
+ 16999 strings out of 467799
+ 260491 string characters out of 5436040
  1226226 words of memory out of 5000000
- 44921 multiletter control sequences out of 15000+600000
+ 44917 multiletter control sequences out of 15000+600000
  638096 words of font info for 84 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  90i,12n,93p,1306b,2161s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/eurosym/feymr10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt0900.pfb>
-Output written on main.pdf (26 pages, 6345053 bytes).
+Output written on main.pdf (26 pages, 6348620 bytes).
 PDF statistics:
- 1092 PDF objects out of 1200 (max. 8388607)
- 996 compressed objects within 10 object streams
- 489 named destinations out of 1000 (max. 500000)
- 453 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1107 PDF objects out of 1200 (max. 8388607)
+ 1010 compressed objects within 11 object streams
+ 488 named destinations out of 1000 (max. 500000)
+ 445 words of extra memory for PDF output out of 10000 (max. 10000000)
 
