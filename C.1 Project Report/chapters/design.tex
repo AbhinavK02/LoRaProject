@@ -94,14 +94,15 @@ Some other design considerations include the requirement of the platform being r
     \end{subfigure}
     \begin{subfigure}{0.48\textwidth}
         \centering
-        \includegraphics[height=4.5cm]{weight-sensor_construction-2.jpg}
-        \caption{Fully Assembled Load Cell Platform}
+        \includegraphics[height=4.5cm]{weight-sensor_prototype-1.jpg}
+        \caption{Load Cell Platform Prototype}
         \label{fig: constructionAssembled}                   
     \end{subfigure}
     \caption{Weight Sensor Construction}
     \label{fig: construction}
 \end{figure}
 
+However, the prototype shown in Figure \ref{fig: constructionAssembled} 
 % \subsubsection{Sensor Selection}
 % \label{sec: sensorSelection}
 % The sensors selected for this project were based on the functional requirements defined in Section \ref{sec: projectRequirements} as well as the shortcomings discussed in Section \ref{sec: literatureReview}. The general idea was to use multiple sensors to detect the same event, in order to increase reliability as well as a sensor which can detect not only events, but the current status of the mailbox. Hence, the light sensor and tilt sensor combination was chosen to detect the opening of the mailbox, while the load cell was chosen to detect the presence of mail. The reasons for choosing these specific sensors and their principle of operation are discussed in Section \ref{sec: sensors}.
@@ -252,8 +253,12 @@ SensorReading batteryMonitor() {
 \end{lstlisting}
 
 \subsubsection{Mail Detection logic}
+\label{sec: mailDetectionLogic}
+With all the sensors setup, detecting the state of the mailbox is handled by the \cmd{detectMail()} function found in \textbf{SensorManager.cpp}. The function first reads the weight sensor to determine if there is mail present, then checks for tampering by comparing the current weight state with the previous one. If no change is detected, it indicates that the lid was opened, but no mail was added or removed which by our logic means someone is looking into the mailbox for potentially nefarious reasons. If a change is detected, the function encodes the type of mail detected based on the weight state from the \cmd{readWeightSensor()} function. The function's argument is a pointer to a payload buffer where the encoded data is stored for transmission via LoRaWAN. Thus the actual encoding process is as simple as adding the relevant information into the buffer with a line like \cmd{payloadBuffer[len++] = ID;}. 
 
-With all the sensors setup, detecting the state of the mailbox is handled by the \cmd{detectMail()} function found in \textbf{SensorManager.cpp}. The function first reads the weight sensor to determine if there is mail present, then checks for tampering by comparing the current weight state with the previous one. If no change is detected, it indicates that the lid was opened, but no mail was added or removed which by our logic means someone is looking into the mailbox for potentially nefarious reasons. If a change is detected, the function encodes the type of mail detected based on the weight state from the \cmd{readWeightSensor()} function. The function's argument is a pointer to a payload buffer where the encoded data is stored for transmission via LoRaWAN. Thus the actual encoding process is as simple as adding the relevant information into the buffer with a line like \cmd{payloadBuffer[len++] = ID;}.
+\bigskip
+
+One significant feature of this function is a 25 second delay implemented before the weight sensor is read to ensure the mail person has sufficient time to place all the mail onto the platform. This was added after testing showed that the load cell could miss mail events if not placed quickly enough as discussed in Section \ref{sec: emailNotificationResults}. 
 
 % \begin{lstlisting}[language=C++, caption={detectMail() Function}, label={lst: detectMail}]
 % uint16_t detectMail(uint8_t *payloadBuffer) {
@@ -309,6 +314,7 @@ void goToSleep() {
 \end{lstlisting}
 
 \subsubsection{LoRaWAN Configuration}
+\label{sec: loraConfig}
 All of the configuration and functions required for LoRaWAN communication are defined in the \textbf{LoRaConfig.h} file. The libraries required are RadioLib (V7.4.0) by Jan Gromes and Preferences (installed in Arduino IDE by default).
 
 \bigskip
@@ -360,7 +366,7 @@ while (state != RADIOLIB_LORAWAN_NEW_SESSION) {
 Serial.println(F("Join successful"));
 \end{lstlisting}
 
-To make re-joining faster on subsequent wake-ups and power cycles, the nonces are stored in the ESP32's non-volatile memory (NVM) using the Preferences library as shown in Listing \ref{lst: ttnJoinFresh}. Once the nonces are restored, the node attempts a re-join in a loop until successful, after which the new nonces are stored. Additionally, the session is also stored in the RTC memory allowing for even faster re-joining after deep sleep wake-ups, but not power cycles. This is done because storing sessions indefinitely within the NVM may lead to unnecessary wear on the memory. This re-joining process is shown in Listing \ref{lst: ttnReJoin}. Notice that the program checks if restoring the session is possible first before looping through the nonces.
+To make re-joining faster on subsequent wake-ups and power cycles, the nonces are stored in the ESP32's non-volatile memory (NVM) using the Preferences library as shown in Listing \ref{lst: ttnJoinFresh}. Once the nonces are restored, the node attempts a re-join in a loop until successful, after which the new nonces are stored. This solved a major issue that the system had which is discussed in Section \ref{sec: ttnRejoinIssue}. Additionally, the session is also stored in the RTC memory allowing for even faster re-joining after deep sleep wake-ups, but not power cycles. This is done because storing sessions indefinitely within the NVM may lead to unnecessary wear on the memory. This re-joining process is shown in Listing \ref{lst: ttnReJoin}. Notice that the program checks if restoring the session is possible first before looping through the nonces.
 
 \begin{lstlisting}[language=C++, caption={TTN Re-Joining Loop using Stored Nonces or Session in TTN Joining Loop in lwActivate()}, label={lst: ttnReJoin}]
 Serial.println(F("Restoring LoRaWAN nonces"));
@@ -446,13 +452,10 @@ To set up the device on The Things Network (TTN), first an account was created o
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Application Layer}
 
-\subsubsection{Backend Implementation}
-\label{sec: backendImplementation}
 This section covers the implementation of the backend server and application layer, which is responsible for receiving data from The Things Network, decoding the payload, storing the data, and providing a user interface for monitoring the mailbox status.
 The link with the The Things Network is done using webhooks, which send HTTP POST requests to the python server whenever new data is received from the LoRaWAN device.
 
-\medskip
-\textbf{\underline{Initial setup}}
+\subsubsection{Backend Server Setup}
 \label{sec: initalSetup}
 To set up the backend server, we require three files, which include: 'server.py', '.env', and 'requirements.txt'. Each file servers a specific purpose:
 \begin{itemize}
@@ -489,10 +492,7 @@ EMAIL_PASSWORD=your_app_password_here
 
 The main contents of server.py are explained in the following sections and full code can be found in the project repository. 
 
-\medskip
-\textbf{\underline{Payload Decoder}}
-\smallskip
-
+\subsubsection{Payload Decoder}
 \label{sec: payloadDecoder}
 The LoRaWAN is able to send the bits to The Things Network. However for these to be actually useful to the user they must be 
 decoded and used to represent relevant information for a user, this includes the mail status, the battery and which post box it is. For this first a payload decoder must be made. This is made keeping in mind how bits were encoded in the first place. The decoder can be seen in Listing \ref{lst: payloadDecoder}
@@ -558,10 +558,7 @@ For actual mapping of device ID to device name and email addresses, a dictionary
 More can be added as just new rows with the similar syntax just a comma at the end of all rows except the last one. 
 Multiple email addresses can also be added by separating them with a comma within the double quotes.\\
 
-\medskip
-\textbf{\underline{User Interface}}
-\smallskip
-
+\subsubsection{Frontend Implementation}
 \label{sec: frontendImplementation}
 For the actual server, which the user interacts, with a python server was created. This server uses the Flask framework to create a simple web application that displays the status of the mailbox. 
 The server listens for incoming data from The Things Network and updates the mailbox status accordingly. The relevant code snippet is shown in Listing \ref{lst: flaskServer}
@@ -655,19 +652,33 @@ def show_dashboard():
     return render_template_string(html, d=d)
 \end{lstlisting}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \subsection{Validation Method}
-% \label{sec: validationMethod}
-% Once development of the system was underway, it became essential to validate system incrementally. After each task was completed within the Software Development and Project Implementation deliverables, the component was tested against the requirements outlined in Sections \ref{sec: functionalRequirements} and \ref{sec: technicalRequirements}. 
+\subsection{Validation Methods}
+\label{sec: validationMethods}
+During the development of the system, it became essential to validate system at different stages. Components were tested against the requirements outlined in Sections \ref{sec: functionalRequirements} and \ref{sec: technicalRequirements}. 
 
 % \bigskip
 
-% The following briefly describes the validation methods used specific requirements:
-% \begin{itemize}
-%     \item \textbf{Mail Detection:} Various objects ranging from around 20\,g to little above 100\,g were weighed on a scale and then placed on the load cell platform to check if the load cell could detect the presence of mail and classify them accurately via the serial monitor.
+The following briefly describes the validation methods used for the main requirements:
+\begin{itemize}
+\item \textbf{Mail Detection:} Various objects ranging from around 20\,g to above 100\,g were weighed on a scale and then placed on the load cell platform to check if the load cell could detect the presence of mail and classify them accurately. 10 different objects were used for testing including letters, pieces of cardboard, and power bank. The setup for this test is shown in Figure \ref{fig: mailDetectionTest}.
 %     \item \textbf{Lid Opening Detection:} The tilt switch and LDR were tested by opening and closing the mailbox lid multiple times. Using the serial monitor, the readings from both sensors were observed to ensure they accurately detected the lid status.
 %     \item \textbf{LoRa Communication:} The LoRa module was tested by sending test messages from the microcontroller to the LoRaWAN gateway. The successful receipt of messages was confirmed via TTN console and Datacake dashboard.
-%     \item \textbf{Email Notification:} The email notification system was tested by simulating mail detection events and verifying that emails were sent to the designated recipient.
+\item \textbf{Email Notification:} The email notification system was tested by simulating mail detection events and verifying that the mail was detected and emails were sent to the designated recipient. This was tested with the system installed in the mailbox as shown in Figure \ref{fig: finalProduct}. The test was conducted with 3 different objects. For each object, placing inside, removing and opening the lid without placement were tested.
 %     \item \textbf{Battery Status Monitoring:} The battery monitor was tested by simulating mail detection events and checking the battery level readings on the dashboard and then checking them against a multimeter.
-%     \item \textbf{Battery Life:} The system was powered by the battery and power consumption was monitored while idle and while sending messages. The readings were used to estimate the battery life. 
-% \end{itemize}
+\item \textbf{Battery Life:} The system was powered by the battery and current consumption was monitored while idle and while sending messages. The readings were used to estimate the battery life. The experimental setup for this test is shown in Figure \ref{fig: currentConsumptionTest}.
+\end{itemize}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{weight-sensor_prototype-2.jpg}
+    \caption{Experimental Setup for Mail Detection Testing Using Various Objects of Different Weights.}
+    \label{fig: mailDetectionTest}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{current-consumption-setup.jpg}
+    \caption{Experimental Setup for Battery Life Estimation by Measuring Current Consumption.}
+    \label{fig: currentConsumptionTest}
+\end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
