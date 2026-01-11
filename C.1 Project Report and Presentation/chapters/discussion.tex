@@ -1,0 +1,16 @@
+\section{Discussion}
+\label{sec: discussion}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+As demonstrated in Section~\ref{sec: completeSystem}, \project successfully fulfils all functional and technical requirements defined in Section~\ref{sec: systemRequirements}. The completed system reliably detects mailbox opening events, determines the presence of mail, categoirses the current amount of mail into weight class, and communicates this information remotely via LoRaWAN. The results confirm that the proposed design is both technically feasible and effective within the intended indoor deployment environment.
+
+\bigskip
+
+A key outcome of this project is the system’s ability to detect the current state of the mailbox rather than merely inferring activity. Unlike many of the smart mailbox solutions discussed in \ref{sec: literatureReview} that rely solely on door movement or motion detection, \project directly measures mail presence using a load cell. This enables the system to distinguish between meaningful events (mail added or removed) and non-meaningful events (lid opened without delivery), thereby reducing false notifications. The use of the tilt switch and light-dependent resistor in addition to load cell also proved effective in increasing system robustness. It essentially uses the same door motion logic as the \citeA{amazon_instaview}, \citeA{bigshopper_xsense} and \citeA{notific_at} along with a LDR as a redundancy. This makes the system even more reliable in detection. 
+
+\bigskip
+
+Another significant distinction is the system’s communication architecture. While the \citeA{amazon_instaview} and \citeA{bigshopper_xsense}, require base stations that connect to the internet for them, \project connects directly to LoRaWAN infrastructure. This reduces installation complexity and allows for simple communication deployment without additional hardware in the user’s home or office. However, this LoRaWAN communication protocol requires existing gateways to exist in the user's area; a short-coming the \citeA{notific_at} also faces. Only the \citeA{amazon_tuya_sensor} which connects directly to Wifi over come this issue of additional infrastructure as it can be assumed that most users have Wifi already. 
+
+\bigskip
+
+Despite its successful operation, the system does present some limitations. The load cell and HX711 sensor requires calibration for each installation as each platform constructured maybe have slight differences in weight and orientation. This of course increases the installation complexity. The load cell may also experience long term drift and may require maintenance. The aforementioned LoRaWAN communication has the issue of relying on existing infrastructure which is dependent on the area. Users can certainly install a LoRaWAN gateway themselves, however this renders the communication solution no better than existing products. Finally, the current backend implementation requires a continuously running server, which introduces deployment complexity for non-technical users. This however is easily fixed as the employment of a Datacake dashboard handles all of the hosting and just presents the user with an aesthetic user interface.

@@ -1,0 +1,120 @@
+\documentclass[12pt,a4paper]{report}
+\usepackage{labreport}
+
+% -------------------------------- Variables ---------------------------------
+\renewcommand{\authA}{Justin Julius Chin Cheong}
+\renewcommand{\authB}{Abhinav Kothari}
+\renewcommand{\matnumA}{34140}
+\renewcommand{\matnumB}{33349}
+\renewcommand{\project}{The Talking Mailbox}
+% \addbibresource{ref.bib} % Bibliography file
+% --------------------------- Container Templates -----------------------------
+% Figure
+% \begin{figure}[h!]
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{smth.png}
+%     \caption{brief desc.}
+%     \label{fig:smth}
+% \end{figure}
+
+% Code
+% \begin{lstlisting}[language=C, caption={brief desc.}, label={code:smth}]
+% // Code here
+% \end{lstlisting}
+
+% Table
+% \begin{table}[h!]
+%     \centering
+%     \begin{tabular}{|c|c|c|}
+%         \hline
+%         Input 1 & Input 2 & Output \\ \hline
+%         0 & 0 & 0 \\ \hline
+%         0 & 1 & 1 \\ \hline
+%         1 & 0 & 1 \\ \hline
+%         1 & 1 & 0 \\ \hline
+%     \end{tabular}
+%     \caption{desc}
+%     \label{tab:smth}
+% \end{table}
+
+% \section*{Task :}
+% \subsection*{Specifications}
+% \subsection*{Circuitry and Logic}
+% \subsection*{Function and Results}
+
+%--------------------------------------------------------
+%------------Title Section-------------------------------
+%--------------------------------------------------------
+\begin{document}
+
+% Title
+\begin{titlepage}
+    \thispagestyle{empty}
+    % logo
+    \begin{flushright}
+        \includegraphics[width=5cm]{hsrw.png}
+    \end{flushright}
+    
+    % title
+    \centering
+    \vspace{1cm}
+    {\Huge \textbf{\project} \par}
+    \vspace{1.5cm}
+    {\Large 2907 Sensors and Actuator Networks \par}
+    \vspace{1 cm}
+    {\Large Winter Semester 2025/26 \par}
+    \vspace{1.5 cm}
+
+    \vspace{2 cm}
+
+    % author info
+    {\Large \textbf{Authors:}}
+
+    \vspace{1 em}
+
+    \begin{tabular}{c c}
+    \href{https://jcchincheong-bb.github.io/}{\authA} & \href{https://www.linkedin.com/in/abhinav-kothari-2ak/}{\authB} \\
+    \matnumA & \matnumB \\
+    MSE & MSE \\
+    \end{tabular}
+\end{titlepage}
+
+% TOC
+\tableofcontents
+\thispagestyle{empty}
+\clearpage
+
+%-------------------------------------------------------------------------
+%-----------------Main Content--------------------------------------------
+%------------------------------------------------------------------------
+\pagenumbering{arabic}   % Page number = 1 starts here
+
+%----------------------------------------------------------------------------------------------------------------------
+\input{chapters/introduction}
+\pagebreak
+%----------------------------------------------------------------------------------------------------------------------
+\input{chapters/theory}
+\pagebreak
+%----------------------------------------------------------------------------------------------------------------------
+\input{chapters/design}
+\pagebreak
+%----------------------------------------------------------------------------------------------------------------------
+\input{chapters/results}
+\pagebreak
+%----------------------------------------------------------------------------------------------------------------------
+\input{chapters/discussion}
+\pagebreak
+%----------------------------------------------------------------------------------------------------------------------
+\input{chapters/conclusion}
+\pagebreak
+%----------------------------------------------------------------------------------------------------------------------
+% \input{chapters/acknowledgement}
+\bibliographystyle{apacite}
+\bibliography{ref}
+%----------------------------------------------------------------------------------------------------------------------
+% \pagebreak
+% \appendix
+% \section*{Appendix}
+% -----------------------------------------------------------
+
+\end{document}

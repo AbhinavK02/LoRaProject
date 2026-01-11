@@ -1,0 +1,96 @@
+\section{Introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Problem Statement} 
+All Professors and Lecturers have a lot to do and may not always have time to check their mailbox. Imagine how long some letters are left in the mailbox for days just because a professor is busy. On the other hand, checking your mailbox only to find nothing is quite frustrating. What if there was a way that your mailbox could tell you when there is mail? What if you had a talking mailbox?
+
+\bigskip
+
+To solve this problem, we introduce \textbf{The Talking Mailbox}. The aim of The Talking Mailbox project is to design and assemble a system that can detect the presence of mail within a mailbox in Building~06 and notify the owner of the mailbox.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Literature Review} 
+\label{sec: literatureReview}
+Before developing The Talking Mailbox, various existing smart mailbox solutions were reviewed, considering their sensor technology and communication methods as well as their advantages and shortcomings. 
+
+\bigskip
+
+Perhaps the simplest solution is presented in \citeA{youtube_mailbox}. A wire connected to the door protrudes out of the box and holds down a flag. Once opened, the flag is released indicating the mailbox has been opened. On the opposite end of the technological spectrum, several commercial smart mailboxes are available. The \citeA{amazon_tuya_sensor} model uses a passive infrared (PIR) motion sensor to detect mail presence, while \citeA{notific_at} employs a motion sensor\footnote{While no literature could be found on the exact technology used, the sensor is likely simple contact switch like a reed switch} attached to the mailbox door. The \citeA{amazon_tuya_sensor} connects directly to Wifi and the \citeA{notific_at} to LoRaWAN, providing remote notifications through dedicated apps. Similar to the \citeA{notific_at}, the \citeA{amazon_instaview} detects door openings utilising a tilt sensor, while the \citeA{bigshopper_xsense} combines a tilt sensor and an IR motion sensor for enhanced detection. Both of these models communicate with a base station within the home via radio frequency (RF) technology, with the \citeA{bigshopper_xsense} capable of managing multiple mailboxes.
+
+\bigskip
+
+While these solutions certainly have merit, The Talking Mailbox offers some advantages over them and has a degree of novelty. While very cheap and reliable, the \citeA{youtube_mailbox} has no means of remote notification. The \citeA{amazon_tuya_sensor} and \citeA{bigshopper_xsense} both use IR sensors which may be prone to false positives from environmental heat sources. The \citeA{amazon_instaview} and \citeA{bigshopper_xsense} require an additional base station device which increases complexity of setup. \project eliminates these issues as it connects to LoRaWAN directly and uses multiple sensors (that are not IR-based) to mitigate false positives. Most critically, all of these solutions rely on inferring mail presence from door movement or motion within the box, which may not always be accurate. \project directly detects mail presence using a weight sensor, providing a more reliable solution.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Project Plan}
+\subsubsection{Schedule} 
+The Talking Mailbox project is planned to be executed over a period of 3 months, starting from October 2025 to January 2026. The project is divided into several milestones as shown in Figure \ref{fig: ganttChart}. These deliverables and milestones adhere to the requirements set out in Section \ref{sec: projectRequirements}.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{LoRa-gantt.png}
+    \caption{Gantt Chart for The Talking Mailbox Project}
+    \label{fig: ganttChart}
+\end{figure}
+
+\subsubsection{Resources}
+The resources for the project include the budget shown in Section \ref{sec: projectRequirements} and all materials purchased as part of the Bill of Materials in Section \ref{sec: billOfMaterials}. 
+
+\bigskip 
+
+The project team consists of two Mechatronics Engineering Students whose responsibilities are divided as follows:
+\begin{itemize}
+    \item \textbf{Abhinav Kothari (33349):} Backend Development, Server Setup and Email Notification System.
+    \item \textbf{Justin Julius Chin Cheong (34140):} Schematic Design, Sensor integration, Microcontroller programming
+    \item \textbf{Both Students:} Component Choice, System Design, System Assembly \& Implementation, System Testing, Report Writing and Presentation Preparation.
+\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{System Requirements}  
+\label{sec: systemRequirements}
+\subsubsection{Functional Requirements}
+\label{sec: functionalRequirements}
+For The Talking Mailbox to be a satisfiable product, the following functional requirements must be implemented:
+
+\begin{itemize}
+    \item It can detect if the mailbox is opened.
+    \item It can detect light as a redundancy for confirming the opening status of the mailbox.
+    \item It can detect whether or not mail is present within the mailbox.
+    \item It can communicate if mail is in the box to a website / dashboard (based on LoRaWAN).
+    \item It alerts the responsible person via email or dashboard upon mail detection.
+    \item It can check the battery status.
+    \item It sends battery status updates to a website at regular intervals.
+    \item It sends a low battery warning to a website when the battery falls below a defined threshold.
+    \item It should run for at least 1 week on a single charge.
+\end{itemize}
+
+\subsubsection{Technical Requirements}
+\label{sec: technicalRequirements}
+For The Talking Mailbox to operate and perform its functions, the following technical requirements must be implemented:
+
+\begin{itemize}
+    \item The weight sensor can detect a change in weight of approximately 20\,g. This indicates when a piece of mail has been placed within the box.
+    \item The tilt sensor can detect the rotation of the post box lid. This indicates when the lid is opened.
+    \item The LDR can detect the change in light intensity by a defined threshold. This indicates when the lid is opened.
+    \item The transmitter can reliably connect and communicate via the LoRaWAN Gateway.
+    \item The server with which the LoRaWAN communicates can send emails to relevant personnel about the mail.
+    \item The power supply is a battery with a working voltage of 3.1\,V to 4.2\,V.
+    \item The enclosure can protect the system within a typical indoor environment (IP\,31).
+    \item The system should function at temperatures ranging 0--40\textdegree C and humidity 10--90\%.
+\end{itemize}
+
+\subsubsection{Project Requirements}
+\label{sec: projectRequirements}
+For The Talking Mailbox project to produce a functional product upon close out, the following project requirements must be met:
+
+\begin{itemize}
+    \item The budget is 100\euro{}.
+    \item The project workload is estimated at 100\,h.
+    \item The project schedule adheres to the following deadlines:
+		
+    
+    \begin{tabular}{@{\hspace{2em}} l r @{}}
+        Pitch: & 2025-10-21 \\
+        Bill of Materials: & 2025-10-23 \\
+        Schematic Design: & 2025-11-23 \\
+        Project Implementation: & 2025-12-19 \\
+        Project Report: & 2026-01-05 \\
+        Project Presentation and Demo: & 2026-01-17
+    \end{tabular}
+\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
