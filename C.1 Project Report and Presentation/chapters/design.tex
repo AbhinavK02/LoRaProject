@@ -61,7 +61,7 @@ This is an estimate of the materials required to make this project, these are al
 \label{sec: HWLayer}
 \subsubsection{Load Cell Assembly}
 \label{sec: 3dDesign}
-As understood from Section \ref{sec: loadCells}, to reliably detect any weight, the load cell must be allowed to bent as easily as possible. To prevent any mail from "missing" the detection platform, the platform must cover the entire box area. The design which allows this is shown in Figure \ref{fig: 3dModels}.
+According to \citeA{joyit_hx711_loadcell}, to reliably detect any weight, the load cell must be allowed to bent as easily as possible and thus be secured within a platform. To prevent any mail from "missing" the detection platform, the platform must cover the entire box area. The design which allows this is shown in Figure \ref{fig: 3dModels}.
 
 \begin{figure}[ht]
      \centering
@@ -367,7 +367,7 @@ void goToSleep() {
 
 \subsubsection{LoRaWAN Configuration}
 \label{sec: loraConfig}
-All of the configuration and functions required for LoRaWAN communication are defined in the \textbf{LoRaConfig.h} file. The libraries required are RadioLib (V7.4.0) by Jan Gromes and Preferences (installed in Arduino IDE by default).
+All of the configuration and functions required for LoRaWAN communication are defined in the \textbf{LoRaConfig.h} file. The libraries required are RadioLib (V7.4.0) by Jan Gromes and Preferences (installed in Arduino IDE by default). The configuration process was also completed with guidance from \citeA{wio_sx1262_xiao_esp32s3_lora_node}.
 
 \bigskip
 
@@ -420,7 +420,7 @@ while (state != RADIOLIB_LORAWAN_NEW_SESSION) {
 Serial.println(F("Join successful"));
 \end{lstlisting}
 
-To make re-joining faster on subsequent wake-ups and power cycles, the nonces are stored in the ESP32's non-volatile memory (NVM) using the Preferences library as shown in Listing \ref{lst: ttnJoinFresh}. Once the nonces are restored, the node attempts to re-join in a loop until successful, after which the new nonces are stored. This solved the major rejoining issue discussed in Section \ref{sec: ttnRejoinIssue}. Additionally, the session is also stored in the RTC memory allowing for even faster re-joining after deep sleep wake-ups. This is done because storing sessions indefinitely within the NVM may lead to unnecessary wear on the memory. This re-joining process is shown in Listing \ref{lst: ttnReJoin}. Notice that the program checks if restoring the session is possible first before looping through the nonces.
+To make re-joining faster on subsequent wake-ups and power cycles, the nonces are stored in the ESP32's non-volatile memory (NVM) using the Preferences library as shown in Listing \ref{lst: ttnJoinFresh}. Once the nonces are restored, the node attempts to re-join in a loop until successful, after which the new nonces are stored. This solved the major rejoining issue discussed in Section \ref{sec: ttnRejoinIssue}. Additionally, the session is also stored in the RTC memory allowing for even faster re-joining after deep sleep wake-ups. This is done because storing sessions indefinitely within the NVM may lead to unnecessary wear on the memory. This re-joining process is shown in Listing \ref{lst: ttnReJoin}. Notice that the program checks if restoring the session is possible first before looping through the nonces. This solution was adapted from example code from \citeA{radiolibpersistence_lorawan_esp32}.
 
 \begin{minipage}{\textwidth}
     \begin{lstlisting}[language=C++, caption={TTN Re-Joining Loop using Stored Nonces or Session in TTN Joining Loop in lwActivate()}, label={lst: ttnReJoin}]

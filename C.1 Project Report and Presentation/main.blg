@@ -12,45 +12,48 @@ Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: ref.bib
+Warning--entry type for "wio_sx1262_xiao_esp32s3_lora_node" isn't style-file defined
+--line 141 of file ref.bib
 apacite.bst [2013/07/21 v6.03 APA bibliography style]
-You've used 5 entries,
+You've used 9 entries,
             6951 wiz_defined-function locations,
-            1296 strings with 11459 characters,
-and the built_in function-call counts, 6857 in all, are:
-= -- 829
-> -- 50
-< -- 246
-+ -- 197
-- -- 20
-* -- 375
-:= -- 1150
-add.period$ -- 25
-call.type$ -- 5
-change.case$ -- 85
+            1319 strings with 12051 characters,
+and the built_in function-call counts, 12249 in all, are:
+= -- 1519
+> -- 90
+< -- 440
++ -- 357
+- -- 36
+* -- 652
+:= -- 2033
+add.period$ -- 42
+call.type$ -- 9
+change.case$ -- 127
 chr.to.int$ -- 0
-cite$ -- 10
-duplicate$ -- 175
-empty$ -- 386
-format.name$ -- 70
-if$ -- 1424
+cite$ -- 18
+duplicate$ -- 293
+empty$ -- 657
+format.name$ -- 126
+if$ -- 2549
 int.to.chr$ -- 0
-int.to.str$ -- 15
+int.to.str$ -- 27
 missing$ -- 0
-newline$ -- 133
-num.names$ -- 40
-pop$ -- 357
+newline$ -- 227
+num.names$ -- 72
+pop$ -- 584
 preamble$ -- 1
-purify$ -- 20
+purify$ -- 34
 quote$ -- 0
-skip$ -- 354
+skip$ -- 710
 stack$ -- 0
-substring$ -- 217
-swap$ -- 90
-text.length$ -- 15
+substring$ -- 393
+swap$ -- 148
+text.length$ -- 25
 text.prefix$ -- 0
 top$ -- 1
-type$ -- 400
+type$ -- 792
 warning$ -- 0
-while$ -- 25
+while$ -- 43
 width$ -- 0
-write$ -- 142
+write$ -- 244
+(There was 1 warning)

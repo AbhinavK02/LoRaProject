@@ -53,6 +53,28 @@ frankenfoamy.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+{IDUINO}%
+}{%
+{IDUINO}%
+}{%
+{\protect \APACyear {{\protect \bibnodate {}}}}%
+}]{%
+iduinose059}
+\APACinsertmetastar {%
+iduinose059}%
+\begin{APACrefauthors}%
+{IDUINO}.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{{\protect \bibnodate {}}}{}{}.
+\newblock
+\APACrefbtitle {Ball Switch Sensor Module (SE059).} {Ball switch sensor module (se059).}
+\newblock
+\APACrefnote{Datasheet}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 InstaView%
 }{%
 InstaView%
@@ -79,6 +101,28 @@ InstaView.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+{Joy-IT}%
+}{%
+{Joy-IT}%
+}{%
+{\protect \APACyear {{\protect \bibnodate {}}}}%
+}]{%
+joyit_hx711_loadcell}
+\APACinsertmetastar {%
+joyit_hx711_loadcell}%
+\begin{APACrefauthors}%
+{Joy-IT}.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{{\protect \bibnodate {}}}{}{}.
+\newblock
+\APACrefbtitle {Load Cell with HX711 Amplifier.} {Load cell with hx711 amplifier.}
+\newblock
+\APACrefnote{User manual and datasheet}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Notific%
 }{%
 Notific%
@@ -102,6 +146,56 @@ Notific.%
 \begin{APACrefURL} \url{https://notific.at/en} \end{APACrefURL}
 \newblock
 \APACrefnote{Accessed: 2025-12-29}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+{radiolib-org}%
+}{%
+{radiolib-org}%
+}{%
+{\protect \APACyear {2025}}%
+}]{%
+radiolibpersistence_lorawan_esp32}
+\APACinsertmetastar {%
+radiolibpersistence_lorawan_esp32}%
+\begin{APACrefauthors}%
+{radiolib-org}.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2025}{}{}.
+\newblock
+\APACrefbtitle {LoRaWAN\_ESP32.ino — Example for LoRaWAN persistence on ESP32.} {Lorawan\_esp32.ino — example for lorawan persistence on esp32.}
+\newblock
+\APAChowpublished {GitHub repository}.
+\newblock
+\begin{APACrefURL} \url{https://github.com/radiolib-org/radiolib-persistence/blob/main/examples/LoRaWAN_ESP32/LoRaWAN_ESP32.ino} \end{APACrefURL}
+\newblock
+\APACrefnote{Accessed: 2025-12-19}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+{Seeed Studio Wiki}%
+}{%
+{Seeed Studio Wiki}%
+}{%
+{\protect \APACyear {2026}}%
+}]{%
+wio_sx1262_xiao_esp32s3_lora_node}
+\APACinsertmetastar {%
+wio_sx1262_xiao_esp32s3_lora_node}%
+\begin{APACrefauthors}%
+{Seeed Studio Wiki}.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2026}{}{}.
+\newblock
+\APACrefbtitle {LoRaWAN Sensor Node.} {Lorawan sensor node.}
+\newblock
+\begin{APACrefURL} \url{https://wiki.seeedstudio.com/wio_sx1262_xiao_esp32s3_for_lora_sensor_node/} \end{APACrefURL}
+\newblock
+\APACrefnote{Accessed: 2025-11-28}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
