@@ -1,8 +1,8 @@
-PWD g:/My Drive/Projects/LoRaProject/C.1 Project Report
+PWD g:/My Drive/Projects/LoRaProject/C.1 Project Report and Presentation
 INPUT c:/texlive/2025/texmf.cnf
 INPUT c:/texlive/2025/texmf-dist/web2c/texmf.cnf
 INPUT c:/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT g:/My Drive/Projects/LoRaProject/C.1 Project Report/main.tex
+INPUT g:/My Drive/Projects/LoRaProject/C.1 Project Report and Presentation/main.tex
 OUTPUT main.log
 INPUT ./report.cls
 INPUT report.cls
@@ -145,6 +145,8 @@ INPUT c:/texlive/2025/texmf-dist/tex/latex/accsupp/accsupp.sty
 INPUT c:/texlive/2025/texmf-dist/tex/latex/accsupp/accsupp-pdftex.def
 INPUT c:/texlive/2025/texmf-dist/tex/latex/accsupp/accsupp-pdftex.def
 INPUT c:/texlive/2025/texmf-dist/tex/latex/accsupp/accsupp-pdftex.def
+INPUT c:/texlive/2025/texmf-dist/tex/latex/float/float.sty
+INPUT c:/texlive/2025/texmf-dist/tex/latex/float/float.sty
 INPUT c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
 INPUT c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
 INPUT c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
@@ -274,22 +276,29 @@ INPUT ./assets/LoRa_Sch_V2.png
 INPUT ./assets/LoRa_Sch_V2.png
 INPUT ./assets/LoRa_Sch_V2.png
 INPUT ./assets/LoRa_Sch_V2.png
+INPUT ./assets/system-flowchart_hor-transparent_v4.png
+INPUT ./assets/system-flowchart_hor-transparent_v4.png
+INPUT ./assets/system-flowchart_hor-transparent_v4.png
+INPUT ./assets/system-flowchart_hor-transparent_v4.png
+INPUT c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
+INPUT c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
+INPUT c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
+INPUT c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
+INPUT c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
+INPUT c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
+INPUT c:/texlive/2025/texmf-dist/tex/latex/listings/lstmisc.sty
+INPUT c:/texlive/2025/texmf-dist/tex/latex/listings/lstmisc.sty
+INPUT c:/texlive/2025/texmf-dist/tex/latex/listings/lstmisc.sty
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmtt10.tfm
-INPUT c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
-INPUT c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
-INPUT c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
-INPUT c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
-INPUT c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
-INPUT c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
-INPUT c:/texlive/2025/texmf-dist/tex/latex/listings/lstmisc.sty
-INPUT c:/texlive/2025/texmf-dist/tex/latex/listings/lstmisc.sty
-INPUT c:/texlive/2025/texmf-dist/tex/latex/listings/lstmisc.sty
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmtt9.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmmi9.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/cm/cmsy9.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex9.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm
 INPUT c:/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
+INPUT c:/texlive/2025/texmf-dist/tex/latex/base/omlcmr.fd
+INPUT c:/texlive/2025/texmf-dist/tex/latex/base/omlcmr.fd
+INPUT c:/texlive/2025/texmf-dist/tex/latex/base/omlcmr.fd
 INPUT c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
 INPUT c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
 INPUT c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
@@ -332,6 +341,11 @@ INPUT ./chapters/conclusion.tex
 INPUT ./chapters/conclusion.tex
 INPUT ./chapters/conclusion.tex
 INPUT chapters/conclusion.tex
+INPUT ./chapters/acknowledgement.tex
+INPUT ./chapters/acknowledgement.tex
+INPUT ./chapters/acknowledgement.tex
+INPUT ./chapters/acknowledgement.tex
+INPUT chapters/acknowledgement.tex
 INPUT ./main.bbl
 INPUT ./main.bbl
 INPUT main.bbl

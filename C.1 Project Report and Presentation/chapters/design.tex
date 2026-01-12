@@ -81,7 +81,10 @@ As understood from Section \ref{sec: loadCells}, to reliably detect any weight, 
      \caption{3D Model of detection platform}
      \label{fig: 3dModels}
 \end{figure}
-The height with the hex nuts, allow the load cell to have clearance to bend during load from the upper platform. The off center screw platform on both platform allow for best readings from the load cell. The size of the upper platform should match the post box size, however the lower platform allows for flexibility, it can be made just large enough to not cause toppling over and allow us to place necessary modules (such as the HX711). \\
+The height with the hex nuts, allow the load cell to have clearance to bend during load from the upper platform. The off center screw platform on both platform allow for best readings from the load cell. The size of the upper platform should match the post box size, however the lower platform allows for flexibility, it can be made just large enough to not cause toppling over and allow us to place necessary modules (such as the HX711). 
+
+\bigskip
+
 Some other design considerations include the requirement of the platform being rigid and lightweight, to allow load cell to be as sensitive as possible. A good material to use for the platform is wood. The screws should also be flat with the platform, to prevent mail from tearing / getting stuck. The process of assembling the load cell platform is shown in Figure \ref{fig: construction}.
 
 
@@ -102,7 +105,7 @@ Some other design considerations include the requirement of the platform being r
     \label{fig: construction}
 \end{figure}
 
-However, the prototype shown in Figure \ref{fig: constructionAssembled} 
+The prototype shown in Figure \ref{fig: constructionAssembled} was then improved upon by increasing the size of the top platform to cover a greater area within the mailbox as well as adding a backboard to ensure mail does not slide off of the platform when the mailbox is opened. The final design is shown in Figure \ref{fig: finalProduct}.
 % \subsubsection{Sensor Selection}
 % \label{sec: sensorSelection}
 % The sensors selected for this project were based on the functional requirements defined in Section \ref{sec: projectRequirements} as well as the shortcomings discussed in Section \ref{sec: literatureReview}. The general idea was to use multiple sensors to detect the same event, in order to increase reliability as well as a sensor which can detect not only events, but the current status of the mailbox. Hence, the light sensor and tilt sensor combination was chosen to detect the opening of the mailbox, while the load cell was chosen to detect the presence of mail. The reasons for choosing these specific sensors and their principle of operation are discussed in Section \ref{sec: sensors}.
@@ -110,12 +113,6 @@ However, the prototype shown in Figure \ref{fig: constructionAssembled}
 \subsubsection{Schematic Design}
 \label{sec: schematicDesign}
 The complete schematic design of the system is shown in Figure \ref{fig: schematic}. The design is quite simple as the light and tilt sensors are digital sensors and connect directly to any GPIO pins on the microcontroller. The load cell on the other hand connects to the HX711 amplifier board, which then has a data line and clock line connecting to the ESP32-S3. The SX1262 LoRa module is connected via SPI, but the depiction in Figure \ref{fig: schematic} is a bit inaccurate. The kit comes with B2B connection which allows the MCU and LoRa module to be connected directly without any wiring. The pin mapping between the sensors and the microcontroller is shown in Table \ref{tab: pin-mapping}.
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=1\textwidth]{LoRa_Sch_V2.png}
-    \caption{Schematic Diagram of the System}
-    \label{fig: schematic}
-\end{figure}
 
 \begin{table}[h]
     \centering
@@ -134,9 +131,68 @@ The complete schematic design of the system is shown in Figure \ref{fig: schemat
     \caption{Sensor-to-ESP32-S3 Pin Mapping}
     \label{tab: pin-mapping}
 \end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{LoRa_Sch_V2.png}
+    \caption{Schematic Diagram of the System}
+    \label{fig: schematic}
+\end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Embedded Software Layer}
 \label{sec: ESWLayer}
+\subsubsection{System Flow}
+\label{sec: systemFlow}
+The complete logical flow of the system is illustrated in \ref{fig: programmingFlowChart}. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{system-flowchart_hor-transparent_v4.png}
+    \caption{Programming Flow Chart of the Embedded Software}
+    \label{fig: programmingFlowChart}
+\end{figure}
+
+The general idea is that upon start-up, the sensors are initialised, the LoRaWAN node is activated, the mail detection logic is executed to build the payload, the payload is transmitted and the controller is put to sleep. Once the light or tilt sensor is triggered, the ESP32-S3 wakes up and the process repeats. 
+
+\bigskip
+
+The actual execution of this flow is implemented in the \textbf{LR-V1.0.ino} as shown in Listing \ref{lst: mainCode}. All of the functions used are defined and explained in the subsequent sections.
+\begin{lstlisting}[language=C++, caption={Main Code in LR-V1.0.ino}, label={lst: mainCode}]
+#include "LoRaConfig.h"
+#include "SensorManager.h"
+// Start Here upon Wake-up
+void setup() {
+  Serial.begin(115200);
+
+  // Initialising all the Sensors
+  sensorManager_init();
+
+  // Radio Setup
+  Serial.println(F("\nSetup... "));
+
+  ...
+
+  // Activating the node for LoRaWAN
+  state = lwActivate();
+  Serial.println(F("Ready!\n")); // Ready to begin uploading
+
+  // Reading Sensors and Building in Payload
+  uplinkPayloadLen = detectMail(uplinkPayload);
+
+  // Uploading the Payload
+  state = lwUplink(uplinkPayload);
+
+  delay(5000);
+
+  // Sleep
+  radio.sleep();
+  goToSleep();
+}
+void loop() {
+  // Empty since sleep interrupt operates as the loop
+}
+\end{lstlisting}
+
+
 \subsubsection{Microcontroller Code Structure}
 \label{sec: microcontrollerCodeStructure}
 
@@ -148,11 +204,11 @@ The microcontroller code was structured with modularity in mind and divided into
     \item \textbf{LR-V1.0.ino:} This is the main file which essentially just runs the functions defined in the preceding files in the specific order required. 
 \end{itemize}
 
-To program the ESP32-S3, the Arduino IDE was used. The complete code can be found in the project repository (or in the attached zip file). Additionally, all libraries required are also included in the repository for ease of access. Simply click on File > Preferences and change the sketchbook location to the path of the project repository. The ESP32 board manager must also be installed following the instructions from \href{https://docs.espressif.com/projects/arduino-esp32/en/latest/installing.html}{Express-If Documentation}. Once installed, select "XIAO\_ESP32S3" from Tools > Board menu.
+To program the ESP32-S3, the Arduino IDE was used. The complete code can be found in the project repository (or in the attached zip file). Additionally, all libraries required are also included in the repository for ease of access. Simply click on File \textgreater{} Preferences and change the sketchbook location to the path of the project repository. The ESP32 board manager must also be installed following the instructions from \href{https://docs.espressif.com/projects/arduino-esp32/en/latest/installing.html}{Express-If Documentation}. Once installed, select "XIAO\_ESP32S3" from Tools \textgreater{} Board menu.
 
 \subsubsection{Sensor Management}
 \label{sec: sensorManager}
-Before the sensors can be used, the pins and parameters must be configured as done in the \cmd{sensorManager_init()} function shown in Listing \ref{lst: sensorManagerInit}. 
+To initiliase the pins and parameters of the sensors, the \cmd{sensorManager_init()} function was defined as shown in Listing \ref{lst: sensorManagerInit} from the \textbf{SensorManager.h} file.
 
 \begin{lstlisting}[language=C++, caption={sensorManager\_init() Function}, label={lst: sensorManagerInit}]
 void sensorManager_init(){
@@ -181,6 +237,8 @@ void sensorManager_init(){
 
 Importantly, this function sets the scale factor for the load cell after calibration and configures the ADC for battery monitoring. The process of calibration is discussed in Section \ref{sec: weightSensorImplementation}. The ADC is set to 12-bit resolution to allow readings from 0 to 4095, and the attenuation is set to 11dB to allow the full voltage range of 0 to 3.3V to be read instead of the default 1.1V. The function also puts the HX711 load cell amplifier to sleep after initialization to save power.
 
+\bigskip
+
 Additionally, to keep the sensor readings organised, a struct called \cmd{SensorReading} was created. This struct contains the value read from the sensor as well as an identifying number. This is useful for logging and debugging purposes. The struct is defined in Listing \ref{lst: sensorReadingStruct} from the \textbf{SensorManager.h} file.
 
 \begin{lstlisting}[language=C++, caption={sensorReading struct}, label={lst: sensorReadingStruct}]
@@ -197,7 +255,7 @@ To use the HX711 load cell amplifier, the HX711 library (V0.7.5) by Bogdan Necul
 
 \bigskip
 
-Before using the load cell, it must be calibrated. This was done by weighing an object with a calibrated scale and then placing it on the load cell. The ESP32-S3 was programmed to tare the scale and then call the function \cmd{scale.get_units(10)} to get the average of 10 readings from the load cell. This value is then divided by the known weight to get the scale factor. After multiple iterations, a scale factor of 883.f was found to be accurate for this setup. This value is set in the \cmd{sensorManager_init()} function shown in Listing \ref{lst: sensorManagerInit}. 
+Before using the load cell, it must be calibrated. This was done by weighing an object with a calibrated scale and then placing it on the load cell. The ESP32-S3 was programmed to tare the scale and then call the function \cmd{scale.get_units(10)} to get the average of 10 readings from the load cell. This value is then divided by the known weight to get the scale factor. After multiple iterations, a scale factor of 883.f was found to be accurate for this setup. This value was then set during initialization as shown in Listing \ref{lst: sensorManagerInit}. 
 
 \bigskip
 
@@ -224,28 +282,22 @@ SensorReading readWeightSensor() {
 \end{lstlisting}
 
 \subsubsection{Battery Monitor Implementation}
-The battery monitor is implemented using the built-in ADC of the ESP32-S3 and read using the \cmd{batteryMonitor()} function defined in the \textbf{SensorManager.cpp} file and shown in Listing \ref{lst: batteryMonitor}. From Figure  \ref{fig: schematic}, we can see a voltage divider is used because the battery voltage is 4.2V, which exceeds the maximum input voltage of the ESP32-S3 (3.3V). This is compensated for in the code by the multiplication of the \cmd{adcVoltage} by the voltage divider ratio, which in this case is 1.5. The function then maps the voltage linearly to a percentage based on the operating voltage range of 3.1V (0\%) to 4.2V (100\%) to give the user an easily readable indication of the battery level. 
+A battery monitor was implemented using the \cmd{batteryMonitor()} function defined in the \textbf{SensorManager.cpp} file and shown in Listing \ref{lst: batteryMonitor}. From Figure  \ref{fig: schematic}, we can see a voltage divider is used because the maximum battery voltage of 4.2V, which exceeds the maximum input voltage of the ESP32-S3 (3.3V). This is compensated for in the code by the multiplication of the \cmd{adcVoltage} by the voltage divider ratio, which in this case is 1.5. The function then maps the voltage linearly to a percentage based on the operating voltage range of 3.1V (0\%) to 4.2V (100\%) to give the user an easily readable indication of the battery level. 
 
 \begin{lstlisting}[language=C++, caption={batteryMonitor() Function}, label={lst: batteryMonitor}]
 SensorReading batteryMonitor() {
   SensorReading reading;
   uint8_t batPercentage;
   reading.id = ID_BAT_MONITOR;
-
   int adcValue = analogRead(BAT_MONITOR_PIN);
-  // Calculating Voltage at the pin
-  float adcVoltage = (adcValue * 3.3) / 4095;
-  // Calculating the actual battery voltage using voltage divider ratio
-  float batVoltage = adcVoltage * 1.5;
-  // Assigning percentage based on voltage levels (3.10V ^= 0%, 4.20V ^= 100%)
-  if (batVoltage >= 4.20) {
+  float adcVoltage = (adcValue * 3.3) / 4095; // Calculating U[V] at the pin
+  float batVoltage = adcVoltage * 1.5; // Using ratio to find actual U[V]
+  if (batVoltage >= 4.20) { //4.20V ^= 100%
     reading.value = 100;
-  } else if (batVoltage <= 3.10) {
+  } else if (batVoltage <= 3.10) { //3.10V ^= 0%
     reading.value = 0;
-  } else {
-    batPercentage = (batVoltage - 3.10) * 100 / (1.1);
-    Serial.print("Battery Percentage: ");
-    Serial.println(batPercentage);
+  } else { // Mapping to percentage
+    batPercentage = (batVoltage - 3.10) * 100 / (1.1); 
     reading.value = batPercentage;
   }
   return reading;
@@ -299,7 +351,7 @@ One significant feature of this function is a 25 second delay implemented before
 % \end{lstlisting}
 
 \subsubsection{Wake-up and Sleep Logic}
-In an effort to save as much power as possible, the ESP32-S3 is put into sleep mode after each mail detection session and transmission. This is done using the function \cmd{goToSleep()} defined in the main \textbf{SensorManager.cpp} and shown in Listing \ref{goToSleep}. This function conigures the wake-up sources to be the light sensor and tilt sensor pins, such that when either of these pins goes low (indicating the mailbox lid is opened or light is detected inside the mailbox), the ESP32 will wake up from deep sleep. 
+In an effort to save as much power as possible, the ESP32-S3 is put into sleep mode after each mail detection session and transmission. This is done using the function \cmd{goToSleep()} defined in \textbf{SensorManager.cpp} and shown in Listing \ref{lst: goToSleep}. This function configures the wake-up sources to be the light sensor and tilt sensor pins, such that when either of these pins goes low (indicating the mailbox lid is opened or light is detected inside the mailbox), the ESP32 will wake up from deep sleep. 
 \begin{lstlisting}[language=C++, caption={goToSleep() Function}, label={lst: gotToSleep}]
 void goToSleep() {
   Serial.println("Going to deep sleep...");
@@ -321,29 +373,31 @@ All of the configuration and functions required for LoRaWAN communication are de
 
 The first and most important step is defining the access keys for The Things Network (TTN). Setting up a device on TTN is discussed in Section \ref{sec: ttnConfiguration}, but once the device is created, the keys can be found in the console. These keys were first defined as macros for easy access and then copied into variables for use as shown in Listing \ref{lst: ttnKeys}.
 
-\begin{lstlisting}[language=C++, caption={TTN Key Definition}, label={lst: ttnKeys}]
-// TTN Keys for Accessing the Network
-#ifndef RADIOLIB_LORAWAN_JOIN_EUI // All zeros for TTN compliance
-#define RADIOLIB_LORAWAN_JOIN_EUI 0x0000000000000000
-#endif
+\begin{minipage}{\textwidth}
+    \begin{lstlisting}[language=C++, caption={TTN Key Definition}, label={lst: ttnKeys}][float]
+    // TTN Keys for Accessing the Network
+    #ifndef RADIOLIB_LORAWAN_JOIN_EUI // All zeros for TTN compliance
+    #define RADIOLIB_LORAWAN_JOIN_EUI 0x0000000000000000
+    #endif
 
-#ifndef RADIOLIB_LORAWAN_DEV_EUI
-#define RADIOLIB_LORAWAN_DEV_EUI 0x070B3D57ED0074D0
-#endif
+    #ifndef RADIOLIB_LORAWAN_DEV_EUI
+    #define RADIOLIB_LORAWAN_DEV_EUI 0x070B3D57ED0074D0
+    #endif
 
-#ifndef RADIOLIB_LORAWAN_APP_KEY
-#define RADIOLIB_LORAWAN_APP_KEY 0x02, 0xBC, 0xE7, 0xC1, 0x02, 0xB3, 0x18, 0xD7, 0x02, 0xF2, 0x18, 0xDF, 0x9E, 0x45, 0xD1, 0x8E
-#endif
+    #ifndef RADIOLIB_LORAWAN_APP_KEY
+    #define RADIOLIB_LORAWAN_APP_KEY 0x02, 0xBC, 0xE7, 0xC1, 0x02, 0xB3, 0x18, 0xD7, 0x02, 0xF2, 0x18, 0xDF, 0x9E, 0x45, 0xD1, 0x8E
+    #endif
 
-...
+    ...
 
-// Copy over Keys
-uint64_t joinEUI = RADIOLIB_LORAWAN_JOIN_EUI;
-uint64_t devEUI = RADIOLIB_LORAWAN_DEV_EUI;
-uint8_t appKey[] = {RADIOLIB_LORAWAN_APP_KEY};
-\end{lstlisting}
+    // Copy over Keys
+    uint64_t joinEUI = RADIOLIB_LORAWAN_JOIN_EUI;
+    uint64_t devEUI = RADIOLIB_LORAWAN_DEV_EUI;
+    uint8_t appKey[] = {RADIOLIB_LORAWAN_APP_KEY};
+    \end{lstlisting}
+\end{minipage}
 
-After the keys are set, the LoRa node has is activated using the function \cmd{lwActivate()} found in the \textbf{LoRaConfig.h} file. The Over the Air Activation (OTAA) method instead of the Activation By Personalization (ABP) method for better security and flexibility. This is done using the RadioLib command \cmd{node.activateOTAA()} as shown in Listing \ref{lst: ttnJoinFresh}. Because this process sometimes fails due to network issues or mis-recognition on the TTN side, a loop is implemented to retry joining until successful.
+After the keys are set, the LoRa node is activated using the function \cmd{lwActivate()} found in the \textbf{LoRaConfig.h} file. The Over the Air Activation (OTAA) method is used instead of the Activation By Personalization (ABP) method for better security and flexibility. This is done using the RadioLib command \cmd{node.activateOTAA()} as shown in Listing \ref{lst: ttnJoinFresh}. Because this process sometimes fails due to network issues or recognition issues on the TTN side, a loop is implemented to retry joining until successful.
 
 \begin{lstlisting}[language=C++, caption={TTN Joining Loop in lwActivate()}, label={lst: ttnJoinFresh}]
 while (state != RADIOLIB_LORAWAN_NEW_SESSION) {
@@ -366,83 +420,42 @@ while (state != RADIOLIB_LORAWAN_NEW_SESSION) {
 Serial.println(F("Join successful"));
 \end{lstlisting}
 
-To make re-joining faster on subsequent wake-ups and power cycles, the nonces are stored in the ESP32's non-volatile memory (NVM) using the Preferences library as shown in Listing \ref{lst: ttnJoinFresh}. Once the nonces are restored, the node attempts a re-join in a loop until successful, after which the new nonces are stored. This solved a major issue that the system had which is discussed in Section \ref{sec: ttnRejoinIssue}. Additionally, the session is also stored in the RTC memory allowing for even faster re-joining after deep sleep wake-ups, but not power cycles. This is done because storing sessions indefinitely within the NVM may lead to unnecessary wear on the memory. This re-joining process is shown in Listing \ref{lst: ttnReJoin}. Notice that the program checks if restoring the session is possible first before looping through the nonces.
+To make re-joining faster on subsequent wake-ups and power cycles, the nonces are stored in the ESP32's non-volatile memory (NVM) using the Preferences library as shown in Listing \ref{lst: ttnJoinFresh}. Once the nonces are restored, the node attempts to re-join in a loop until successful, after which the new nonces are stored. This solved the major rejoining issue discussed in Section \ref{sec: ttnRejoinIssue}. Additionally, the session is also stored in the RTC memory allowing for even faster re-joining after deep sleep wake-ups. This is done because storing sessions indefinitely within the NVM may lead to unnecessary wear on the memory. This re-joining process is shown in Listing \ref{lst: ttnReJoin}. Notice that the program checks if restoring the session is possible first before looping through the nonces.
 
-\begin{lstlisting}[language=C++, caption={TTN Re-Joining Loop using Stored Nonces or Session in TTN Joining Loop in lwActivate()}, label={lst: ttnReJoin}]
-Serial.println(F("Restoring LoRaWAN nonces"));
-store.getBytes("nonces", lwNonces, RADIOLIB_LORAWAN_NONCES_BUF_SIZE);
-state = node.setBufferNonces(lwNonces);
-debug(state != RADIOLIB_ERR_NONE, F("Restoring nonces failed"), state, false);
+\begin{minipage}{\textwidth}
+    \begin{lstlisting}[language=C++, caption={TTN Re-Joining Loop using Stored Nonces or Session in TTN Joining Loop in lwActivate()}, label={lst: ttnReJoin}]
+    // Restore nonces from NVM
+    store.getBytes("nonces", lwNonces, RADIOLIB_LORAWAN_NONCES_BUF_SIZE);
+    state = node.setBufferNonces(lwNonces);
+    debug(state != RADIOLIB_ERR_NONE, F("Restoring nonces failed"), state, false);
 
-// Restore session from RTC
-state = node.setBufferSession(lwSession);
+    // Restore session from RTC
+    state = node.setBufferSession(lwSession);
 
-// Joining TTN (if restore not immediate)
-while (state != RADIOLIB_LORAWAN_NEW_SESSION) {
-    Serial.println(F("Joining LoRaWAN..."));
-    state = node.activateOTAA();
-    if (state == RADIOLIB_LORAWAN_SESSION_RESTORED) {
-        Serial.println(F("LoRaWAN session restored"));
-        break;
-    } else if (state == RADIOLIB_LORAWAN_NEW_SESSION) {
-        Serial.println(F("Join successful, saving nonces"));
-        uint8_t *persist = node.getBufferNonces();
-        Serial.print("Dev Nonces: ");
-        Serial.println((char *)persist);
-        memcpy(lwNonces, persist, RADIOLIB_LORAWAN_NONCES_BUF_SIZE);
-        store.putBytes("nonces", lwNonces, RADIOLIB_LORAWAN_NONCES_BUF_SIZE);
-        break;
+    // Joining TTN (if restore not immediate)
+    while (state != RADIOLIB_LORAWAN_NEW_SESSION) {
+        Serial.println(F("Joining LoRaWAN..."));
+        state = node.activateOTAA();
+        if (state == RADIOLIB_LORAWAN_SESSION_RESTORED) {
+            Serial.println(F("LoRaWAN session restored"));
+            break;
+        } else if (state == RADIOLIB_LORAWAN_NEW_SESSION) {
+            Serial.println(F("Join successful, saving nonces"));
+            uint8_t *persist = node.getBufferNonces();
+            Serial.print("Dev Nonces: ");
+            Serial.println((char *)persist);
+            memcpy(lwNonces, persist, RADIOLIB_LORAWAN_NONCES_BUF_SIZE);
+            store.putBytes("nonces", lwNonces, RADIOLIB_LORAWAN_NONCES_BUF_SIZE);
+            break;
+        }
+        Serial.print(F("Join failed: "));
+        Serial.println(state);
+        delay(5000); // Retry every 5s
     }
-    Serial.print(F("Join failed: "));
-    Serial.println(state);
-    uint8_t *persist = node.getBufferNonces();
-    Serial.print("Dev Nonces: ");
-    Serial.println((char *)persist);
-    delay(5000); // Retry every 5s
-}
-\end{lstlisting}
-
+    \end{lstlisting}
+\end{minipage}
 \subsubsection{LoRaWAN Data Transmission}
 The actual transmission of data via LoRaWAN is handled by the \cmd{lwUplink()} function defined in the \textbf{LoRaConfig.h} file. This function transmits the payload encoded in the \cmd{detectMail()} function using the RadioLib command \cmd{node.sendReceive(uplinkPayload, uplinkPayloadLen)}. Similar to in the joining process in in Listing \ref{lst: ttnJoinFresh}, the function loops to until the data is successfully sent. 
-
-\subsubsection{System Operation Flow}
-With all the functions and parameters defined, the actual control flow of the system in the \textbf{LR-V1.0.ino} is quite simple as shown in Listing \ref{lst: mainCode}. Upon start-up, the sensors are initialised, the LoRaWAN node is activated, the mail detection logic is executed to build the payload, the payload is transmitted and the controller is put to sleep. Once the light or tilt sensor is triggered, the ESP32-S3 wakes up and the process repeats, only this time the node rejoins faster using the stored nonces and session.
-\begin{lstlisting}[language=C++, caption={Main Code in LR-V1.0.ino}, label={lst: mainCode}]
-#include "LoRaConfig.h"
-#include "SensorManager.h"
-
-void setup() {
-  Serial.begin(115200);
-
-  // Initialising all the Sensors
-  sensorManager_init();
-
-  // Radio Setup
-  Serial.println(F("\nSetup... "));
-
-  ...
-
-  // Activating the node for LoRaWAN
-  state = lwActivate();
-  Serial.println(F("Ready!\n")); // Ready to begin uploading
-
-  // Reading Sensors and Building in Payload
-  uplinkPayloadLen = detectMail(uplinkPayload);
-
-  // Uploading the Payload
-  state = lwUplink(uplinkPayload);
-
-  delay(5000);
-
-  // Sleep
-  radio.sleep();
-  goToSleep();
-}
-void loop() {
-  // Empty since sleep interrupt operates as the loop
-}
-\end{lstlisting}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Transport Layer}
 \label{sec: transportLayer}
@@ -464,7 +477,7 @@ To set up the backend server, we require three files, which include: 'server.py'
     \item \textbf{requirements.txt:} This file lists all the Python libraries required to run the server. 
 \end{itemize}
 These all need to be placed in the same directory for the server to function correctly. The server can then be started by running the command `python server.py` in the terminal.
-The depenendencies, to be added to requirements.txt as shown in Listing \ref{lst: requirementstxt}, can be installed using the command `pip install -r requirements.txt`.
+The dependencies, to be added to requirements.txt as shown in Listing \ref{lst: requirementstxt}, can be installed using the command `pip install -r requirements.txt`.
 \begin{lstlisting}[caption={requirements.txt file contents}, label={lst: requirementstxt}]
 Flask==2.3.3
 python-dotenv==1.0.0
@@ -670,14 +683,14 @@ The following briefly describes the validation methods used for the main require
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=1\textwidth]{weight-sensor_prototype-2.jpg}
+    \includegraphics[width=0.8\textwidth]{weight-sensor_prototype-2.jpg}
     \caption{Experimental Setup for Mail Detection Testing Using Various Objects of Different Weights.}
     \label{fig: mailDetectionTest}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{current-consumption-setup.jpg}
+    \includegraphics[width=0.75\textwidth]{current-consumption-setup.jpg}
     \caption{Experimental Setup for Battery Life Estimation by Measuring Current Consumption.}
     \label{fig: currentConsumptionTest}
 \end{figure}

@@ -2,5 +2,9 @@
     "cSpell.words": [
         "microcontroller"
     ],
-    "cmake.sourceDirectory": "C:/Users/abhin/OneDrive/Documents/University/Studies/Sem 5/Sensors and Actuator Networks/LoRaProject/B.4 Code/libraries/RadioLib"
+    "cmake.sourceDirectory": "C:/Users/abhin/OneDrive/Documents/University/Studies/Sem 5/Sensors and Actuator Networks/LoRaProject/B.4 Code/libraries/RadioLib",
+    "cSpell.ignoreWords": [
+        "Datacake",
+        "piezo"
+    ]
 }

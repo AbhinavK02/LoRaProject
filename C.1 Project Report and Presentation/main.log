@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.8.26)  8 JAN 2026 15:43
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.8.26)  12 JAN 2026 22:18
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**"g:/My Drive/Projects/LoRaProject/C.1 Project Report/main.tex"
-(g:/My Drive/Projects/LoRaProject/C.1 Project Report/main.tex
+**"g:/My Drive/Projects/LoRaProject/C.1 Project Report and Presentation/main.tex"
+(g:/My Drive/Projects/LoRaProject/C.1 Project Report and Presentation/main.tex
 LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2025-08-13>
 (./report.cls
@@ -393,11 +393,18 @@ Package: apacite 2013/07/21 v6.03 APA citation
 Package: accsupp 2019/12/05 v0.6 Accessibility support by marked content (HO)
  (c:/texlive/2025/texmf-dist/tex/latex/accsupp/accsupp-pdftex.def
 File: accsupp-pdftex.def 2019/12/05 v0.6 accsupp driver for pdfTeX (HO)
-)) (c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
+)) (c:/texlive/2025/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count324
+\float@exts=\toks32
+\float@box=\box61
+\@float@everytoks=\toks33
+\@floatcapt=\box62
+) (c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2024/09/23 1.10c listings language file
 )) (c:/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2025-06-09 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count324
+\l__color_backend_stack_int=\count325
 ) (./main.aux)
 \openout1 = `main.aux'.
 
@@ -421,24 +428,24 @@ LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 48.
 LaTeX Font Info:    ... okay on input line 48.
  (c:/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count325
+\scratchcounter=\count326
 \scratchdimen=\dimen192
-\scratchbox=\box61
-\nofMPsegments=\count326
-\nofMParguments=\count327
-\everyMPshowfont=\toks32
-\MPscratchCnt=\count328
+\scratchbox=\box63
+\nofMPsegments=\count327
+\nofMParguments=\count328
+\everyMPshowfont=\toks34
+\MPscratchCnt=\count329
 \MPscratchDim=\dimen193
-\MPnumerator=\count329
-\makeMPintoPDFobject=\count330
-\everyMPtoPDFconversion=\toks33
+\MPnumerator=\count330
+\makeMPintoPDFobject=\count331
+\everyMPtoPDFconversion=\toks35
 ) (c:/texlive/2025/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
  (c:/texlive/2025/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-\c@lstlisting=\count331
+\c@lstlisting=\count332
 Package hyperref Info: Link coloring OFF on input line 48.
  (./main.out) (./main.out)
 \@outlinefile=\write3
@@ -480,9 +487,10 @@ Package hyperref Info: Link coloring OFF on input line 48.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: float package is loaded.
 Package caption Info: End \AtBeginDocument code.
 Package ragged2e Info: ABD: executing \RaggedRight on input line 48.
-\c@maskedRefs=\count332
+\c@maskedRefs=\count333
 (c:/texlive/2025/texmf-dist/tex/latex/apacite/english.apc
 File: english.apc 2013/07/21 v6.03 apacite language file
 LaTeX Info: Redefining \BPBI on input line 129.
@@ -510,7 +518,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.54 ... {6.1}Project Summary}{24}{subsection.6.1}
+l.54 ... {6.1}Project Summary}{25}{subsection.6.1}
                                                   % [1])
 \tf@toc=\write4
 \openout4 = `main.toc'.
@@ -525,25 +533,21 @@ Package pdftex.def Info: assets/LoRa-gantt.png  used on input line 27.
 (pdftex.def)             Requested size: 452.9679pt x 372.34111pt.
 
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.41     \item \textbf
-                      {Both Students:} Component Choice, System Design, Syst... [1
+l.31 
+      [1
 
-{c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
+]
 
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.60 \end{itemize}
-                   [2 <./assets/LoRa-gantt.png>])
+l.55     \item I
+                t alerts the responsible person via email or dashboard upon ... [2{c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc} <./assets/LoRa-gantt.png>])
 
 [3] (./chapters/theory.tex
 <assets/LoRavsLoRaWAN.jpg, id=364, 1027.84pt x 371.3875pt>
@@ -590,90 +594,81 @@ Package pdftex.def Info: assets/Platform.png  used on input line 77.
 <assets/weight-sensor_construction-1.jpg, id=404, 1538.74875pt x 1726.19907pt>
 File: assets/weight-sensor_construction-1.jpg Graphic file (type jpg)
 <use assets/weight-sensor_construction-1.jpg>
-Package pdftex.def Info: assets/weight-sensor_construction-1.jpg  used on input line 91.
+Package pdftex.def Info: assets/weight-sensor_construction-1.jpg  used on input line 94.
 (pdftex.def)             Requested size: 114.13329pt x 128.0374pt.
 <assets/weight-sensor_prototype-1.jpg, id=405, 1734.48pt x 1734.48pt>
 File: assets/weight-sensor_prototype-1.jpg Graphic file (type jpg)
 <use assets/weight-sensor_prototype-1.jpg>
-Package pdftex.def Info: assets/weight-sensor_prototype-1.jpg  used on input line 97.
+Package pdftex.def Info: assets/weight-sensor_prototype-1.jpg  used on input line 100.
 (pdftex.def)             Requested size: 128.01604pt x 128.0374pt.
-<assets/LoRa_Sch_V2.png, id=410, 604.4181pt x 394.5942pt>
+<assets/LoRa_Sch_V2.png, id=411, 604.4181pt x 394.5942pt>
 File: assets/LoRa_Sch_V2.png Graphic file (type png)
 <use assets/LoRa_Sch_V2.png>
-Package pdftex.def Info: assets/LoRa_Sch_V2.png  used on input line 115.
+Package pdftex.def Info: assets/LoRa_Sch_V2.png  used on input line 137.
 (pdftex.def)             Requested size: 452.9679pt x 295.72212pt.
 
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-
 [8 <./assets/weight-sensor_construction-1.jpg> <./assets/weight-sensor_prototype-1.jpg>]
-Overfull \hbox (3.61624pt too wide) in paragraph at lines 151--152
-\OT1/cmr/m/n/10 repos-i-tory (or in the at-tached zip file). Ad-di-tion-ally, all li-braries re-quired are also in-cluded in the repos- 
- []
-
-
-Overfull \hbox (59.58736pt too wide) in paragraph at lines 155--156
-\OT1/cmr/m/n/10 Before the sen-sors can be used, the pins and pa-ram-e-ters must be con-fig-ured as done in the [][][][][][] 
- []
-
-(c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
+<assets/system-flowchart_hor-transparent_v4.png, id=421, 3267.20625pt x 1468.48625pt>
+File: assets/system-flowchart_hor-transparent_v4.png Graphic file (type png)
+<use assets/system-flowchart_hor-transparent_v4.png>
+Package pdftex.def Info: assets/system-flowchart_hor-transparent_v4.png  used on input line 149.
+(pdftex.def)             Requested size: 452.9679pt x 203.59242pt.
+ (c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2024/09/23 1.10c listings language file
 ) (c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2024/09/23 1.10c listings language file
 ) (c:/texlive/2025/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2024/09/23 1.10c (Carsten Heinz)
 )
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 157.
+
+[9 <./assets/LoRa_Sch_V2.png> <./assets/system-flowchart_hor-transparent_v4.png>]
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 159.
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <9> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 158.
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 160.
+LaTeX Font Info:    Trying to load font information for OML+cmr on input line 207.
+ (c:/texlive/2025/texmf-dist/tex/latex/base/omlcmr.fd
+File: omlcmr.fd 2024/11/19 v2.5n Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10> not available
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 207.
 
-
-[9 <./assets/LoRa_Sch_V2.png>]
-Overfull \hbox (27.94844pt too wide) in paragraph at lines 200--201
-\OT1/cmr/m/n/10 scale fac-tor of 883.f was found to be ac-cu-rate for this setup. This value is set in the [][][][][][] 
+Overfull \hbox (3.61624pt too wide) in paragraph at lines 207--208
+\OT1/cmr/m/n/10 repos-i-tory (or in the at-tached zip file). Ad-di-tion-ally, all li-braries re-quired are also in-cluded in the repos- 
  []
 
 
 
 [10]
-Overfull \hbox (64.64326pt too wide) in paragraph at lines 227--228
-\OT1/cmr/m/n/10 The bat-tery mon-i-tor is im-ple-mented us-ing the built-in ADC of the ESP32-S3 and read us-ing the [][][][][][] 
- []
-
-
 
 [11]
 
-LaTeX Warning: Reference `goToSleep' on page 12 undefined on input line 302.
-
-
-
 [12]
-Overfull \hbox (9.56056pt too wide) in paragraph at lines 369--370
+
+LaTeX Warning: Reference `lst: goToSleep' on page 13 undefined on input line 354.
+
+
+Package Listings Warning: Text dropped after begin of listing on input line 377.
+
+
+
+[13]
+Overfull \hbox (9.56056pt too wide) in paragraph at lines 423--424
 []\OT1/cmr/m/n/10 To make re-joining faster on sub-se-quent wake-ups and power cy-cles, the nonces are stored in the ESP32's 
  []
 
 
 
-[13]
-Overfull \hbox (9.18526pt too wide) in paragraph at lines 409--410
-\OT1/cmr/m/n/10 With all the func-tions and pa-ram-e-ters de-fined, the ac-tual con-trol flow of the sys-tem in the \OT1/cmr/bx/n/10 LR-V1.0.ino 
- []
+[14]
 
-
-
-[14] (c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
+[15] (c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2024/09/23 1.10c listings language file
 ) (c:/texlive/2025/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2024/09/23 1.10c listings language file
 )
 
-[15]
-
 [16]
-Overfull \hbox (0.75511pt too wide) in paragraph at lines 558--559
+Overfull \hbox (0.75511pt too wide) in paragraph at lines 571--572
 \OT1/cmr/m/n/10 cept the last one. Mul-ti-ple email ad-dresses can also be added by sep-a-rat-ing them with a comma within 
  []
 
@@ -682,25 +677,31 @@ Overfull \hbox (0.75511pt too wide) in paragraph at lines 558--559
 [17]
 
 [18]
-<assets/weight-sensor_prototype-2.jpg, id=838, 4111.36pt x 2312.64pt>
+<assets/weight-sensor_prototype-2.jpg, id=805, 1734.48pt x 1145.02782pt>
 File: assets/weight-sensor_prototype-2.jpg Graphic file (type jpg)
 <use assets/weight-sensor_prototype-2.jpg>
-Package pdftex.def Info: assets/weight-sensor_prototype-2.jpg  used on input line 673.
-(pdftex.def)             Requested size: 452.9679pt x 254.77936pt.
-<assets/current-consumption-setup.jpg, id=839, 4111.36pt x 2312.64pt>
+Package pdftex.def Info: assets/weight-sensor_prototype-2.jpg  used on input line 686.
+(pdftex.def)             Requested size: 362.37569pt x 239.22244pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<assets/current-consumption-setup.jpg, id=806, 1734.48pt x 2005.4925pt>
 File: assets/current-consumption-setup.jpg Graphic file (type jpg)
 <use assets/current-consumption-setup.jpg>
-Package pdftex.def Info: assets/current-consumption-setup.jpg  used on input line 680.
-(pdftex.def)             Requested size: 452.9679pt x 254.77936pt.
+Package pdftex.def Info: assets/current-consumption-setup.jpg  used on input line 693.
+(pdftex.def)             Requested size: 339.72592pt x 392.79845pt.
 )
 
-[19 <./assets/weight-sensor_prototype-2.jpg> <./assets/current-consumption-setup.jpg>] (./chapters/results.tex
-<assets/finalProduct.jpeg, id=848, 2836.5975pt x 1977.3875pt>
+[19]
+
+[20 <./assets/weight-sensor_prototype-2.jpg> <./assets/current-consumption-setup.jpg>] (./chapters/results.tex
+<assets/finalProduct.jpeg, id=849, 2836.5975pt x 1977.3875pt>
 File: assets/finalProduct.jpeg Graphic file (type jpg)
 <use assets/finalProduct.jpeg>
 Package pdftex.def Info: assets/finalProduct.jpeg  used on input line 10.
 (pdftex.def)             Requested size: 183.6495pt x 128.0374pt.
-<assets/finalProduct_30deg.jpg, id=849, 4111.36pt x 2312.64pt>
+<assets/finalProduct_30deg.jpg, id=850, 4111.36pt x 2312.64pt>
 File: assets/finalProduct_30deg.jpg Graphic file (type jpg)
 <use assets/finalProduct_30deg.jpg>
 Package pdftex.def Info: assets/finalProduct_30deg.jpg  used on input line 16.
@@ -722,50 +723,45 @@ Overfull \hbox (0.25496pt too wide) in paragraph at lines 42--44
 
 
 
-[20 <./assets/finalProduct.jpeg> <./assets/finalProduct_30deg.jpg>]
+[21 <./assets/finalProduct.jpeg> <./assets/finalProduct_30deg.jpg>]
 
-[21]
-Overfull \hbox (2.06071pt too wide) in paragraph at lines 129--130
+[22]
+Overfull \hbox (2.06071pt too wide) in paragraph at lines 128--129
 \OT1/cmr/m/n/10 It was found that dur-ing an up-link event, the sys-tem drew a peak cur-rent of 39.5mA on av-er-age. While 
  []
 
 
-Overfull \hbox (4.56071pt too wide) in paragraph at lines 140--141
+Overfull \hbox (4.56071pt too wide) in paragraph at lines 139--140
 \OT1/cmr/m/n/10 ve-nient pow-er-ing. Also, most com-mer-cially power banks have a much larger ca-pac-ity than the 1800mAh 
  []
 
-<assets/finalProduct_wBatteryPack.jpg, id=929, 1734.48pt x 1103.62312pt>
+<assets/finalProduct_wBatteryPack.jpg, id=931, 1734.48pt x 1103.62312pt>
 File: assets/finalProduct_wBatteryPack.jpg Graphic file (type jpg)
 <use assets/finalProduct_wBatteryPack.jpg>
-Package pdftex.def Info: assets/finalProduct_wBatteryPack.jpg  used on input line 144.
+Package pdftex.def Info: assets/finalProduct_wBatteryPack.jpg  used on input line 143.
 (pdftex.def)             Requested size: 317.07614pt x 201.74213pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 )
 
-[22] (./chapters/discussion.tex
+[23] (./chapters/discussion.tex
 Overfull \hbox (0.83849pt too wide) in paragraph at lines 12--13
 []\OT1/cmr/m/n/10 Another sig-nif-i-cant dis-tinc-tion is the sys-tem's com-mu-ni-ca-tion ar-chi-tec-ture. While the [][]InstaView[] ([]2024[]) 
  []
 
 ) (./chapters/conclusion.tex
-Overfull \hbox (1.81065pt too wide) in paragraph at lines 16--1
-\OT1/cmr/m/n/10 com-mu-ni-ca-tion has the is-sue of re-ly-ing on ex-ist-ing in-fras-truc-ture which is de-pen-dent on the area. Users 
- []
 
+[24 <./assets/finalProduct_wBatteryPack.jpg>])
 
-
-[23 <./assets/finalProduct_wBatteryPack.jpg>])
-
-[24] (./main.bbl
+[25] (./chapters/acknowledgement.tex) (./main.bbl
 Underfull \hbox (badness 1769) in paragraph at lines 14--28
 []\OT1/cmr/m/n/10 Fouvin.  (2025).  \OT1/cmr/m/it/10 Mail-box sen-sor with re-mote mon-i-tor-ing via tuya app.  \OT1/cmr/m/n/10 Ama-zon.  Re- 
  []
 
 )
 
-[25] (./main.aux)
+[26] (./main.aux)
  ***********
 LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2025-08-13>
@@ -775,21 +771,21 @@ L3 programming layer <2025-08-13>
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: F68DF7B48BFBD2216BDAB18CE81AB995;8295.
+(rerunfilecheck)             Checksum: 11090FAA9F5390DBF7F76DE35D526F16;8242.
  ) 
 Here is how much of TeX's memory you used:
- 17061 strings out of 467799
- 262273 string characters out of 5436040
- 1255226 words of memory out of 5000000
- 44964 multiletter control sequences out of 15000+600000
+ 17152 strings out of 467799
+ 264275 string characters out of 5436040
+ 1256609 words of memory out of 5000000
+ 45052 multiletter control sequences out of 15000+600000
  638096 words of font info for 84 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 90i,12n,93p,1317b,2161s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 90i,12n,93p,1334b,2077s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/eurosym/feymr10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1000.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt0900.pfb>
-Output written on main.pdf (28 pages, 12541701 bytes).
+Output written on main.pdf (29 pages, 9179040 bytes).
 PDF statistics:
- 1181 PDF objects out of 1200 (max. 8388607)
- 1075 compressed objects within 11 object streams
- 503 named destinations out of 1000 (max. 500000)
- 524 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1180 PDF objects out of 1200 (max. 8388607)
+ 1071 compressed objects within 11 object streams
+ 496 named destinations out of 1000 (max. 500000)
+ 529 words of extra memory for PDF output out of 10000 (max. 10000000)
 

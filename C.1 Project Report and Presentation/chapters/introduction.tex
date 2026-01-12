@@ -17,12 +17,12 @@ Perhaps the simplest solution is presented in \citeA{youtube_mailbox}. A wire co
 
 \bigskip
 
-While these solutions certainly have merit, The Talking Mailbox offers some advantages over them and has a degree of novelty. While very cheap and reliable, the \citeA{youtube_mailbox} has no means of remote notification. The \citeA{amazon_tuya_sensor} and \citeA{bigshopper_xsense} both use IR sensors which may be prone to false positives from environmental heat sources. The \citeA{amazon_instaview} and \citeA{bigshopper_xsense} require an additional base station device which increases complexity of setup. \project eliminates these issues as it connects to LoRaWAN directly and uses multiple sensors (that are not IR-based) to mitigate false positives. Most critically, all of these solutions rely on inferring mail presence from door movement or motion within the box, which may not always be accurate. \project directly detects mail presence using a weight sensor, providing a more reliable solution.
+While these solutions certainly have merit, The Talking Mailbox offers some advantages over them and has a degree of novelty. While very cheap and reliable, the \citeA{youtube_mailbox} has no means of remote notification. The \citeA{amazon_tuya_sensor} and \citeA{bigshopper_xsense} both use IR sensors which may be prone to false positives from environmental heat sources. The \citeA{amazon_instaview} and \citeA{bigshopper_xsense} require an additional base station device which increases complexity of setup. \project{} eliminates these issues as it connects to LoRaWAN directly and uses multiple sensors (that are not IR-based) to mitigate false positives. Most critically, all of these solutions rely on inferring mail presence from door movement or motion within the box, which may not always be accurate. \project{} directly detects mail presence using a weight sensor, providing a more reliable solution.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Project Plan}
 \subsubsection{Schedule} 
 The Talking Mailbox project is planned to be executed over a period of 3 months, starting from October 2025 to January 2026. The project is divided into several milestones as shown in Figure \ref{fig: ganttChart}. These deliverables and milestones adhere to the requirements set out in Section \ref{sec: projectRequirements}.
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{LoRa-gantt.png}
     \caption{Gantt Chart for The Talking Mailbox Project}
@@ -36,8 +36,8 @@ The resources for the project include the budget shown in Section \ref{sec: proj
 
 The project team consists of two Mechatronics Engineering Students whose responsibilities are divided as follows:
 \begin{itemize}
-    \item \textbf{Abhinav Kothari (33349):} Backend Development, Server Setup and Email Notification System.
     \item \textbf{Justin Julius Chin Cheong (34140):} Schematic Design, Sensor integration, Microcontroller programming
+    \item \textbf{Abhinav Kothari (33349):} Backend Development, Server Setup and Email Notification System.
     \item \textbf{Both Students:} Component Choice, System Design, System Assembly \& Implementation, System Testing, Report Writing and Presentation Preparation.
 \end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

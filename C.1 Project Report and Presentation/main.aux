@@ -22,10 +22,10 @@
 \newlabel{sec: literatureReview}{{1.2}{1}{Literature Review}{subsection.1.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.3}Project Plan}{1}{subsection.1.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {1.3.1}Schedule}{1}{subsubsection.1.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.3.2}Resources}{1}{subsubsection.1.3.2}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Gantt Chart for The Talking Mailbox Project}}{2}{figure.caption.1}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
 \newlabel{fig: ganttChart}{{1}{2}{Gantt Chart for The Talking Mailbox Project}{figure.caption.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.3.2}Resources}{2}{subsubsection.1.3.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.4}System Requirements}{2}{subsection.1.4}\protected@file@percent }
 \newlabel{sec: systemRequirements}{{1.4}{2}{System Requirements}{subsection.1.4}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {1.4.1}Functional Requirements}{2}{subsubsection.1.4.1}\protected@file@percent }
@@ -84,99 +84,102 @@
 \newlabel{fig: construction}{{6}{8}{Weight Sensor Construction}{figure.caption.7}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Schematic Design}{8}{subsubsection.3.2.2}\protected@file@percent }
 \newlabel{sec: schematicDesign}{{3.2.2}{8}{Schematic Design}{subsubsection.3.2.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Sensor-to-ESP32-S3 Pin Mapping}}{8}{table.caption.9}\protected@file@percent }
-\newlabel{tab: pin-mapping}{{2}{8}{Sensor-to-ESP32-S3 Pin Mapping}{table.caption.9}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Embedded Software Layer}{8}{subsection.3.3}\protected@file@percent }
-\newlabel{sec: ESWLayer}{{3.3}{8}{Embedded Software Layer}{subsection.3.3}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}Microcontroller Code Structure}{8}{subsubsection.3.3.1}\protected@file@percent }
-\newlabel{sec: microcontrollerCodeStructure}{{3.3.1}{8}{Microcontroller Code Structure}{subsubsection.3.3.1}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Schematic Diagram of the System}}{9}{figure.caption.8}\protected@file@percent }
-\newlabel{fig: schematic}{{7}{9}{Schematic Diagram of the System}{figure.caption.8}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}Sensor Management}{9}{subsubsection.3.3.2}\protected@file@percent }
-\newlabel{sec: sensorManager}{{3.3.2}{9}{Sensor Management}{subsubsection.3.3.2}{}}
-\newlabel{lst: sensorManagerInit}{{1}{9}{sensorManager\_init() Function}{lstlisting.1}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1}{\ignorespaces sensorManager\_init() Function}}{9}{lstlisting.1}\protected@file@percent }
-\newlabel{lst: sensorReadingStruct}{{2}{10}{sensorReading struct}{lstlisting.2}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {2}{\ignorespaces sensorReading struct}}{10}{lstlisting.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.3}Weight Sensor Implementation}{10}{subsubsection.3.3.3}\protected@file@percent }
-\newlabel{sec: weightSensorImplementation}{{3.3.3}{10}{Weight Sensor Implementation}{subsubsection.3.3.3}{}}
-\newlabel{lst: readWeightSensor}{{3}{10}{Excerpt ofreadWeightSensor() Function}{lstlisting.3}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3}{\ignorespaces Excerpt ofreadWeightSensor() Function}}{10}{lstlisting.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.4}Battery Monitor Implementation}{11}{subsubsection.3.3.4}\protected@file@percent }
-\newlabel{lst: batteryMonitor}{{4}{11}{batteryMonitor() Function}{lstlisting.4}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {4}{\ignorespaces batteryMonitor() Function}}{11}{lstlisting.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.5}Mail Detection logic}{11}{subsubsection.3.3.5}\protected@file@percent }
-\newlabel{sec: mailDetectionLogic}{{3.3.5}{11}{Mail Detection logic}{subsubsection.3.3.5}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.6}Wake-up and Sleep Logic}{12}{subsubsection.3.3.6}\protected@file@percent }
-\newlabel{lst: gotToSleep}{{5}{12}{goToSleep() Function}{lstlisting.5}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {5}{\ignorespaces goToSleep() Function}}{12}{lstlisting.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.7}LoRaWAN Configuration}{12}{subsubsection.3.3.7}\protected@file@percent }
-\newlabel{sec: loraConfig}{{3.3.7}{12}{LoRaWAN Configuration}{subsubsection.3.3.7}{}}
-\newlabel{lst: ttnKeys}{{6}{12}{TTN Key Definition}{lstlisting.6}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {6}{\ignorespaces TTN Key Definition}}{12}{lstlisting.6}\protected@file@percent }
-\newlabel{lst: ttnJoinFresh}{{7}{13}{TTN Joining Loop in lwActivate()}{lstlisting.7}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {7}{\ignorespaces TTN Joining Loop in lwActivate()}}{13}{lstlisting.7}\protected@file@percent }
-\newlabel{lst: ttnReJoin}{{8}{13}{TTN Re-Joining Loop using Stored Nonces or Session in TTN Joining Loop in lwActivate()}{lstlisting.8}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {8}{\ignorespaces TTN Re-Joining Loop using Stored Nonces or Session in TTN Joining Loop in lwActivate()}}{13}{lstlisting.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.8}LoRaWAN Data Transmission}{14}{subsubsection.3.3.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.9}System Operation Flow}{14}{subsubsection.3.3.9}\protected@file@percent }
-\newlabel{lst: mainCode}{{9}{14}{Main Code in LR-V1.0.ino}{lstlisting.9}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {9}{\ignorespaces Main Code in LR-V1.0.ino}}{14}{lstlisting.9}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Sensor-to-ESP32-S3 Pin Mapping}}{8}{table.caption.8}\protected@file@percent }
+\newlabel{tab: pin-mapping}{{2}{8}{Sensor-to-ESP32-S3 Pin Mapping}{table.caption.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Schematic Diagram of the System}}{9}{figure.caption.9}\protected@file@percent }
+\newlabel{fig: schematic}{{7}{9}{Schematic Diagram of the System}{figure.caption.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Embedded Software Layer}{9}{subsection.3.3}\protected@file@percent }
+\newlabel{sec: ESWLayer}{{3.3}{9}{Embedded Software Layer}{subsection.3.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}System Flow}{9}{subsubsection.3.3.1}\protected@file@percent }
+\newlabel{sec: systemFlow}{{3.3.1}{9}{System Flow}{subsubsection.3.3.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Programming Flow Chart of the Embedded Software}}{9}{figure.caption.10}\protected@file@percent }
+\newlabel{fig: programmingFlowChart}{{8}{9}{Programming Flow Chart of the Embedded Software}{figure.caption.10}{}}
+\newlabel{lst: mainCode}{{1}{10}{Main Code in LR-V1.0.ino}{lstlisting.1}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {1}{\ignorespaces Main Code in LR-V1.0.ino}}{10}{lstlisting.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}Microcontroller Code Structure}{10}{subsubsection.3.3.2}\protected@file@percent }
+\newlabel{sec: microcontrollerCodeStructure}{{3.3.2}{10}{Microcontroller Code Structure}{subsubsection.3.3.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.3}Sensor Management}{11}{subsubsection.3.3.3}\protected@file@percent }
+\newlabel{sec: sensorManager}{{3.3.3}{11}{Sensor Management}{subsubsection.3.3.3}{}}
+\newlabel{lst: sensorManagerInit}{{2}{11}{sensorManager\_init() Function}{lstlisting.2}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {2}{\ignorespaces sensorManager\_init() Function}}{11}{lstlisting.2}\protected@file@percent }
+\newlabel{lst: sensorReadingStruct}{{3}{11}{sensorReading struct}{lstlisting.3}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3}{\ignorespaces sensorReading struct}}{11}{lstlisting.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.4}Weight Sensor Implementation}{11}{subsubsection.3.3.4}\protected@file@percent }
+\newlabel{sec: weightSensorImplementation}{{3.3.4}{11}{Weight Sensor Implementation}{subsubsection.3.3.4}{}}
+\newlabel{lst: readWeightSensor}{{4}{12}{Excerpt ofreadWeightSensor() Function}{lstlisting.4}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4}{\ignorespaces Excerpt ofreadWeightSensor() Function}}{12}{lstlisting.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.5}Battery Monitor Implementation}{12}{subsubsection.3.3.5}\protected@file@percent }
+\newlabel{lst: batteryMonitor}{{5}{12}{batteryMonitor() Function}{lstlisting.5}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5}{\ignorespaces batteryMonitor() Function}}{12}{lstlisting.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.6}Mail Detection logic}{13}{subsubsection.3.3.6}\protected@file@percent }
+\newlabel{sec: mailDetectionLogic}{{3.3.6}{13}{Mail Detection logic}{subsubsection.3.3.6}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.7}Wake-up and Sleep Logic}{13}{subsubsection.3.3.7}\protected@file@percent }
+\newlabel{lst: gotToSleep}{{6}{13}{goToSleep() Function}{lstlisting.6}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {6}{\ignorespaces goToSleep() Function}}{13}{lstlisting.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.8}LoRaWAN Configuration}{13}{subsubsection.3.3.8}\protected@file@percent }
+\newlabel{sec: loraConfig}{{3.3.8}{13}{LoRaWAN Configuration}{subsubsection.3.3.8}{}}
+\newlabel{lst: ttnKeys}{{7}{14}{TTN Key Definition}{lstlisting.7}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {7}{\ignorespaces TTN Key Definition}}{14}{lstlisting.7}\protected@file@percent }
+\newlabel{lst: ttnJoinFresh}{{8}{14}{TTN Joining Loop in lwActivate()}{lstlisting.8}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {8}{\ignorespaces TTN Joining Loop in lwActivate()}}{14}{lstlisting.8}\protected@file@percent }
+\newlabel{lst: ttnReJoin}{{9}{15}{TTN Re-Joining Loop using Stored Nonces or Session in TTN Joining Loop in lwActivate()}{lstlisting.9}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {9}{\ignorespaces TTN Re-Joining Loop using Stored Nonces or Session in TTN Joining Loop in lwActivate()}}{15}{lstlisting.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.9}LoRaWAN Data Transmission}{15}{subsubsection.3.3.9}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Transport Layer}{15}{subsection.3.4}\protected@file@percent }
 \newlabel{sec: transportLayer}{{3.4}{15}{Transport Layer}{subsection.3.4}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.1}TTN Configuration}{15}{subsubsection.3.4.1}\protected@file@percent }
 \newlabel{sec: ttnConfiguration}{{3.4.1}{15}{TTN Configuration}{subsubsection.3.4.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Application Layer}{15}{subsection.3.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.5.1}Backend Server Setup}{15}{subsubsection.3.5.1}\protected@file@percent }
-\newlabel{sec: initalSetup}{{3.5.1}{15}{Backend Server Setup}{subsubsection.3.5.1}{}}
-\newlabel{lst: requirementstxt}{{10}{15}{requirements.txt file contents}{lstlisting.10}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {10}{\ignorespaces requirements.txt file contents}}{15}{lstlisting.10}\protected@file@percent }
-\newlabel{lst: generateAuthToken}{{11}{15}{Generate random auth token command}{lstlisting.11}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {11}{\ignorespaces Generate random auth token command}}{15}{lstlisting.11}\protected@file@percent }
-\newlabel{lst: envFileContents}{{12}{15}{.env file contents}{lstlisting.12}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {12}{\ignorespaces .env file contents}}{15}{lstlisting.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.5.1}Backend Server Setup}{16}{subsubsection.3.5.1}\protected@file@percent }
+\newlabel{sec: initalSetup}{{3.5.1}{16}{Backend Server Setup}{subsubsection.3.5.1}{}}
+\newlabel{lst: requirementstxt}{{10}{16}{requirements.txt file contents}{lstlisting.10}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {10}{\ignorespaces requirements.txt file contents}}{16}{lstlisting.10}\protected@file@percent }
+\newlabel{lst: generateAuthToken}{{11}{16}{Generate random auth token command}{lstlisting.11}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {11}{\ignorespaces Generate random auth token command}}{16}{lstlisting.11}\protected@file@percent }
+\newlabel{lst: envFileContents}{{12}{16}{.env file contents}{lstlisting.12}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {12}{\ignorespaces .env file contents}}{16}{lstlisting.12}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.5.2}Payload Decoder}{16}{subsubsection.3.5.2}\protected@file@percent }
 \newlabel{sec: payloadDecoder}{{3.5.2}{16}{Payload Decoder}{subsubsection.3.5.2}{}}
 \newlabel{lst: payloadDecoder}{{13}{16}{Payload Decoder Function}{lstlisting.13}{}}
 \@writefile{lol}{\contentsline {lstlisting}{\numberline {13}{\ignorespaces Payload Decoder Function}}{16}{lstlisting.13}\protected@file@percent }
 \newlabel{lst: deviceMapping}{{14}{17}{Device mapping method}{lstlisting.14}{}}
 \@writefile{lol}{\contentsline {lstlisting}{\numberline {14}{\ignorespaces Device mapping method}}{17}{lstlisting.14}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.5.3}Frontend Implementation}{17}{subsubsection.3.5.3}\protected@file@percent }
-\newlabel{sec: frontendImplementation}{{3.5.3}{17}{Frontend Implementation}{subsubsection.3.5.3}{}}
-\newlabel{lst: flaskServer}{{15}{17}{Flask Server Code Snippet}{lstlisting.15}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {15}{\ignorespaces Flask Server Code Snippet}}{17}{lstlisting.15}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Validation Methods}{18}{subsection.3.6}\protected@file@percent }
-\newlabel{sec: validationMethods}{{3.6}{18}{Validation Methods}{subsection.3.6}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Experimental Setup for Mail Detection Testing Using Various Objects of Different Weights.}}{19}{figure.caption.10}\protected@file@percent }
-\newlabel{fig: mailDetectionTest}{{8}{19}{Experimental Setup for Mail Detection Testing Using Various Objects of Different Weights}{figure.caption.10}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Experimental Setup for Battery Life Estimation by Measuring Current Consumption.}}{19}{figure.caption.11}\protected@file@percent }
-\newlabel{fig: currentConsumptionTest}{{9}{19}{Experimental Setup for Battery Life Estimation by Measuring Current Consumption}{figure.caption.11}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Results}{20}{section.4}\protected@file@percent }
-\newlabel{sec: results}{{4}{20}{Results}{section.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Complete System}{20}{subsection.4.1}\protected@file@percent }
-\newlabel{sec: completeSystem}{{4.1}{20}{Complete System}{subsection.4.1}{}}
-\newlabel{fig: finalProductFront}{{10a}{20}{Front View}{figure.caption.12}{}}
-\newlabel{sub@fig: finalProductFront}{{a}{20}{Front View}{figure.caption.12}{}}
-\newlabel{fig: finalProduct30deg}{{10b}{20}{Side View}{figure.caption.12}{}}
-\newlabel{sub@fig: finalProduct30deg}{{b}{20}{Side View}{figure.caption.12}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Final Product Inside the Post Box}}{20}{figure.caption.12}\protected@file@percent }
-\newlabel{fig: finalProduct}{{10}{20}{Final Product Inside the Post Box}{figure.caption.12}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Issues}{20}{subsection.4.2}\protected@file@percent }
-\newlabel{sec: issues}{{4.2}{20}{Issues}{subsection.4.2}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.1}TTN Re-join Issue}{20}{subsubsection.4.2.1}\protected@file@percent }
-\newlabel{sec: ttnRejoinIssue}{{4.2.1}{20}{TTN Re-join Issue}{subsubsection.4.2.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2}Issues with static IP and hosting}{20}{subsubsection.4.2.2}\protected@file@percent }
-\newlabel{sec: issuesWithStaticIPAndHosting}{{4.2.2}{20}{Issues with static IP and hosting}{subsubsection.4.2.2}{}}
-\newlabel{lst: batScript}{{16}{20}{.bat Script to start server and ngrok}{lstlisting.16}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {16}{\ignorespaces .bat Script to start server and ngrok}}{20}{lstlisting.16}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Validation Results}{22}{subsection.4.3}\protected@file@percent }
-\newlabel{sec: validationResults}{{4.3}{22}{Validation Results}{subsection.4.3}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1}Mail Detection}{22}{subsubsection.4.3.1}\protected@file@percent }
-\newlabel{sec: mailDetectionResults}{{4.3.1}{22}{Mail Detection}{subsubsection.4.3.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.2}Email Notification}{22}{subsubsection.4.3.2}\protected@file@percent }
-\newlabel{sec: emailNotificationResults}{{4.3.2}{22}{Email Notification}{subsubsection.4.3.2}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.3}Battery Life}{22}{subsubsection.4.3.3}\protected@file@percent }
-\newlabel{sec: batteryLifeResults}{{4.3.3}{22}{Battery Life}{subsubsection.4.3.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.5.3}Frontend Implementation}{18}{subsubsection.3.5.3}\protected@file@percent }
+\newlabel{sec: frontendImplementation}{{3.5.3}{18}{Frontend Implementation}{subsubsection.3.5.3}{}}
+\newlabel{lst: flaskServer}{{15}{18}{Flask Server Code Snippet}{lstlisting.15}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {15}{\ignorespaces Flask Server Code Snippet}}{18}{lstlisting.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Validation Methods}{19}{subsection.3.6}\protected@file@percent }
+\newlabel{sec: validationMethods}{{3.6}{19}{Validation Methods}{subsection.3.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Experimental Setup for Mail Detection Testing Using Various Objects of Different Weights.}}{20}{figure.caption.11}\protected@file@percent }
+\newlabel{fig: mailDetectionTest}{{9}{20}{Experimental Setup for Mail Detection Testing Using Various Objects of Different Weights}{figure.caption.11}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Experimental Setup for Battery Life Estimation by Measuring Current Consumption.}}{20}{figure.caption.12}\protected@file@percent }
+\newlabel{fig: currentConsumptionTest}{{10}{20}{Experimental Setup for Battery Life Estimation by Measuring Current Consumption}{figure.caption.12}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Results}{21}{section.4}\protected@file@percent }
+\newlabel{sec: results}{{4}{21}{Results}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Complete System}{21}{subsection.4.1}\protected@file@percent }
+\newlabel{sec: completeSystem}{{4.1}{21}{Complete System}{subsection.4.1}{}}
+\newlabel{fig: finalProductFront}{{11a}{21}{Front View}{figure.caption.13}{}}
+\newlabel{sub@fig: finalProductFront}{{a}{21}{Front View}{figure.caption.13}{}}
+\newlabel{fig: finalProduct30deg}{{11b}{21}{Side View}{figure.caption.13}{}}
+\newlabel{sub@fig: finalProduct30deg}{{b}{21}{Side View}{figure.caption.13}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Final Product Inside the Post Box}}{21}{figure.caption.13}\protected@file@percent }
+\newlabel{fig: finalProduct}{{11}{21}{Final Product Inside the Post Box}{figure.caption.13}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Issues}{21}{subsection.4.2}\protected@file@percent }
+\newlabel{sec: issues}{{4.2}{21}{Issues}{subsection.4.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.1}TTN Re-join Issue}{21}{subsubsection.4.2.1}\protected@file@percent }
+\newlabel{sec: ttnRejoinIssue}{{4.2.1}{21}{TTN Re-join Issue}{subsubsection.4.2.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2}Issues with static IP and hosting}{21}{subsubsection.4.2.2}\protected@file@percent }
+\newlabel{sec: issuesWithStaticIPAndHosting}{{4.2.2}{21}{Issues with static IP and hosting}{subsubsection.4.2.2}{}}
+\newlabel{lst: batScript}{{16}{21}{.bat Script to start server and ngrok}{lstlisting.16}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {16}{\ignorespaces .bat Script to start server and ngrok}}{21}{lstlisting.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Validation Results}{23}{subsection.4.3}\protected@file@percent }
+\newlabel{sec: validationResults}{{4.3}{23}{Validation Results}{subsection.4.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1}Mail Detection}{23}{subsubsection.4.3.1}\protected@file@percent }
+\newlabel{sec: mailDetectionResults}{{4.3.1}{23}{Mail Detection}{subsubsection.4.3.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.2}Email Notification}{23}{subsubsection.4.3.2}\protected@file@percent }
+\newlabel{sec: emailNotificationResults}{{4.3.2}{23}{Email Notification}{subsubsection.4.3.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.3}Battery Life}{23}{subsubsection.4.3.3}\protected@file@percent }
+\newlabel{sec: batteryLifeResults}{{4.3.3}{23}{Battery Life}{subsubsection.4.3.3}{}}
 \citation{amazon_instaview}
 \citation{bigshopper_xsense}
 \citation{notific_at}
@@ -184,13 +187,13 @@
 \citation{bigshopper_xsense}
 \citation{notific_at}
 \citation{amazon_tuya_sensor}
-\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Final Product Powered by a Power Bank}}{23}{figure.caption.13}\protected@file@percent }
-\newlabel{fig: finalProductWithPowerBank}{{11}{23}{Final Product Powered by a Power Bank}{figure.caption.13}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Discussion}{23}{section.5}\protected@file@percent }
-\newlabel{sec: discussion}{{5}{23}{Discussion}{section.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{24}{section.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Project Summary}{24}{subsection.6.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Future Work / Improvements}{24}{subsection.6.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Final Product Powered by a Power Bank}}{24}{figure.caption.14}\protected@file@percent }
+\newlabel{fig: finalProductWithPowerBank}{{12}{24}{Final Product Powered by a Power Bank}{figure.caption.14}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Discussion}{24}{section.5}\protected@file@percent }
+\newlabel{sec: discussion}{{5}{24}{Discussion}{section.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{25}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Project Summary}{25}{subsection.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Future Work / Improvements}{25}{subsection.6.2}\protected@file@percent }
 \bibstyle{apacite}
 \bibdata{ref}
 \bibcite{amazon_tuya_sensor}{\citeauthoryear {Fouvin}{Fouvin}{{\APACyear {2025}}}}
@@ -203,5 +206,5 @@
 \APACbibcite{notific_at}{\citeauthoryear {Notific}{Notific}{{\APACyear {2025}}}}
 \bibcite{bigshopper_xsense}{\citeauthoryear {X-Sense}{X-Sense}{{\APACyear {2025}}}}
 \APACbibcite{bigshopper_xsense}{\citeauthoryear {X-Sense}{X-Sense}{{\APACyear {2025}}}}
-\@writefile{toc}{\contentsline {section}{References}{25}{subsection.6.2}\protected@file@percent }
-\gdef \@abspage@last{28}
+\@writefile{toc}{\contentsline {section}{References}{26}{subsection.6.2}\protected@file@percent }
+\gdef \@abspage@last{29}
