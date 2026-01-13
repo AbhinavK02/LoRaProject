@@ -128,7 +128,9 @@ joyit_hx711_loadcell}%
 \APACrefbtitle {Load Cell with HX711 Amplifier.} {Load cell with hx711
   amplifier.}
 \newblock
-\APACrefnote{User manual and datasheet}
+\begin{APACrefURL} \url{https://www.reichelt.com/de/en/shop/product/arduino_-_pressure_sensor_20_g_to_10_kg-284398} \end{APACrefURL}
+\newblock
+\APACrefnote{User Manual and Datasheet}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
