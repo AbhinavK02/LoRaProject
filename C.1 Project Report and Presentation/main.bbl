@@ -17,14 +17,11 @@ Fouvin.%
 \newblock
 \APACrefYearMonthDay{2025}{}{}.
 \newblock
-\APACrefbtitle {Mailbox Sensor with Remote Monitoring via Tuya App.} {Mailbox
-  sensor with remote monitoring via tuya app.}
+\APACrefbtitle {Mailbox Sensor with Remote Monitoring via Tuya App.} {Mailbox sensor with remote monitoring via tuya app.}
 \newblock
 \APACaddressPublisher{}{Amazon}.
 \newblock
-\begin{APACrefURL}
-  \url{https://www.amazon.de/Bewegungssensor-Intelligenter-Bewegungsmelder-Heimsicherheit-Fern%C3%BCberwachungs/dp/B0DDGGDMPX/}
-  \end{APACrefURL}
+\begin{APACrefURL} \url{https://www.amazon.de/Bewegungssensor-Intelligenter-Bewegungsmelder-Heimsicherheit-Fern%C3%BCberwachungs/dp/B0DDGGDMPX/} \end{APACrefURL}
 \newblock
 \APACrefnote{Accessed: 2025-12-29}
 \PrintBackRefs{\CurrentBib}
@@ -50,8 +47,7 @@ frankenfoamy.%
 \newblock
 \APACaddressPublisher{}{YouTube}.
 \newblock
-\begin{APACrefURL} \url{https://youtu.be/3E_R6cfH0M8?si=_cTojZNmOHxOoKMr}
-  \end{APACrefURL}
+\begin{APACrefURL} \url{https://youtu.be/3E_R6cfH0M8?si=_cTojZNmOHxOoKMr} \end{APACrefURL}
 \newblock
 \APACrefnote{Accessed: 2025-12-29}
 \PrintBackRefs{\CurrentBib}
@@ -73,8 +69,7 @@ iduinose059}%
 \newblock
 \APACrefYearMonthDay{{\protect \bibnodate {}}}{}{}.
 \newblock
-\APACrefbtitle {Ball Switch Sensor Module (SE059).} {Ball switch sensor module
-  (se059).}
+\APACrefbtitle {Ball Switch Sensor Module (SE059).} {Ball switch sensor module (se059).}
 \newblock
 \APACrefnote{Datasheet}
 \PrintBackRefs{\CurrentBib}
@@ -96,14 +91,11 @@ InstaView.%
 \newblock
 \APACrefYearMonthDay{2024}{}{}.
 \newblock
-\APACrefbtitle {Long-range Mail Arrival Indicator Device.} {Long-range mail
-  arrival indicator device.}
+\APACrefbtitle {Long-range Mail Arrival Indicator Device.} {Long-range mail arrival indicator device.}
 \newblock
 \APACaddressPublisher{}{Amazon}.
 \newblock
-\begin{APACrefURL}
-  \url{https://www.amazon.com/InstaView-Delivered-Notification-Long-range-Indicator/dp/B0DPDRX6MG}
-  \end{APACrefURL}
+\begin{APACrefURL} \url{https://www.amazon.com/InstaView-Delivered-Notification-Long-range-Indicator/dp/B0DPDRX6MG} \end{APACrefURL}
 \newblock
 \APACrefnote{Accessed: 2025-12-29}
 \PrintBackRefs{\CurrentBib}
@@ -125,8 +117,7 @@ joyit_hx711_loadcell}%
 \newblock
 \APACrefYearMonthDay{{\protect \bibnodate {}}}{}{}.
 \newblock
-\APACrefbtitle {Load Cell with HX711 Amplifier.} {Load cell with hx711
-  amplifier.}
+\APACrefbtitle {Load Cell with HX711 Amplifier.} {Load cell with hx711 amplifier.}
 \newblock
 \begin{APACrefURL} \url{https://www.reichelt.com/de/en/shop/product/arduino_-_pressure_sensor_20_g_to_10_kg-284398} \end{APACrefURL}
 \newblock
@@ -176,14 +167,11 @@ radiolibpersistence_lorawan_esp32}%
 \newblock
 \APACrefYearMonthDay{2025}{}{}.
 \newblock
-\APACrefbtitle {LoRaWAN\_ESP32.ino — Example for LoRaWAN persistence on
-  ESP32.} {Lorawan\_esp32.ino — example for lorawan persistence on esp32.}
+\APACrefbtitle {LoRaWAN\_ESP32.ino — Example for LoRaWAN persistence on ESP32.} {Lorawan\_esp32.ino — example for lorawan persistence on esp32.}
 \newblock
 \APAChowpublished {GitHub repository}.
 \newblock
-\begin{APACrefURL}
-  \url{https://github.com/radiolib-org/radiolib-persistence/blob/main/examples/LoRaWAN_ESP32/LoRaWAN_ESP32.ino}
-  \end{APACrefURL}
+\begin{APACrefURL} \url{https://github.com/radiolib-org/radiolib-persistence/blob/main/examples/LoRaWAN_ESP32/LoRaWAN_ESP32.ino} \end{APACrefURL}
 \newblock
 \APACrefnote{Accessed: 2025-12-19}
 \PrintBackRefs{\CurrentBib}
@@ -207,9 +195,7 @@ wio_sx1262_xiao_esp32s3_lora_node}%
 \newblock
 \APACrefbtitle {LoRaWAN Sensor Node.} {Lorawan sensor node.}
 \newblock
-\begin{APACrefURL}
-  \url{https://wiki.seeedstudio.com/wio_sx1262_xiao_esp32s3_for_lora_sensor_node/}
-  \end{APACrefURL}
+\begin{APACrefURL} \url{https://wiki.seeedstudio.com/wio_sx1262_xiao_esp32s3_for_lora_sensor_node/} \end{APACrefURL}
 \newblock
 \APACrefnote{Accessed: 2025-11-28}
 \PrintBackRefs{\CurrentBib}
@@ -231,14 +217,11 @@ X-Sense.%
 \newblock
 \APACrefYearMonthDay{2025}{}{}.
 \newblock
-\APACrefbtitle {Smart Briefkastensensor SMA51.} {Smart briefkastensensor
-  sma51.}
+\APACrefbtitle {Smart Briefkastensensor SMA51.} {Smart briefkastensensor sma51.}
 \newblock
 \APACaddressPublisher{}{Bigshopper}.
 \newblock
-\begin{APACrefURL}
-  \url{https://bigshopper.de/product/x-sense-smart-briefkastensensor-erfordert-sbs50-basisstation-funk-melder-mit-grosser-reichweite-fuer-briefkaesten-briefkasten-alarm-zugestellte-post-sma51-2941520710.htm?}
-  \end{APACrefURL}
+\begin{APACrefURL} \url{https://bigshopper.de/product/x-sense-smart-briefkastensensor-erfordert-sbs50-basisstation-funk-melder-mit-grosser-reichweite-fuer-briefkaesten-briefkasten-alarm-zugestellte-post-sma51-2941520710.htm?} \end{APACrefURL}
 \newblock
 \APACrefnote{Accessed: 2025-12-29}
 \PrintBackRefs{\CurrentBib}
