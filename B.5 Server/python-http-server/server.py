@@ -18,11 +18,13 @@ PUBLIC_URL = "https://unarithmetically-peppiest-libbie.ngrok-free.dev"
 # --- Device Mapping ---
 DEVICE_NAMES = {
     33: "PostBox SAN" 
+    # Add more boxes here
 }
 
 # --- Email Mapping ---
 DEVICE_RECIPIENTS = {
     33: "abhinavkothari02@gmail.com, jc.chincheong@gmail.com"
+    # Add more emails here
 }
 
 # Email Config
@@ -134,7 +136,8 @@ def decode_mailbox_data(base64_string):
             status, color = f"Unknown: {hex(state_byte)}", "orange"
 
         # 3. Decode Battery (valueID 0x09)
-        battery = val if value_id == 0x09 else None
+        battery = int(((val/64)*100)) if value_id == 0x09 else None 
+        # If battery, map it correct linear level (64 is 100%)
 
         return device_id, status, color, battery
             

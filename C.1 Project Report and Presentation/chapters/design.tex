@@ -541,8 +541,8 @@ def decode_mailbox_data(base64_string):
             status, color = f"Unknown: {hex(state_byte)}", "orange"
 
         # 3. Decode Battery (valueID 0x09)
-        battery = val if value_id == 0x09 else None
-
+        battery = int((val/64)*100) if value_id == 0x09 else None
+        # If battery, map it correct linear level (64 is 100%)
         return device_id, status, color, battery
             
     except Exception as e:
@@ -561,11 +561,13 @@ For actual mapping of device ID to device name and email addresses, a dictionary
 \begin{lstlisting}[language=Python, caption={Device mapping method}, label={lst: deviceMapping}]
     # --- Device Mapping ---
     DEVICE_NAMES = {
-        33: "PostBox SAN" 
+        33: "PostBox SAN"
+        # Add more boxes here 
     }
     # --- Email Mapping ---
     DEVICE_RECIPIENTS = {
         33: "email1@gmail.com, email2@gmail.com"
+        # Add more emails here
     }
 \end{lstlisting}
 More can be added as just new rows with the similar syntax just a comma at the end of all rows except the last one. 
@@ -664,6 +666,9 @@ def show_dashboard():
     """
     return render_template_string(html, d=d)
 \end{lstlisting}
+
+The final website can be run by just running the bash file and afterwards going to this link: \textbf{\href{https://unarithmetically-peppiest-libbie.ngrok-free.dev }{Smart Mailbox Dashboard}}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Validation Methods}
 \label{sec: validationMethods}
