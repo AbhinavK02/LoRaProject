@@ -136,7 +136,7 @@ def decode_mailbox_data(base64_string):
             status, color = f"Unknown: {hex(state_byte)}", "orange"
 
         # 3. Decode Battery (valueID 0x09)
-        battery = int(((val/64)*100)) if value_id == 0x09 else None 
+        battery = int(((val/64.0)*100.0)) if value_id == 0x09 else None 
         # If battery, map it correct linear level (64 is 100%)
 
         return device_id, status, color, battery
