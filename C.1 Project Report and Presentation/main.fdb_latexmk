@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex main"] 1768261625.33219 "main.aux" "main.bbl" "main" 1768261626.06526 0
-  "./ref.bib" 1768261621 3542 febeec70b80fb2b8d9724be820ffc8fb ""
+["bibtex main"] 1768300579.02553 "main.aux" "main.bbl" "main" 1768300587.35732 0
+  "./ref.bib" 1768300573 3654 bd61f0b29496937d38cb8d8f035c0e26 ""
   "c:/texlive/2025/texmf-dist/bibtex/bst/apacite/apacite.bst" 1756154989 141073 9d7b79dbf9d91133318126032cff8c27 ""
-  "main.aux" 1768261466 22043 906a71fd9688d303c0618a30dcc50162 "pdflatex"
+  "main.aux" 1768300585 22043 906a71fd9688d303c0618a30dcc50162 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1768261461.66016 "g:/My Drive/Projects/LoRaProject/C.1 Project Report and Presentation/main.tex" "main.pdf" "main" 1768261626.06671 0
+["pdflatex"] 1768300579.82778 "g:/My Drive/Projects/LoRaProject/C.1 Project Report and Presentation/main.tex" "main.pdf" "main" 1768300587.36133 0
   "assets/LoRa-gantt.png" 1767100699 130209 3849bde2cd2ae0502a6da2cee83624a7 ""
   "assets/LoRa_FSD.png" 1763419677 46765 6093fcef7db55e204742aefb1940ecb4 ""
   "assets/LoRa_Sch_V2.png" 1767106712 954126 244880ad44c2d6aba1f0f24c5511a3bc ""
@@ -166,11 +166,11 @@
   "chapters/theory.tex" 1768260402 4468 6b20f43d5d45e0bbf837819db5e4b0e6 ""
   "g:/My Drive/Projects/LoRaProject/C.1 Project Report and Presentation/main.tex" 1768252676 3978 d1c396509045931bbdec98e06002f126 ""
   "labreport.sty" 1768252577 7433 ce337015039784b2b1b0dbba3aff4948 ""
-  "main.aux" 1768261466 22043 906a71fd9688d303c0618a30dcc50162 "pdflatex"
-  "main.bbl" 1768261626 5523 b9df380ad924d4889fd3683dca0e1653 "bibtex main"
-  "main.out" 1768261466 8242 11090faa9f5390dbf7f76de35d526f16 "pdflatex"
+  "main.aux" 1768300585 22043 906a71fd9688d303c0618a30dcc50162 "pdflatex"
+  "main.bbl" 1768300579 5666 d76cce9d19ae84722a8876633d221ffb "bibtex main"
+  "main.out" 1768300585 8242 11090faa9f5390dbf7f76de35d526f16 "pdflatex"
   "main.tex" 1768252676 3978 d1c396509045931bbdec98e06002f126 ""
-  "main.toc" 1768261466 4883 e16da095800cad49afe560972a38d269 "pdflatex"
+  "main.toc" 1768300585 4883 e16da095800cad49afe560972a38d269 "pdflatex"
   "report.cls" 1763419677 136 18254c647f3e2e955188e15fd3c720ec ""
   (generated)
   "main.aux"
