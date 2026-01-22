@@ -10,3 +10,5 @@ is to design and assemble a system that can detect the presence of mail within a
 
 
 The full project report can be found here: [Project Report](<Project Report - Talking Mailbox.pdf?raw=true>)
+
+[![Talking Mailbox Product Showcase](https://img.youtube.com/vi/1nNW60RcUi4/0.jpg)](https://www.youtube.com/watch?v=1nNW60RcUi4)
